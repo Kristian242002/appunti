@@ -1,0 +1,65 @@
+\documentclass{article}
+\usepackage[most]{tcolorbox} 
+\usepackage{amsmath} 
+\usepackage{graphicx} % Required for inserting images
+\usepackage[italian]{babel} % per cambiare da contents a indice
+\renewcommand{\contentsname}{Indice}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{float}
+% Stile per il codice Java
+\lstdefinestyle{java}{
+  language=Java,                     % Linguaggio Java
+  basicstyle=\ttfamily\small,         % Stile di base
+  keywordstyle=\color{blue},          % Colore delle parole chiave
+  commentstyle=\color{gray},          % Colore dei commenti
+  stringstyle=\color{red},            % Colore delle stringhe
+  showstringspaces=false,             % Non mostrare spazi nelle stringhe
+  numbers=left,                       % Numeri di riga a sinistra
+  numberstyle=\tiny,                  % Stile dei numeri di riga
+  stepnumber=1,                       % Ogni riga viene numerata
+  frame=single,                       % Bordo attorno al codice
+  breaklines=true,                    % Andare a capo nelle righe lunghe
+  tabsize=2                           % Imposta la dimensione del tab a 2 spazi
+}
+
+% Stile per il prompt dei comandi
+\lstdefinestyle{command}{
+  basicstyle=\ttfamily\small,         % Stile di base
+  showstringspaces=false,             % Non mostrare spazi nelle stringhe
+  breaklines=true,                    % Andare a capo nelle righe lunghe
+  frame=single,                       % Bordo attorno al prompt
+  numbers=none,                       % Nessun numero di riga
+  xleftmargin=15pt,                   % Margine a sinistra per il prompt
+  tabsize=2                           % Imposta la dimensione del tab a 2 spazi
+}
+
+
+
+
+\title{Programmazione II}
+\author{Kristian Xhani}
+\date{October 2024}
+
+\begin{document}
+
+\maketitle
+\newpage
+
+\tableofcontents
+\newpage
+
+\include{introduzione}
+\include{Oggetti}
+\include{Tipidivariabili}
+\include{RandomMath}
+\include{classi}
+\include{Esecuzioneprogrammi}
+\include{array}
+\include{Costruttore}
+\include{package}
+\include{uml}
+\include{Collezioni}
+\include{Laboratorio}
+
+\end{document}

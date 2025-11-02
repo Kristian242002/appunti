@@ -1,0 +1,189 @@
+\section{Collezioni}
+Abbiamo imparato ad usare strutture ed array nei precedenti capitoli.
+In java esistono le collezioni che sono dei contenitori più moderni che contengono moltissimi metodi.
+\subsection{Gerarchia delle collezioni}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Collection_.png}
+\end{figure}
+In giallo abbiamo le interfaccie in blu le classi astratte invece in violetto le vere e proprie classi che andremmo ad usare.
+Tutto questa sta dentro java.util.Colletions.
+\begin{itemize}
+    \item Interfaccia \textbf{Collection} è qualsiasi collezione
+    \item Interfaccia \textbf{List} una sequenza di valori che a seconda delle neccesità si possono allargare o restringere
+    \item Interfaccia \textbf{Queue} sono le code che hanno la carrateristica di ggiungere da un lato e tolgierlo dall'altro
+    \item Interfaccia \textbf{Set} indica degli insiemi ma non hanno un ordine inoltre non ci possono essere due elementi uguali.
+    \item Interfaccia \textbf{SortedSet} gli elementi in questo caso sono ordinati in ordine crescente
+    \item Interfaccia \textbf{Iterable} possibilità di usare il foreach 
+\end{itemize}
+\subsection{Metodi di uso frequente dell'interfaccia java.util.Colletion$<E>$}
+\begin{itemize}
+    \item \textbf{boolean add(E element) }(ritorna true se l'elemento viene aggiunto)
+    \item \textbf{boolean addAll(Collection$<E>$ other)} (ritorna true se almeno un elemento viene aggiunto)
+    \item \textbf{boolean contains(Object element)}
+    \item \textbf{boolean containsAll(Collection$<?>$ other)}
+    \item \textbf{boolean isEmpty()}
+    \item \textbf{boolean remove(Object element)} (ritorna true se l'elemento viene rimosso)
+    \item \textbf{boolean removeAll(Collection$<?>$ other)} (ritorna true se almeno un elemento viene rimosso)
+    \item \textbf{boolean retainAll(Collection$<?>$ other)} (ritorna true se almeno un elemento viene rimosso)
+    \item \textbf{int size()}
+\end{itemize}
+\subsection{Metodi di uso frequente dell'interfaccia java.util.List$<E>$}
+\begin{itemize}
+    \item \textbf{boolean add(E element)} (aggiunge element in fondo alla lista, anche se la lista già lo conteneva; ritorna sempre true)
+    \item \textbf{void add(int index, E element)} (piazza l'elemento alla posizione index, che deve essere fra 0 e size() inclusi, spostando di una posizione a destra l'elemento che c'era precedentemente e quelli alla sua destra)
+    \item \textbf{E get(int index)} (ritorna l'elemento alla posizione index, che deve essere fra 0 incluso e size() escluso)
+    \item \textbf{int indexOf(Object element)} (ritorna la prima posizione in cui occorre element; ritorna -1 se la lista non contiene element)
+    \item \textbf{static $<E> $List$<E> $of(E... elements)} (factory method che costruisce una lista immutabile con dentro elements)
+    \item \textbf{boolean remove(Object element)} (rimuove la prima occorrenza di element, se presente; ritorna true se l'elemento viene rimosso)
+    \item \textbf{E remove(int index)} (rimuove e ritorna l'elemento alla posizione index, che deve essere fra 0 incluso e size() escluso; gli elementi alla sua destra vengono spostati di una posizione a sinistra)
+    \item \textbf{E set(int index, E element)} (ritorna l'elemento alla posizione index, che deve essere fra 0 e size() inclusi, e lo sostituisce con element)
+\end{itemize}
+\subsection{Metodi di uso frequente dell'interfaccia java.util.Queue $<E>$}
+\begin{itemize}
+    \item \textbf{E poll()} (rimuove e ritorna la testa della coda; ritorna null se la coda è vuota)
+    \item \textbf{E remove() throws java.util.NoSuchElementException} (rimuove e ritorna la testa della coda, se non è vuota; altrimenti lancia un'eccezione)
+    \item \textbf{E peek()} (ritorna la testa della coda, senza rimuoverla; ritorna null se la coda è vuota)
+    \item \textbf{E element() throws java.util.NoSuchElementException} (ritorna la testa della coda, senza rimuoverla; se la code è vuota, lancia un'eccezione)
+    \item \textbf{boolean offer(E element)} (aggiunge element in fondo alla coda, se c'è spazio. Ritorna true se e solo se l'elemento viene aggiunto)
+   \item\textbf{ boolean add(E element) throws java.lang.IllegalStateException} (aggiunge element in fondo alla coda, se c'è spazio, altrimenti lancia un'eccezione. Ritorna sempre true)
+\end{itemize}
+\subsection{java.util.Set$<E>$}
+\begin{itemize}
+    \item \textbf{static $<E>$ Set$<E>$} of(E... elements) (factory method)
+\end{itemize}
+\subsection{Metodi di uso frequente dell'interfaccia java.util.LinkedList$<E>$}
+\begin{itemize}
+    \item \textbf{LinkedList()}
+    \item \textbf{LinkedList(Collection$<? extends E>$ parent) }(crea una lista e la riempie con gli elementi di parent)
+\end{itemize}
+\subsection{Metodi di uso frequente dell'interfaccia java.util.ArrayList$<E>$}
+\begin{itemize}
+    \item \textbf{ArrayList()}
+    \item \textbf{ArrayList(Collection$<? extends E>$ parent) }(crea una lista e la riempie con gli elementi di parent)
+\end{itemize}
+\subsection{Metodi di uso frequente dell'interfaccia java.util.PriorityQueue$<E>$}
+\begin{itemize}
+    \item \textbf{PriorityQueue()}
+    \item \textbf{PriorityQueue(Collection$<? extends E>$ parent) }(crea una coda e la riempie con gli elementi di parent)
+\end{itemize}
+\subsection{Esempio Pratico:}
+Creiamo una ArrayList di Stringhe:
+\begin{lstlisting}[style=java]
+import java.util.ArrayList
+public class Main{
+    public static void main(String[] args){
+        ArrayList<String> l = new ArrayList<String>();
+        //Aggiungiamo un elemento
+        l.add("ciao");
+        l.add("Hello");
+        l.add("Ciao");
+        l.add(0,"buongiorno");
+        //output: buongionrno ciao Hello Ciao
+        //rimuoviamo un valore viene eliminata solo la prima ricorenza
+        l.remove("ciao");
+        //la lunghezza:
+        l.size();
+        for(String s: l){
+            System.out.printl(l);
+        }
+    }
+}
+\end{lstlisting}
+\subsection{Differenza tra una LinkedList e un ArrayList}
+Quando si utilizza una LinkedList al posto di una ArrayList, nel codice non cambia nulla a livello funzionale, ma le differenze principali riguardano l'implementazione e il comportamento delle due strutture.
+
+Con una \textbf{ArrayList}, la gestione della memoria è basata su un array sottostante. Questo significa che la dimensione dell'ArrayList inizialmente è limitata, ma quando l'array si riempie, la struttura procede automaticamente a raddoppiarne la dimensione. Questo processo, sebbene utile per gestire dinamicamente la crescita, può risultare costoso in termini di prestazioni, poiché implica la copia di tutti gli elementi nell'array di dimensione maggiore.
+Al contrario, una \textbf{LinkedList} è composta da nodi, dove ogni elemento è collegato al successivo attraverso un riferimento (puntatore). Non esiste una dimensione predefinita: la lista cresce man mano che vengono aggiunti nuovi elementi, collegandoli semplicemente alla fine o al punto desiderato della catena.
+La scelta tra le due dipende quindi dal tipo di operazioni più frequenti nel programma.
+\subsection{varArgs}
+varArgs permette di inserire una quantita variabile di elementi in questo modo:
+\begin{lstlisting}[style=java]
+    .
+    .
+    .
+    public void add(Coin... all){
+        coins.add(coin);
+    }
+    .
+    .
+    .
+\end{lstlisting}
+Nel main ora potro inserire una quantita variabile di Coin in questo modo:
+\begin{lstlisting}[style=java]
+    .
+    .
+    .
+    PiggyBank pig = new PiggyBank();
+    pig.add(new Coin(200),new Coin(500),new Coin(350));
+    .
+    .
+    .
+\end{lstlisting}
+\subsection{Le code}
+In programmazione, una coda (queue) è una struttura dati astratta utilizzata per gestire elementi in modo sequenziale, seguendo il principio \textbf{FIFO} (First In, First Out). Questo significa che il primo elemento inserito nella coda sarà il primo ad essere rimosso.Esistono in java in oltre le code con priorità ovvero il più piccolo elemento viene ritornato prima:
+\begin{lstlisting}[style=java]
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Scanner;
+
+public class MainQueue1{
+    Queue<String> q = new PriorityQueue<String>;
+    Scanner keyboard = new Scanner(System.in);
+    while(true){
+        String s = keyboard.nextLine();
+        if("fine".equals(s)){
+            break;
+        }
+        q.offer(s);
+    }
+    String s;
+    while((s=q.poll())!=null){
+        System.out.println(s);
+    }
+    keyboard.close();
+}
+\end{lstlisting}
+L'output sarà ordinato alfabeticamente per stringhe.
+Ovviamente i numeri devono essere \textbf{Comparable} per venire ordinati.
+\subsection{Set}
+Sono collezioni di dati non ordinati ma univoci (non ci possono essere due dati simili) 
+\subsubsection{TreeSet}
+\begin{lstlisting}[style=java]
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Scanner;
+
+public class MainQueue1{
+    Set<String> q = new TreeSet<String>;
+    Scanner keyboard = new Scanner(System.in);
+    while(true){
+        String s = keyboard.nextLine();
+        if("fine".equals(s)){
+            break;
+        }
+        q.offer(s);
+    }
+    String s;
+    while((s=q.poll())!=null){
+        System.out.println(s);
+    }
+    keyboard.close();
+}
+\end{lstlisting}
+Non si può iterare tra Collezioni, allora si crea una copia.
+\subsection{Mappa}
+Possiamo identificarlo come un array ma con un indice  letterale.
+\begin{lstlisting}[style=java]
+
+
+public class MainMap{
+    public static void main(String[] args){
+        Map<String,String> m = new HashMap(String,String)();
+        m.put("casa","house");
+        m.put("cane","dog");
+        m.put("casa","home");
+        System.out.println("casa->"+m.get("casa"));
+    }
+}
+\end{lstlisting}

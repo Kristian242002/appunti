@@ -1,0 +1,55 @@
+\section{Introduzione}
+Java nasce negli anni 90 dopo C, però il concetto di \textbf{programmazione ad oggetti} esisteva già negli anni 60.
+I concetti fondamentali della programmazione ad oggetti sono :
+\begin{itemize}
+    \item \textbf{Ereditarietà:} è un principio nel quale una classe definita come sottoclasse eredita attributi e metodi fa un'altra classe detta superclasse,cosi da poter riutilizzare il codice e crea una sorta di gerarchia tra le classi. 
+    \item \textbf{Incapsulamento:}è il processo per nascondere i dettagli di un oggetto rendendo accessibili solo alcune parti
+    \item \textbf{Polimorfismo:}è la capacità di oggetti di diverse classi di rispondere allo stesso metodo in maniera diversa
+\end{itemize}
+NB. questi concetti veranno ripresi nei capitoli futuri
+\subsection{Esecuzione di un programma in Java}
+Sappiamo da programmazione I che un file ad esempio pippo.c viene trasformato in eseguibile attraverso il commando \textbf{gcc nomefile.c}.
+Facendo così verrà generato un file eseguibile solamente dal sistema operativo nel quale si è generato il file.
+Invece con java non è proprio la stessa cosa perchè prendendo in esempio lo stesso file però denominato pippo.java è usando il commando \textbf{javac nomefile.java} verrà formato un file con l'estensione \textbf{.class} esso rappresenta un \textbf{bytecode}.
+I file .class possono essere eseguiti solo da un interprete Java,esso è un vantaggio perchè si potra eseguire in ogni sistema operativo \textbf{solamente} se si conterrà un interprete java.
+Da qua in poi ogni linguaggio di programmazione utilizzerà questo concetto per poter eseguire i file.
+NB.il file java deve sempre contenere la prima lettera maiuscola.
+
+\begin{lstlisting}[style=java]
+public class HelloWorld {
+    public static void main(String[] args) {
+        // Stampa "Hello, World!" nella console
+        System.out.println("Hello, World!");
+    }
+}
+\end{lstlisting}
+Ora generiamo l'eseguibile:
+\begin{lstlisting}[style=command]
+    >>javac Hello.java  //generera il file Hello.class
+    >>java Hello        //esegue il file
+    >>Hello, World!
+\end{lstlisting}
+In questo corso useremo \textbf{Eclipse for java developers}.
+\subsection{I tipi di variabili}
+I tipi primitivi presenti in Java sono 8:
+\begin{enumerate}
+    \item boolean (o True o False)
+    \item char (singolo carratere)
+    \item byte (8 bit)
+    \item short (16 bit)
+    \item int (32 bit)
+    \item long (64 bit)
+    \item float (rappresenta numeri in virgola mobile) (32)
+    \item double (rappresenta numeri in virgola mobile) (64)
+\end{enumerate}
+Inoltre esistono i tipi \textbf{var} i quali rappresentano un qualsiasi tipo di variabile e vengono identificati proprio da java.
+Per rappresentare una costante bisogna scrivere \textbf{final tipo nome}.
+\begin{lstlisting}[style=java]
+public class variabili {
+    public static void main(String[] args) {
+        final int contatore = 0; // costante
+        var variabile ;// java assegnera il tipo 
+    }
+}
+\end{lstlisting}
+NB. di solito si preferisce non usare il tipo var per la leggibilità del codice.

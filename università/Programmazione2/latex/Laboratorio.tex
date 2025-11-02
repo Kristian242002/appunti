@@ -1,0 +1,1136 @@
+\section{Laboratorio}
+\subsection{Esercitazione 1}
+\begin{lstlisting}[style=java]
+/*
+Si scriva un programma Java che legge un intero non negativo n da tastiera e stampa una cornice n x n:
+@@@@@
+@   @
+@   @
+@   @
+@   @
+@@@@@
+
+*/
+import java.util.Scanner;
+public class Cornice {
+	public static void main(String[] args) {
+		Scanner keyboard = new Scanner(System.in);
+		int n;
+  
+		do {
+			n = keyboard.nextInt();
+		}while(n<=0);
+		
+		keyboard.close();// e bene sempre chiudere un oggetto scanner		
+		for(int i = 0;i<n;i++) {
+			for(int j = 0;j<n;j++) {
+				if(i == 0 || i == (n-1)) {
+					System.out.print("@");
+				}else if(j == 0 || j == (n-1) ) {
+					System.out.print("@");
+				}else {
+					System.out.print(" ");
+				}
+			}
+			System.out.println();
+		}
+	}
+
+}
+
+\end{lstlisting}
+\begin{lstlisting}[style=java]
+/*
+ Si scriva un programma che legge n >= 1 da tastiera e stampa una piramide
+  di altezza n. Per esempio, per n = 4 deve stampare:
+   @
+  @@
+ @@@@
+@@@@@@
+ * */
+import java.util.Scanner;
+
+public class Piramide {
+    public static void main(String[] args) {
+       
+        Scanner scanner = new Scanner(System.in);
+
+        
+        System.out.print("Inserisci l'altezza della piramide: ");
+        int n = scanner.nextInt();
+
+        
+        if (n >= 1) {
+            for (int i = 1; i <= n; i++) {
+                for (int j = 1; j <= n - i; j++) {
+                    System.out.print(" ");
+                }
+                for (int k = 1; k <= 2 * i - 1; k++) {
+                    System.out.print("@");
+                }
+                System.out.println();
+            }
+        } else {
+            System.out.println("L'altezza deve essere almeno 1.");
+        }
+
+        scanner.close();
+    }
+}
+
+
+\end{lstlisting}
+\begin{lstlisting}[style=java]
+/*
+ * 
+ * Si faccia la stessa cosa del punto precedente, ma stampando la piramide orizzontalmente:
+   @
+  @@
+ @@
+@@@
+ @@
+  @@
+   @
+ * */
+import java.util.Scanner;
+
+public class PiramideOrr {
+
+    public static void main(String[] args) {
+     
+        Scanner keyboard = new Scanner(System.in);
+        int n;
+
+        do {
+            System.out.print("Inserisci un numero positivo per l'altezza della piramide: ");
+            n = keyboard.nextInt();
+        } while (n <= 0);  
+
+        for(int i=0;i<(n-1);i++) {
+        	for(int j=0;j<n;j++) {
+        		if((n-j)<=i) {
+        			System.out.print("@");
+        		}else {
+        			System.out.print(" ");
+        		}
+        	}
+        	System.out.println();
+        }
+        for(int i=0;i<n;i++) {
+        	for(int j=0;j<n;j++) {
+        		if(i<=j) {
+        			System.out.print("@");
+        		}else {
+        			System.out.print(" ");
+        		}
+        	}
+        	System.out.println();
+        }
+        // Chiude lo scanner
+        keyboard.close();
+    }
+}
+
+\end{lstlisting}
+\subsection{Esercitazione 2}
+\begin{lstlisting}[style=java]
+// esercizio sulla parola palindroma:
+import java.util.Scanner;
+
+public class Palindromo {
+
+	public static void main(String[] args) {
+		boolean palindrome = true;
+		String stringa ;
+		Scanner keyboard = new Scanner(System.in);
+		stringa = keyboard.nextLine();
+		for(int i=0;i<(stringa.length()/2);i++) {
+			if(stringa.charAt(i) != stringa.charAt(stringa.length()-i-1)){
+				palindrome = false;
+			}
+		}
+		keyboard.close();
+		if(palindrome == true) {
+			System.out.print("okay");
+		}else {
+			System.out.print("no okay");			
+		}
+	}
+
+}
+
+\end{lstlisting}
+\begin{lstlisting}[style=java]
+// esercizio sulla conversione in esadecimale con questa soluzione puoi fare ogni tipo di conversione:
+import java.util.Scanner;
+
+public class Exa {
+	public static void main(String[] args) {
+		int n;
+		Scanner keyboard = new Scanner(System.in);
+		do {
+			System.out.print("n: ");
+			n = keyboard.nextInt(); // se negativo devo richiederlo
+		}
+		while (n < 0);
+
+		// traduco n in esadecimale dentro result
+		String result = "";
+		String digits = "0123456789abcdef";
+		do {
+			result = digits.charAt(n % 16) + result;
+			n /= 16;
+		}
+		while (n > 0);
+		keyboard.close();
+		System.out.println(result);
+	}
+
+}
+
+\end{lstlisting}
+\begin{lstlisting}[style=java]
+// esercizio sulla conversione in binario --> un'altro modo ma SOLO per il binario
+
+import java.util.Scanner;
+
+public class Binario {
+
+	public static void main(String[] args) {
+		int num;
+		Scanner keyboard = new Scanner(System.in);
+		String stringa = "";
+		do{
+			num = keyboard.nextInt();
+		}while(num<0);
+		
+		do{
+			
+			stringa = num%2+stringa;
+			num = num / 2;
+		}while(num!=0);
+		
+		System.out.println(stringa);
+		
+		
+		keyboard.close();
+	}
+
+}
+\end{lstlisting}
+\subsection{Esercitazione 3}
+Si vuole implementare una carta del gioco del poker, il cui valore è uno fra questi:\\
+2 3 4 5 6 7 8 9 10 J Q K 1\\
+
+Tale valore può essere visto come un numero fra 0 e 12. Una carta ha anche un seme (in inglese: suit) che può essere:\\
+spades , clubs , diamonds  e hearts .
+
+\begin{enumerate}
+    \item Si completi la seguente classe, che rappresenta una carta:
+    \begin{lstlisting}[style=java]
+public class Card {
+
+  /**
+   * Il valore della carta.
+   */
+  private final int value;
+
+  /**
+   * Il seme della carta.
+   */
+  private final int suit;
+ 
+  /**
+   * Genera una carta a caso con un valore da min (incluso) in su.
+   * 
+   * @param min il valore minimo (0-12) della carta che puo essere generata
+   */
+  public Card(int min) { ... }
+  
+  /**
+   * Genera una carta a caso con un valore da 0 (incluso) in su.
+   */
+  public Card() { ... }
+ 
+  public int getValue() { ...ritorna il valore della carta (0-12) }
+ 
+  public int getSuit() { ...ritorna il seme della carta (0-3) }
+ 
+  /**
+   * Ritorna una descrizione della carta sotto forma di stringa, del tipo 10 oppure J.
+   */
+  public String toString() { ... }
+ 
+  /**
+   * Determina se questa carta e uguale ad other.
+   * 
+   * @param other l'altra carta con cui confrontarsi
+   * @return true se e solo se le due carte sono uguali
+   */
+  public boolean equals(Card other) { ... }
+}
+\end{lstlisting}
+\item Si scriva una classe Main con un metodo iniziale main che crea una carta card1 a caso, quindi crea ripetutamente una carta card2 a caso finché non risulta che card1 è equals con card2. A quel punto termina. Sia card1 che tutte le card2 dovranno venire stampate sul video man mano che vengono generate.
+\item Si definiscano due enumerazioni Value e Suit, che rappresentano, rispettivamente, le 13 alternative per il valore delle carte e le quattro alternative per il loro seme. Si modifichi la classe Card in modo da usare queste enumerazioni al posto degli interi come valore e seme delle carte.
+\item Si aggiunga un metodo public int compareTo(Card other) alla classe Card, che confronta una carta con un'altra e determina chi viene prima: le carte devono venire ordinate per valore; a parità di valore, devono venire ordinate per seme (picche, fiori, quadri, cuori).
+\item Si generino le pagine JavaDoc da Eclipse.
+\end{enumerate}
+\begin{enumerate}
+    \item File Card.java: 
+    \begin{lstlisting}[style=java]
+        package Cornice;
+import java.util.Random;
+public class Card {
+	//Attributi:
+	private final int value;
+	private final int suit;
+	
+	private static String[] listacarte= {"2","3","4","5","6","7","8","9","10","J","Q","K","1"} ;
+	private static String[] listasemi= {"\u2660","\u2663","\u2665","\u2666"};
+	
+	private final static Random random = new Random(); 
+	/*
+	 * Genera una carta a caso con un valore da min (incluso in su)
+	 * @param min il valore minimo (0-12) della carta che puo essere generata
+	 */
+	public Card(int min) {
+		this.value = min + random.nextInt(13-min);
+		this.suit = random.nextInt(4);
+	}
+	/*
+	 * Genera una carta a caso con un valore da 0 (incluso) a su
+	 */
+	public Card() {
+		this(0);	
+	}
+	
+	// metodi:
+	public int getValue() {
+		return this.value;
+	}
+	
+	public int getSuit() {
+		return this.suit;
+	}
+	
+	public String toString() {
+		return listacarte[this.value] + listasemi[this.suit];
+	}
+	/*
+	 * Determina se questa carta e uguale a other
+	 * @param other l'altra carta con cui confrontarsi
+	 * @return true se e solo se le due carte sono uguali
+	 */
+	public boolean equals(Card other) {
+		if(this.value == other.value && this.suit == other.suit) {
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
+}
+
+    \end{lstlisting}
+    \item File MainCard.java:
+    \begin{lstlisting}[style=java]
+package Cornice;
+
+public class MainCard {
+
+	public static void main(String[] args) {
+		Card card1 = new Card();
+		Card card2;
+		System.out.println("CARTA 1 : "+card1);
+		
+		do {
+			card2 = new Card();
+			System.out.println(card2);
+		}while(card1.equals(card2) == false);
+		
+
+	}
+
+}
+
+
+    \end{lstlisting}
+    \item Nuova classe : 
+        \begin{lstlisting}[style=java]
+package Cornice;
+import java.util.Random;
+public class Card {
+	//Attributi:
+	private final Value value;
+	private final Suit suit;
+	
+	// Lista dei valori per generazione casuale:
+    private static final Value[] values = Value.values();
+    private static final Suit[] suits = Suit.values();
+    
+    /*
+	private static String[] listacarte= {"2","3","4","5","6","7","8","9","10","J","Q","K","1"} ;
+	private static String[] listasemi= {"\u2660","\u2663","\u2665","\u2666"};*/
+	
+	private final static Random random = new Random(); 
+	/*
+	 * Genera una carta a caso con un valore da min (incluso in su)
+	 * @param min il valore minimo (0-12) della carta che puo essere generata
+	 */
+	public Card(int min) {
+		this.value = values[min + random.nextInt(13-min)];
+		this.suit = suits[random.nextInt(4)];
+	}
+	/*
+	 * Genera una carta a caso con un valore da 0 (incluso) a su
+	 */
+	public Card() {
+		this(0);	
+	}
+	
+	// metodi:
+	public Value getValue() {
+		return this.value;
+	}
+	
+	public Suit getSuit() {
+		return this.suit;
+	}
+	
+	public String toString() {
+		return value.name() + suit.getSymbol();
+	}
+	/*
+	 * Determina se questa carta e uguale a other
+	 * @param other l'altra carta con cui confrontarsi
+	 * @return true se e solo se le due carte sono uguali
+	 */
+	public boolean equals(Card other) {
+		if(this.value == other.value && this.suit == other.suit) {
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
+}
+
+    \end{lstlisting}
+    \item aggiungiamo la nuova classe : 
+            \begin{lstlisting}[style=java]
+package Cornice;
+import java.util.Random;
+public class Card {
+	//Attributi:
+	private final Value value;
+	private final Suit suit;
+	
+	// Lista dei valori per generazione casuale:
+    private static final Value[] values = Value.values();
+    private static final Suit[] suits = Suit.values();
+    
+    /*
+	private static String[] listacarte= {"2","3","4","5","6","7","8","9","10","J","Q","K","1"} ;
+	private static String[] listasemi= {"\u2660","\u2663","\u2665","\u2666"};*/
+	
+	private final static Random random = new Random(); 
+	/*
+	 * Genera una carta a caso con un valore da min (incluso in su)
+	 * @param min il valore minimo (0-12) della carta che puo essere generata
+	 */
+	public Card(int min) {
+		this.value = values[min + random.nextInt(13-min)];
+		this.suit = suits[random.nextInt(4)];
+	}
+	/*
+	 * Genera una carta a caso con un valore da 0 (incluso) a su
+	 */
+	public Card() {
+		this(0);	
+	}
+	
+	// metodi:
+	public Value getValue() {
+		return this.value;
+	}
+	
+	public Suit getSuit() {
+		return this.suit;
+	}
+	
+	public String toString() {
+		return value.name() + suit.getSymbol();
+	}
+	/*
+	 * Determina se questa carta e uguale a other
+	 * @param other l'altra carta con cui confrontarsi
+	 * @return true se e solo se le due carte sono uguali
+	 */
+	public boolean equals(Card other) {
+		if(this.value == other.value && this.suit == other.suit) {
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
+	
+	public int compareTo(Card other) {
+		int valore = this.value.compareTo(other.value) ;
+		if(valore == 0) {
+			return this.suit.compareTo(other.suit);
+		}else {
+			return valore;
+		}
+	}
+}
+
+    \end{lstlisting}
+\end{enumerate}
+\subsection{Esercitazione 4}
+Si crei un package it.univr.figures. Al suo interno, si realizzi il codice descritto sotto, in cui tutti i campi devono essere private per rispettare l'incapsulazione.
+\begin{itemize}
+    \item Si scriva un'enumerazione Color che enumera cinque colori di vostra scelta, incluso il verde.
+    \item Si scriva una classe Figure che rappresenta una figura geometrica colorata. Tale classe deve avere un costruttore che riceve un Color. Deve avere un metodo double perimeter() e un metodo double area(); fate ritornare ad entrambi 0. Inoltre deve avere un metodo String toString() che ritorna la stringa "area: A, perimeter: P, color: C", dove A è l'area della figura, P è il perimetro della figura e C è il colore della figura. Infine, deve avere un metodo accessore protected per il colore.
+    \item Si scriva una sottoclasse Rectangle di Figure che rappresenta un rettangolo, con un costruttore che riceve colore, base e altezza double del rettangolo e in cui i metodi double perimeter() e double area() sono ridefiniti in modo da ritornare perimetro ed area del rettangolo, rispettivamente. Il metodo String toString() deve essere ridefinito in modo da ritornare la stringa "Rectangle of " seguita dalla chiamata al toString() della superclasse.
+    \item Si scriva una sottoclasse Circle di Figure che rappresenta un cerchio, con un costruttore che riceve colore e raggio double del cerchio e in cui i metodi double perimeter() e double area() sono ridefiniti in modo da ritornare perimetro ed area del cerchio, rispettivamente. Il metodo String toString() deve essere ridefinito in modo da ritornare la stringa "Circle of " seguita dalla chiamata al toString() della superclasse.
+    \item Si scriva una sottoclasse Square di Rectangle che rappresenta un quadrato, con un costruttore che riceve colore e lato double del quadrato. Non si ridefiniscano i metodi double perimeter() e double area(). Il metodo String toString() deve invece essere ridefinito in modo da ritornare la stringa "Square, a " seguita dalla chiamata al toString() della superclasse.
+    \item Si scriva una sottoclasse GreenDot di Circle che rappresenta un cerchio di raggio 1 e colore verde, con un costruttore senza argomenti. Non si ridefinisca alcun metodo al suo interno.
+    \item Si scriva una sottoclasse GreenDot di Circle che rappresenta un cerchio di raggio 1 e colore verde, con un costruttore senza argomenti. Non si ridefinisca alcun metodo al suo interno.
+\end{itemize}
+Si scriva dentro it.univr una classe MainFigures con un metodo di partenza main che crea e stampa sul video un'istanza di ognuna delle figure geometriche implementate sopra. In tale classe è possibile chiamare il metodo getColor() sulle figure?\\
+RISOLUZIONE:\\
+\begin{enumerate}
+    \item enumeriazione Color:
+        \begin{lstlisting}[style=java]
+package it.univr.figures;
+
+public enum Color {
+	VERDE,
+	ROSA,
+	BLU,
+	ROSSO,
+	NERO
+}
+
+        \end{lstlisting}
+    \item Classe figure :
+        \begin{lstlisting}[style=java]
+package it.univr.figures;
+
+public class Figure {
+	// private final float area;
+	// private final float perimetro;
+	private final Color colore;
+	
+	public Figure(Color colore) {
+		this.colore = colore;
+	}
+	
+	public double perimeter() {
+		return 0.0;
+	}
+	
+	public double area() {
+		return 0.0;
+	}
+	
+	public String toString() {
+		return "area :"+area()+"perimeter :"+perimeter()+"color : "+colore;
+	}
+	
+	protected Color getColor() {
+		return colore;
+	}
+	
+}
+
+        \end{lstlisting}
+        \item Classe Rectangle:
+        \begin{lstlisting}[style=java]
+package it.univr.figures;
+
+public class Rectangle extends Figure {
+	private double base;
+	private double altezza;
+	
+	public Rectangle(Color colore,double altezza,double base) {
+		super(colore);
+		this.altezza = altezza;
+		this.base = base;
+	}
+	
+	public double perimeter() {
+		return base+base+altezza+altezza;
+	}
+	
+	public double area() {
+		return base*altezza;
+	}
+	
+	public String toString() {
+		return "Rectangle of" + super.toString();
+	}
+	
+} 
+        \end{lstlisting}
+        \item Classe Circle : 
+        \begin{lstlisting}[style = java]
+package it.univr.figures;
+
+public class Circle extends Figure {
+	private double raggio;
+	
+	public Circle(Color colore,double raggio) {
+		super(colore);
+		this.raggio = raggio;
+	}
+	
+	public double perimeter() {
+		return 2*raggio*Math.PI;
+	}
+	
+	public double area() {
+		return Math.PI * raggio * raggio;
+	}
+	
+	public String toString() {
+		return "Circle of " + super.toString();
+	}
+}
+
+        \end{lstlisting}
+        \item Classe Square :
+            \begin{lstlisting}[style = java]
+package it.univr.figures;
+
+public class Square extends Rectangle{
+	public Square(Color colore,double lato) {
+		super(colore,lato,lato);
+	}
+	public String toString() {
+		return "Square , a" + super.toString();
+	}
+}
+            \end{lstlisting}
+        \item Classe Greendot:
+        \begin{lstlisting}[style = java]
+            package it.univr.figures;
+
+public class Square extends Rectangle{
+	public Square(Color colore,double lato) {
+		super(colore,lato,lato);
+	}
+	public String toString() {
+		return "Square , a" + super.toString();
+	}
+}
+        \end{lstlisting}
+        \item MainFigures:
+        \begin{lstlisting}[style = java]
+            package univr.it;
+import it.univr.figures.*;
+
+public class MainFigures {
+
+	public static void main(String[] args) {
+		Figure f0 = new Figure(Color.ROSSO);
+		Figure f1 = new Circle(Color.VERDE,15.0);
+		Figure f2 = new Rectangle(Color.ROSA,16.26,12.2);
+		Figure f3 = new Square(Color.BLU,12);
+		Figure f4 = new GreenDot();
+		
+		
+		System.out.println(f0);
+		System.out.println(f1);
+		System.out.println(f2);
+		System.out.println(f3);
+		System.out.println(f4);
+		
+	}
+
+}
+
+        \end{lstlisting}
+\end{enumerate}
+\subsection{Esercitazione 5}
+\begin{enumerate}
+    \item Si consideri la seguente interfaccia, che specifica un giocatore di calcio:
+        \begin{lstlisting}[style=java]
+            public interface SoccerPlayer {
+              String toString();  // ritorna il nome del giocatore
+              boolean canUseHands();  // determina se il giocatore puo usare le mani
+            }
+        \end{lstlisting}
+        Si completi la seguente implementazione di SoccerPlayer:\\
+        \begin{lstlisting}[style=java]
+        public abstract class AbstractSoccerPlayer implements SoccerPlayer {
+          ...
+        protected AbstractSoccerPlayer(String name) {
+            ...
+        }
+
+        public final String toString() {
+            ...
+          }
+        }
+        \end{lstlisting}
+        E' possibile aggiungere campi o metodi, ma solo private. Si noti che il metodo canUseHands() non è ancora implementato in AbstractSoccerPlayer, per cui tale classe deve essere abstract.
+    \item Si realizzino quattro sottoclassi concrete di AbstractSoccerPlayer, chiamate rispettivamente Forward, Midfield, Defence e GoalKeeper. Il costruttore di tali classi richiede il nome del giocatore come parametro. Solo il GoalKeeper può usare le mani nel gioco del calcio.
+    \item Si completi la seguente classe, che implementa una formazione del gioco del calcio, cioè l'insieme degli 11 giocatori che formano la squadra durante una partita.
+        \begin{lstlisting}[style=java]
+            public class Formation {
+              ...
+            public Formation(SoccerPlayer[] players) {
+                ...
+                if (!isValid())
+                  throw new IllegalArgumentException("invalid formation");
+            }
+            
+            protected boolean isValid() {
+                // ritorna true se e solo se la formazione e fatta da 11 giocatori, di cui esattamente uno e un portiere
+            }
+            
+            protected SoccerPlayer[] getPlayers() {
+                // ritorna i giocatori di questa formazione
+            }
+            
+            public final String toString() {
+                // ritorna i nomi dei giocatori della formazione, separati da virgola
+              }
+            }
+        \end{lstlisting}
+    \item Si implementi una sottoclasse concreta di Formation, chiamata Formation433, che, per essere valida, deve essere composta da 4 difensori, 3 centrocampisti e 3 attaccanti, oltre ovviamente a un portiere. L'implementazione di isValid() dovrà quindi cambiare per questa sottoclasse.
+    \item Si scriva una classe di prova Main con un metodo main() che crea 11 giocatori: 4 difensori (Alex Sandro, Rugani, Chiellini e Dani Alves), 3 centrocampisti (Fabinho, Iniesta, Pjanic), 3 attaccanti (Dybala, Higuain, Bernardeschi) e un portiere (Szczesny). Poi crea una Formation433, passando tali giocatori al costruttore, e la stampa.
+\end{enumerate}
+Svolgiamo gli esercizi:
+\begin{enumerate}
+    \item 
+    SoccerPlayer:
+    \begin{lstlisting}[style=java]
+    package EsercizioPallone;
+    
+    public interface SoccerPlayer {
+        String toString();
+        boolean canUseHands();
+    }
+    \end{lstlisting}
+    Abstract SoccerPlayer:
+    \begin{lstlisting}[style=java]
+    package EsercizioPallone;
+
+    public abstract class AbstractSoccerPlayer implements SoccerPlayer {
+    	public final String name;
+    	
+    	protected AbstractSoccerPlayer(String name) {
+    		this.name = name;
+    	}
+    	
+    	public final String toString() {
+    		return "Nome: "+name;
+    	}
+    }
+
+    \end{lstlisting}
+    \item 
+    Forward.java:
+    \begin{lstlisting}[style=java]
+    package EsercizioPallone;
+    
+    public class Forward extends AbstractSoccerPlayer{
+    	
+    	public Forward(String name){
+    		super(name);
+    	}
+    	
+    	public boolean canUseHands() {
+    		return false;
+    	}
+    }
+    \end{lstlisting}
+    Midfield.java e Defence.java sono uguali a Foward.java invece GoalKeeper.java sara cosi:
+    \begin{lstlisting}[style=java]
+        package EsercizioPallone;
+        public class GoalKeeper extends AbstractSoccerPlayer{
+        	public GoalKeeper (String name) {
+        		super(name);
+        	}
+        	public boolean canUseHands() {
+        		return true;
+        	}
+        }
+
+    \end{lstlisting}
+    \item Formation.java:
+    \begin{lstlisting}[style=java]
+package EsercizioPallone;
+
+public class Formation {
+	private SoccerPlayer[] arrayPlayers;
+	
+	
+	
+	public Formation (SoccerPlayer[] players) {
+		this.arrayPlayers = players;
+		if(!isValid()) {
+			throw new IllegalArgumentException("invalid formation");
+		}
+	}
+	
+	protected boolean isValid() {
+		// ritorna true solamente sela formazione e fatta da 11 giocatori e uno è il portiere
+		if (arrayPlayers.length >= 11 && count() == 1 ) {
+			return true;
+		}
+		return false;
+	}
+	
+	private int count () {
+		int count = 0;
+		for(int i=0;i<arrayPlayers.length;i++) {
+			if(arrayPlayers[i] instanceof GoalKeeper) {
+				count ++;
+			}
+		}
+		return count;
+	}
+	
+	protected SoccerPlayer[] getPlayers(){
+		return arrayPlayers;
+	}
+	
+	public final String toString() {
+		// ritorna i nomi dei giocatori della formazione, separati da virgola
+		String result = "";
+		for (SoccerPlayer player: arrayPlayers)
+			if (result.isEmpty())
+				result += player;
+			else
+				result += ", " + player;
+
+		return result;
+	}
+}
+
+    \end{lstlisting}
+\item Formation433.java
+\begin{lstlisting}[style=java]
+package EsercizioPallone;
+
+public class Formation433 extends Formation{
+	public Formation433(SoccerPlayer[] players) {
+		super(players);
+	}
+	
+	protected boolean isValid() {
+		if(super.isValid() && countdif()==4 && countatt()==3 && countMid()==3) {
+			return true;
+		}
+		return false;
+	}
+	
+	private int countdif() {
+		int count = 0;
+		for(SoccerPlayer player : getPlayers()) {
+			if(player instanceof Defence) {
+				count++;
+			}
+		}
+		return count;
+	}
+
+	private int countatt() {
+		int count = 0;
+		for(SoccerPlayer player : getPlayers()) {
+			if(player instanceof Forward) {
+				count++;
+			}
+		}
+		return count;
+	}
+	private int countMid() {
+		int count = 0;
+		for(SoccerPlayer player : getPlayers()) {
+			if(player instanceof Midfield) {
+				count++;
+			}
+		}
+		return count;
+	}	
+}
+\end{lstlisting}
+    \item Main.java:
+\begin{lstlisting}[style=java]
+    package EsercizioPallone;
+
+public class Main {
+
+	public static void main(String[] args) {
+        SoccerPlayer[] players = new SoccerPlayer[11];
+
+        players[0] = new Defence("Alex Sandro");
+        players[1] = new Defence("Rugani");
+        players[2] = new Defence("Chiellini");
+        players[3] = new Defence("Dani Alves");
+        
+        players[4] = new Midfield("Fabinho");
+        players[5] = new Midfield("Iniesta");
+        players[6] = new Midfield("Pijanic");
+        
+        players[7] = new Forward("Higuain");
+        players[8] = new Forward("Dybala");
+        players[9] = new Forward("Bernandeshi");
+        
+        players[10] = new GoalKeeper("Szczesny");
+        
+        Formation formazione = new Formation433(players);
+        
+        
+        formazione.toString();
+        System.out.println(formazione);
+	}
+
+}
+
+\end{lstlisting}
+\end{enumerate}
+\subsection{Esercitazione 6}
+\begin{enumerate}
+    \item Si crei un progetto Eclipse e si copi al suo interno la seguente interfaccia, che rappresenta un numero non negativo, in una qualsiasi base di numerazione:
+    \begin{lstlisting}[style=java]
+        public interface Number extends Comparable<Number> {
+          int getValue(); // restituisce il valore di questo numero
+        }
+    \end{lstlisting}
+    \item Si completi la seguente implementazione astratta di un Number, che fornisce le funzionalità comuni a tutti i numeri, cioè il controllo sulla non negatività del valore, l’accesso al valore, la traduzione in stringa e il metodo per il test di uguaglianza:
+    \begin{lstlisting}[style = java]
+        public abstract class AbstractNumber implements Number {
+  private final int value;
+
+  protected AbstractNumber(int value) {
+    // se value e negativo, esegue throw new IllegalArgumentException(); altrimenti inizializza il campo value
+    ...
+  }
+
+  // restituisce il valore di questo numero
+  public final int getValue() { ... }
+
+  // restituice la base di numerazione di questo numero
+  protected abstract int getBase();
+
+  // restituisce il carattere che rappresenta la cifra "digit" nella base di numerazione
+  // di questo numero. Sara sempre vero che 0 <= digit < getBase();
+  // per esempio, in base sedici si avra getCharForDigit(10) == 'A' e
+  // in base otto si avrà getCharForDigit(7) == '7'
+  protected abstract char getCharForDigit(int digit);
+
+  // restituisce una stringa che rappresenta il numero nella sua base di numerazione
+  public String toString() { ... }
+
+  public final boolean equals(Object other) {
+    // due numeri sono uguali se e solo se hanno lo stesso valore
+    ...
+  }
+
+  public final int compareTo(Number other) {
+    // l'ordinamento fra i Number è quello crescente per valore
+    ...
+  }
+}
+    \end{lstlisting}
+    \item Si scrivano le sottoclassi concrete DecimalNumber, BinaryNumber, OctalNumber ed HexNumber di AbstractNumber, che rappresentano, rispettivamente, un numero in base 10, 2, 8 e 16. Queste classi si instanziano con il loro costruttore, a cui viene passato il valore del numero. Non si ridefinisca, in queste quattro sottoclassi, il metodo toString(): quello ereditato da AbstractNumber dovrà funzionare per tutte queste sottoclassi, traducendo il valore del numero nella giusta base di numerazione.
+    \item Nella codifica binaria con parità, un numero binario viene esteso con un’ulteriore cifra binaria di controllo, in modo da rendere pari il numero totale di cifre 1. Se quindi il numero binario aveva una quantità pari di 1, si aggiungerà una cifra di controllo 0. Se invece il numero binario aveva una quantità dispari di 1, si aggiungerà una cifra di controllo 1. Questa modifica riduce il rischio di trasmissione di dati corrotti, permettendo di implementare un rudimentale sistema di rilevazione dell’errore. Si implementi una sottoclasse concreta BinaryNumberWithParity di BinaryNumber, ridefinendo solo il metodo toString() in modo da aggiungere in fondo la cifra di controllo opportuna.
+    \item Nella codifica in base 58, si utilizzano 58 cifre diverse, scelte fra i numeri arabi e le lettere inglesi maiuscole e minuscole. Si evitano i caratteri 0OIl, che potrebbero essere confusi a video, perché graficamente simili. Si implementi una sottoclasse concreta Base58Number di AbstractNumber, in modo da implementare questa numerazione in base 58. Le 58 cifre sono quindi 123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz. Non si ridefinisca il metodo toString() ereditato da AbstractNumber.
+    \item Si scriva una classe di prova MainNumbers con un metodo main() che chiede all'utente di inserire un numero non negativo n, quindi crea il numero n in base 10, poi in base 2, poi in base 2 con parità, poi in base 8, poi in base 16 e infine in base 58, stampando tutti tali numeri. Se per esempio l'utente inserisse il numero 1234567
+    \item Si scriva una classe di prova MainNumbersSort con un metodo main() che crea un array di Number contenente esattamente sei elementi:
+    \begin{itemize}
+        \item 2024 in base 10
+        \item 113 in base 2
+        \item 158 in base 2 con parità
+        \item  827 in base 8
+        \item  2066 in base 16
+        \item 8092 in base 58
+    \end{itemize}
+    Quindi ordina l'array con java.util.Arrays.sort(...) e lo stampa sfruttando java.util.Arrays.toString(...).
+\end{enumerate}
+\begin{enumerate}
+    \item Number.java:
+    \begin{lstlisting}[Style = java]
+        package Numeri;
+
+public interface Number extends Comparable<Number>{
+	int getValue();// restituisce il valore di un numero 
+}
+
+    \end{lstlisting}
+    \item AbstractNumber.java:
+    \begin{lstlisting}[style=java]
+        package Numeri;
+
+public abstract class AbstractNumber implements Number {
+	private final int value;
+	
+	protected AbstractNumber(int value) {
+		if(value<0) {
+			throw new IllegalArgumentException("Valore Negativo");
+		}else {
+			this.value = value;
+		}
+	}
+	
+	public final int getValue() {
+		return this.value;
+	}
+	
+	protected abstract int getBase();
+	
+	protected abstract char getCharForDigit(int digit);
+	
+	public String toString() {
+		int base = getBase();
+		String result = "";
+		int v = value;
+		// divide v ripetutamente per base fino ad arrivare a 0
+		// ogni volta prende v % base ed usa getCharForDigit()
+		// per trasformarlo in char, che concatena a result
+		do {
+			result = getCharForDigit(v % base) + result;
+			v /= base;
+		}
+		while (v > 0);
+
+		return result;
+	}
+	
+	public final boolean equals(Object other) {
+		return other instanceof Number otherAsNumber && value == otherAsNumber.getValue();
+	}
+	public final int compareTo(Number other) {
+		return value - other.getValue();
+	}
+	
+
+}
+    \end{lstlisting}
+    \item DecimalNumber.java :
+    \begin{lstlisting}[style=java]
+        package Numeri;
+
+public class DecimalNumber extends AbstractNumber{
+	public DecimalNumber(int value) {
+		super(value);
+	}
+	protected int getBase() {
+		return 10;
+	}
+	protected char getCharForDigit(int digit) {
+		String stringa = "0123456789";
+		return stringa.charAt(digit);
+	}
+}
+
+    \end{lstlisting}
+    Le altre classi si svolgono nello stesso modo solo cambiando la stringa in maniera adeguata.
+    \item BinaryNumberWithParity.java:
+    \begin{lstlisting}[style = java]
+package Numeri;
+
+public class BinaryNumberWithParity extends BinaryNumber{
+	
+	public BinaryNumberWithParity(int value) {
+		super(value);
+	}
+	
+	public String toString() {
+		String stringa = super.toString();
+		if(countone(stringa)%2==0) {
+			return stringa + '0';
+		}else {
+			return stringa + '1';
+		}
+	}
+	
+	private int countone(String number) {
+		int counter = 0;
+		for(int i = 0 ; i<number.length();i++) {
+			if(number.charAt(i) == '1') {
+				counter++;
+			}
+		}
+		return counter;
+	}
+	
+}
+
+    \end{lstlisting}
+    \item Questo punto si svolge nello stesso identico modo del punto 3
+    \item MainNumbers.java:
+    \begin{lstlisting}[style=java]
+package Numeri;
+
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		
+		Scanner keyboard = new Scanner(System.in);
+		int n;
+		do {
+			System.out.println("Inserisci un valore:");
+			n = keyboard.nextInt() ;
+		}while(n<0);
+		
+		keyboard.close();
+		
+		Number n0 = new DecimalNumber(n); 
+		Number n1 = new BinaryNumber(n);
+		Number n2 = new BinaryNumberWithParity(n);
+		Number n3 = new OctalNumber(n);
+		Number n4 = new HexNumber(n);
+		Number n5 = new Base58Number(n);
+		
+		System.out.println("Numeri:");
+		System.out.println(n0);
+		System.out.println(n1);
+		System.out.println(n2);
+		System.out.println(n3);
+		System.out.println(n4);
+		System.out.println(n5);
+	
+
+		
+
+	}
+
+}
+
+    \end{lstlisting}
+    \item MainNumberRandom.java:
+    \begin{lstlisting}[style=java]
+package Numeri;
+
+import java.util.Arrays;
+public class MainNumbersSort {
+	public static void main(String[] args) {
+		Number [] array = new Number[6];
+		
+		array[0] = new DecimalNumber(2024);
+		array[1] = new BinaryNumber(113);
+		array[2] = new BinaryNumberWithParity(158);
+		array[3] = new OctalNumber(827);
+		array[4] = new HexNumber(2066);
+		array[5] = new Base58Number(8092);
+		
+		Arrays.sort(array);
+		System.out.println(Arrays.toString(array));
+		
+		
+	}
+}
+ 
+    \end{lstlisting}
+\end{enumerate}
+
+
+

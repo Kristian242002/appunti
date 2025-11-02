@@ -1,0 +1,245 @@
+\section{Meccanismo di Esecuzione dei Programmi nei Computer}
+Noi ci baseremo sul codice che abbiamo svolto la lezione scorsa:
+\begin{lstlisting}[style=java]
+public class MainDate {
+    public static void main(String[] args){
+        Date d1 = new Date (12,11,2021);
+        Date d2 = new Date (13,1,2022);
+        boolean b = d1.equals(d2);
+    }
+}
+\end{lstlisting}
+\subsection{Concetto di variabili locali}
+Le \textbf{variabili locali} sono variabili definite all'interno di una funzione, di un metodo o di un blocco di codice e sono accessibili solo all'interno di quello specifico contesto in cui sono state dichiarate.
+Per esempio nel codice sopra le variabili locali del main saranno d1,d2,b e args.
+\subsection{Stack}
+Quindi quando il main va in esecuzione ci saranno 4 variabili locali che staranno da qualche parte.
+Le rappresentiamo in questo modo:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{imm1.jpg}
+    \label{fig:enter-label}
+\end{figure}
+Questa zona di memoria in cui sono allocate le variabili prende nome di \textbf{stack}.
+Lo stack (in italiano, "pila") è una struttura dati fondamentale che segue il principio \textbf{LIFO} (Last In, First Out), ovvero l'ultimo elemento inserito è il primo a essere rimosso. 
+
+Pensiamo ora al costruttore riportato qua sotto :
+\begin{lstlisting}[style=java]
+public class Date {
+    // Attributi
+    private int day;
+    private int month;
+    private int year;
+
+    // costruttore
+    public Date(int d,int m,int y){
+        this.day = d;
+        this.month = m;
+        this.year = y;
+    }
+}
+\end{lstlisting}
+Il costruttore di date avrà le seguenti variabili locali day,month,year e this però a differenza di prima queste variabli sono inizializzate e si possono rappresentare in questo modo:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{imm2.jpg}
+    \label{fig:enter-label}
+\end{figure}
+Questa e una configurazione in cui parte date invece il Main() in questo momento la sua esecuzione viene sospesa e tocca al costruttore di Date().
+\subsection{Record di attivazione}
+Il costruttore inizializza le variabili e, una volta completata questa operazione, termina la sua esecuzione. Di conseguenza, la memoria allocata per le sue variabili locali viene liberata, poiché non sono più necessarie dopo la fine del costruttore.
+Ora sarà rappresentato cosi il nostro stack : 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{imm3.jpg}
+    \label{fig:enter-label}
+\end{figure}
+Ogni blocchettino nel Main() prende nome di \textbf{record di attivazione} è una struttura di dati utilizzata durante l'esecuzione di un programma per memorizzare tutte le informazioni necessarie per gestire una singola invocazione di una funzione o di un metodo.
+L'insieme di più record di attivazione è detto \textbf{stack di attivazione}.
+Se andiamo avanti nel codice definiamo d2 nello stesso modo in cui abbiamo definito d1 è cosi via per ogni funzione.
+
+\subsection{final}
+La parola chiave \textbf{final} in Java, quando applicata ad un attributo (variabile di istanza), significa che quella variabile non può essere modificata dopo che è stata inizializzata. Questo è utile per creare \textbf{variabili immutabili}, come nel caso di una data, in cui giorno, mese e anno non dovrebbero essere modificati dopo la creazione dell'oggetto.
+\begin{lstlisting}[style=java]
+public class Date {
+    // Attributi
+    private final int day;
+    private final int month;
+    private final int year;
+
+    // costruttore
+    public Date(int d,int m,int y){
+        this.day = d;
+        this.month = m;
+        this.year = y;
+    }
+}
+\end{lstlisting}
+in questo modo gli attributi non possono venir chiamati da nessuna parte tranne nel costruttore inoltre final impone un \textbf{vincolo a livello di compilazione}, garantendo che le variabili non siano modificabili dopo essere state assegnate, rendendo il tuo programma più sicuro.
+\subsection{enum}
+In java enum è un tipo di dato che rappresenta un insieme fisso di costanti, come un gruppo di valori predefiniti che non cambiano. Gli enum sono utili quando hai bisogno di rappresentare un numero limitato e ben definito di valori che possono essere assegnati a una variabile.Per esempio nella nostra classe data abbiamo bisogno di scrivere la data in maniera "Americana" ovvero scrivere prima il il mese rispetto al giorno e una data in maniera "Italiana".Allora creiamo un nuovo file denominato Language.java e riportiamo il seguente codice:
+\begin{lstlisting}[style=java]
+public enum Language{
+    ITALIAN,
+    AMERICAN
+}
+\end{lstlisting}
+Ora questo enum può essere specificato con un tipo nella classe in questo modo :
+\begin{lstlisting}[style=java]
+public class Date {
+    // Attributi
+    private final int day;
+    private final int month;
+    private final int year;
+    private Language language;
+
+    // costruttore
+    public Date(int d,int m,int y){
+        this.day = d;
+        this.month = m;
+        this.year = y;
+        this.language = Language.ITALIAN;
+    }
+}
+\end{lstlisting}
+Abbiamo anche inizializzato la classe in italiano.
+\subsubsection{Metodi d'uso frequente delle classi E definite tramite enum}
+\begin{itemize}
+    \item \textbf{static E[] values()} (ritorna l'array di tutti gli elementi dell'enumerazione)
+    \item \textbf{static E valueOf(String name) }(ritorna l'elemento dell'enumerazione che ha il nome indicato)
+    \item \textbf{int compareTo(E other)} (determina chi viene prima nell'enumerazione)
+    \item \textbf{int ordinal()} (ritorna il numero d'ordine di un elemento dell'enumerazione)
+\end{itemize}
+\subsection{Metodi set}
+Le funzioni che iniziano con set sono chiamate \textbf{setter} o \textbf{metodi mutatori}, e sono utilizzate per modificare il valore di un attributo privato di una classe. In un contesto di programmazione orientata agli oggetti, gli attributi delle classi sono spesso definiti come privati per proteggere i dati e garantire l'incapsulamento. Nel nostro caso faremmo così :
+\begin{lstlisting}[style=java]
+public class Date {
+    // Attributi
+    private final int day;
+    private final int month;
+    private final int year;
+    private Language language;
+
+    // costruttore
+    public Date(int d,int m,int y){
+        this.day = d;
+        this.month = m;
+        this.year = y;
+        this.language = Language.ITALIAN;
+    }
+    // metodi
+    public void setItalian(){
+        this.language = Language.ITALIAN;
+    }
+
+    public void setAmerican(){
+        this.language = Language.AMERICAN;
+    }
+    
+}
+\end{lstlisting}
+\subsection{Static}
+Il modificatore static in Java è utilizzato per definire membri di classe (attributi o metodi) che appartengono alla classe stessa piuttosto che alle singole istanze (oggetti) della classe. Questo significa che un membro static è condiviso da tutte le istanze della classe e può essere usato senza dover creare un'istanza della classe.
+\begin{lstlisting}[style=java]
+public class Date {
+    // Attributi
+    private final int day;
+    private final int month;
+    private final int year;
+    private static Language language;
+
+    // costruttore
+    public Date(int d,int m,int y){
+        this.day = d;
+        this.month = m;
+        this.year = y;
+        this.language = Language.ITALIAN;
+    }
+    // metodi
+    public void setItalian(){
+        this.language = Language.ITALIAN;
+    }
+
+    public void setAmerican(){
+        this.language = Language.AMERICAN;
+    }
+}
+\end{lstlisting}
+Cosa sta succedendo ? 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{3.jpg}
+    \label{fig:enter-label}
+\end{figure}
+Facendo se io cambiassi la lingua a un solo oggetto la lingua verrà cambiata a tutti gli oggetti.Però scritta in questo modo non va bene si dovrebbe scrivere così: 
+\begin{lstlisting}[style=java]
+public class Date {
+    // Attributi
+    private final int day;
+    private final int month;
+    private final int year;
+    private static Language language;
+
+    // costruttore
+    public Date(int d,int m,int y){
+        this.day = d;
+        this.month = m;
+        this.year = y;
+        this.language = Language.ITALIAN;
+    }
+    // metodi
+    public static void setItalian(){
+        Date.language = Language.ITALIAN;
+    }
+
+    public static void setAmerican(){
+        Date.language = Language.AMERICAN;
+    }
+}
+\end{lstlisting}
+Invece nel main lo richiamiamo in questo modo:
+\begin{lstlisting}[style=java]
+public class MainDate {
+    public static void main(String[] args){
+        Date d1 = new Date (12,11,2021);
+        Date d2 = new Date (13,1,2022);
+        Date.setLanguge(Language.American);
+    }
+}
+\end{lstlisting}
+I campi statici si utilizzano poche volte.
+\subsection{tipo Array}
+Vogliamo far in modo che venga stampato il mese a parole allora in questo caso introduciamo il tipo array e scriviamo la classe in questo modo :
+\begin{lstlisting}[style=java]
+public class Date {
+    // Attributi
+    private final int day;
+    private final int month;
+    private final int year;
+    private static Language language;
+
+    private static String[] months = {
+        "gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"
+    }
+
+    private static String[] americanmonth = {
+        "january","February","March","April","May","June","July","August","September","October","November","December"
+    }
+    // costruttore
+    public Date(int d,int m,int y){
+        this.day = d;
+        this.month = m;
+        this.year = y;
+        this.language = Language.ITALIAN;
+    }
+    // metodi
+    public String toString(){
+        if(language == Language.ITALIAN){
+            return day + " " + months[month - 1]+" "+year;
+        }else{
+            return americanMonths[month - 1]+" "+day+","+year;
+        }
+    }
+}
+\end{lstlisting}
+Facendo così posso stampare le date in entrambe le maniere

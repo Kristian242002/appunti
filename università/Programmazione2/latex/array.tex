@@ -1,0 +1,225 @@
+\section{Array e Matrici in Java}
+Come abbiamo visto in programmazioneI gli array sono strutture di dati che permettono di memorizzare una sequenza di elementi dello stesso tipo, organizzati in posizioni contigue di memoria. Ogni elemento in un array è accessibile tramite un indice numerico. 
+Per definire un array in Java partiamo da questo esempio creando la classe MainArray in questo modo:
+\begin{lstlisting}[style=java]
+public class MainArray{
+
+    public static void main(String[] args){
+        // CREAZIONE PER ENUMERAZIONE DEGLI ELEMENTI
+        int[] arr1 = {
+            3,8,3,-2,5,8
+        };
+
+        for(int pos = 0 ; pos < 6;pos++){
+            System.out.println(Arr1[pos]);
+        }
+    }
+}
+\end{lstlisting}
+\subsection{Creazione array per enumerazione}
+A differenza del linguaggio C in JAVA quando dichiariamo un array nella zona di memoria dedicata si formano due celle in piu dove una ne indica la lunghezza (lenght) e una ne indica il tipo in questo caso (int[]).Vediamolo graficamente:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{imm6.jpg}
+    \label{fig:enter-label}
+\end{figure}
+Aggiorniamo il nostro codice in questo modo :
+\begin{lstlisting}[style=java]
+public class MainArray{
+
+    public static void main(String[] args){
+        // CREAZIONE PER ENUMERAZIONE DEGLI ELEMENTI
+        int[] arr1 = {
+            3,8,3,-2,5,8
+        };
+
+        for(int pos = 0 ; pos < arr1.length;pos++){
+            System.out.println(Arr1[pos]);
+        }
+    }
+}
+\end{lstlisting}
+\subsection{Creazione array manualmente}
+Vediamo il seguente codice :
+\begin{lstlisting}[style=java]
+public class MainArray{
+
+    public static void main(String[] args){
+        int [] arr1 = new int[6];
+        arr[0] = 3;
+        arr[1] = 8;
+        arr[2] = 3;
+        arr[3] = -2;
+        arr[4] = 5;
+        arr[5] = 8;
+        for(int pos = 0 ; pos < arr1.length;pos++){
+            System.out.println(Arr1[pos]);
+        }
+    }
+}
+\end{lstlisting}
+Ottengo lo stesso risultato del primo array,sto creando un puntatore a un array di 6 interi.//
+\subsection{Ciclo foreach}
+In Java è stato introdotto il seguente metodo di stampa per gli array :
+\begin{lstlisting}[style=java]
+public class MainArray{
+
+    public static void main(String[] args){
+        int [] arr1 = new int[6];
+        arr[0] = 3;
+        arr[1] = 8;
+        arr[2] = 3;
+        arr[3] = -2;
+        arr[4] = 5;
+        arr[5] = 8;
+        for(int x : arr1){
+            System.out.println(x + " ")
+        }
+    }
+}
+\end{lstlisting}
+NB. Anche se stai vedendo Java, ricorda che in PHP i due punti possono rappresentare "appartenenza" in un ciclo foreach. Nel nostro caso, la variabile x è la chiave o l'indice, mentre arr1 è l'array. Tuttavia, in Java, come in PHP, ha senso usare un ciclo foreach solo per leggere.
+\subsection{Assegnamento tra Array}
+In C l'assegnamento tra array non funziona invece in Java si.Ad esempio:
+\begin{lstlisting}[style=java]
+public class MainArray{
+
+    public static void main(String[] args){
+        int [] arr1 = new int[6];
+        arr[0] = 3;
+        arr[1] = 8;
+        arr[2] = 3;
+        arr[3] = -2;
+        arr[4] = 5;
+        arr[5] = 8;
+        int [] arr2 = new int[3];
+        arr2[0] = 13;
+        arr2[1] = 17;
+        arr2[2] = 42;
+        for(int x : arr1){
+            System.out.println(x + " ")
+        }
+    }
+}
+\end{lstlisting}
+Per capire cosa succede lo rappresentiamo meglio con un disegno:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{imm7.jpg}
+    \label{fig:enter-label}
+\end{figure}
+In pratica durante l'assegnamento viene cambiato l'oggetto puntato però per fare un assegnamento del genere c'è bisogno che i due tipi siano identici.
+\subsection{Matrici}
+una matrice è un array bidimensionale, usato per memorizzare dati in forma di righe e colonne. Puoi immaginarlo come una tabella, dove ogni elemento è accessibile tramite due indici: uno per la riga e uno per la colonna.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{imm8.jpg}
+    \label{fig:enter-label}
+\end{figure}
+In C sappiamo che non esiste una propria matrice ma è un unico e grande array e con le formulette adatte ti riesci a ricavare la cellad della matrice invece in Java si rappresenta in una serie di puntatori.In pratica se creiamo un array A = new int[3][4] stiamo dicendo che A ha un puntatore a un array di dimensione 3 (i) i quali ogni cella puntera altri array di dimensione 4(j).
+L'unico vantaggio di questa modalità è la sua \textbf{flessibilità}.
+Per esempio: 
+\begin{lstlisting}[style=java]
+public class MainArray{
+
+    public static void main(String[] args){
+        int [][] arr = {
+            {1,5,-2,5},
+            {4,8,8,0},
+            {4,7,11,-1}
+        };
+        arr[2][1] = 99; // SI PUO FARE
+        arr[1] = new int[4]; // nella riga uno sto creando un nuovo array di interi inizializzati di default a zero solo per quella riga li
+        arr[1] = new int[5]; // in riga 1 viene inserito un array da 5 --> chiamati jagged array
+
+        for(int i = 0;i<arr.lenght;i++){
+            for(int j = 0 ;j<arr[i].lenght; j++){
+                Sysrem.out.printf("%3d",arr[i][j]);
+            }
+        }
+        
+    }
+}
+\end{lstlisting}
+In Java ci possono essere array multidimensionali di \textbf{qualsiasi dimensione}.
+\subsection{Esempio}
+Creaiamo inizialmente un enum delle stagioni in questo modo(prima creare il file Seasion.java):
+
+\begin{lstlisting}[style=java]
+public enum Season{
+    SPRING,
+    SUMMER,
+    AUTUMN,
+    WINTER
+}
+\end{lstlisting}
+Ora creaiamo il nostro metodo dentro la classe di Date:
+\begin{lstlisting}[style=java]
+public class Date {
+    // Attributi
+    private int day;
+    private int month;
+    private int year;
+
+    // costruttore
+    public Date(int d,int m,int y){
+        this.day = d;
+        this.month = m;
+        this.year = y;
+    }
+
+    //metodi
+    Season getSeason(){
+        Date startOfSpring = new Date(21,3,year);
+        Date startOfSummer = new Date(21,6,year);
+        Date startOfAutumn = new Date(22,9,year);
+        Date startOfWinter = new Date(21,12,year);
+
+        if (this.compareTo(startOfSpring)>=0 && this.compareTo(startOfSummer)<0){
+            return Season.SPRING;
+        }else if(this.compareTo(startOfSummer)>=0 && this.compareTo(startOfAutumn)<0){
+            return Season.SUMMER;
+        }else if(this.compareTo(startOfAutumn)>=0 && this.compareTo(startOfWinter)<0)){
+            return Season.AUTUMN;
+        }else{
+            return Season.WINTER;
+        }
+
+        
+    }
+}
+\end{lstlisting}
+Creaiamo un nuovo main :
+\begin{lstlisting}[style=java]
+import java.util.Random;
+public class MainDate {
+    public static void main(String[] args){
+        Date[] dates = new Date[100];
+        Random random = new Random();
+        for(int pos = 0 ; pos<dates.lenght;pos++){
+            dates[pos] = new Date(random.nextInt(31)+1,random.nextInt(11)+1,random.nextInt(40)+1990);
+        }
+        for(Date date : dates){
+            System.out.println(date + " "+date.getSeason());
+        }
+
+        //contare quante ce ne stanno per ogni stagione
+        int [] counters = new int [4];
+        for(Date date : dates){
+            counters[date.getSeason().ordinal()]++;
+        }
+
+        for(int key:counters){
+            System.out.prinln(key);
+        }
+    }
+}
+\end{lstlisting}
+\subsection{Metodi di uso frequente della classe java.util.Arrays}
+\begin{itemize}
+    \item \textbf{static int binarySearch(int[] arr, int key)} (ritorna la posizione di key dentro arr, oppure un numero negativo se arr non contiene key. Assume che l'array arr sia ordinato. Questo metodo esiste anche per gli altri tipi primitivi numerici e per i tipi riferimento, nel qual caso chiama compareTo() per decidere l'ordine)
+    \item \textbf{static boolean equals(int[] arr1, int[] arr2)} (controlla che arr1 e arr2 abbiano stessa lunghezza e contengano gli stessi elementi nello stesso ordine. Questo metodo esiste anche per gli altri tipi primitivi nonché per array di tipi riferimento, nel qual caso chiama equals() fra tutte le coppie di oggetti da confrontare)
+    \item \textbf{static void fill(int[] arr, int val)} (assegna val a tutti gli elementi di arr. Questo metodo esiste anche per tutti gli altri tipi primitivi e per array di tipi riferimento)
+    \item  \textbf{static void sort(int[] arr)} (ordina arr in senso crescente, in tempo O(n log n). Questo metodo esiste anche per tutti gli altri tipi primitivi numerici e per i tipi riferimento, nel qual caso chiama compareTo() per decidere l'ordine)
+    \item  \textbf{ static String toString(int[] arr)} (ritorna una stringa che riporta gli elementi di arr, nel loro ordine. Questo metodo esiste anche per gli altri tipi primitivi e per array di tipi riferimento, nel qual caso chiama toString() sugli elementi dell'array e concatena il risultato.
+\end{itemize}

@@ -1,0 +1,160 @@
+\section{Cosa sono gli Oggetti?}
+La principale differenza tra Java e C è che Java è un linguaggio di programmazione orientato agli oggetti, mentre C è un linguaggio procedurale.
+Un \textbf{oggetto} è un'\textbf{istanza della classe}(un oggetto creato da una detterminata classe),che rappresenta un'entità concreta o astratta. In Java gli oggetti allocano zone di memoria.
+\subsection{Classi,Metodi e Attributi}
+Una \textbf{classe} è un modello che definisce le caratteristiche e i \textbf{comportamenti} di un gruppo di oggetti. In pratica, è un tipo di dato definito dall'utente che rappresenta una categoria o un'entità astratta. Ogni oggetto che appartiene a una classe ha le stesse proprietà (attributi) e può eseguire gli stessi comportamenti (metodi).\\
+ Gli \textbf{attributi} sono le variabili che memorizzano le \textbf{caratteristiche di una classe}. Ogni istanza (oggetto) di una classe ha i propri attributi. Gli attributi possono essere di classe (condivisi da tutte le istanze) o di istanza (specifici di ogni oggetto creato da una classe).\\
+  I \textbf{metodi} sono funzioni definite all'interno di una classe che descrivono i comportamenti che gli oggetti della classe possono eseguire. I metodi possono manipolare gli attributi e possono essere invocati sugli oggetti della classe.
+\subsection{Come si crea un oggetto in Java}
+Un oggetto in Java si dichiara nel seguente modo : new Classe (eventuali parametri).Ad esempio con la Classe Scanner (questa classe serve per prendere in input un dato):
+\begin{lstlisting}[style=java]
+import java.Util.Scaner // libreria da incorporare
+public class CreareObj { 
+    public static void main(String[] args) {
+        Scanner Keyboard = new Scanner (System.In);
+    }
+}
+\end{lstlisting}
+\section{Scanner e String}
+Lo String in Java non bisogna pensarla come un array o una concatenazione di char ma come un oggetto al quale viene allocato una cella di memoria.
+Per quanto riguarda String la sua libreria risulta già incorporata in Java quindi non serve definirla(java.lang.String).
+Facciamo un esempio nel quale cerchiamo di stampare il valore che l'utente ci invia:
+\begin{lstlisting}[style=java]
+include java.Util.Scanner
+public class Papagallo { 
+    public static void main(String[] args) {
+        Scanner Keyboard = new Scanner (System.In);
+        String line = Keyboard.nextLine(); // usata per prendere le stringhe 
+
+        System.out.println(line);
+        Keyboard.close(); // questa e una chiamata a metodo
+    }
+}
+\end{lstlisting}
+Le diverse Funzionalita di \textbf{Scanner} che vedremmo inq uesto corso sono:
+\begin{itemize}
+    \item \textbf{Scanner(source)} (costruttore, che crea uno Scanner legato alla sorgente indicata)
+    \item \textbf{void close()} (chiude lo Scanner: dopo non può più essere usato)
+    \item \textbf{double nextDouble()}
+    \item \textbf{float nextFloat()}
+    \item \textbf{int nextInt()}
+    \item \textbf{String nextLine()}
+    \item \textbf{long nextLong()}
+\end{itemize}
+Invece i diversi metodi di \textbf{String} sono:
+\begin{itemize}
+\item \textbf{String(String other)} (costruttore di copia: crea un clone)
+ \item \textbf{char charAt(int index)} (esso prende in input l'indice e in ouput ti da in corrispondenza dell'indice il char )
+ \item \textbf{int compareTo(String other) }(ritorna negativo, zero, oppure positivo)
+ \item \textbf{int compareToIgnoreCase(String other)} (ritorna negativo, zero, oppure positivo)
+ \item \textbf{String concat(String other)} (implicitamente usato per la concatenazione con +)
+ \item \textbf{boolean endsWith(String end)} ( Viene utilizzato per verificare se una stringa termina con un particolare suffisso specificato. In altre parole, controlla se la parte finale della stringa corrente corrisponde esattamente alla stringa passata come argomento.)
+\begin{lstlisting}[style=java]
+public class Main {
+    public static void main(String[] args) {
+        String str = "ciao mondo";
+
+        System.out.println(str.endsWith("mondo"));  // true
+        System.out.println(str.endsWith("ciao"));   // false
+        System.out.println(str.endsWith("do"));     // true
+    }
+}
+
+\end{lstlisting}
+ \item \textbf{boolean equals(Object other)} (controlla se due oggetti hanno la stessa informazione/contenuto)
+ \item \textbf{boolean equalsIgnoreCase(String other)}(controllo se due stringhe sono uguali ignorando la differenza tra maisucole e minuscole)
+ \item \textbf{static String format(String format, Object... args)} (della classe String in Java viene utilizzato per creare una nuova stringa formattata. Questo metodo funziona in modo simile a quello che trovi in altri linguaggi, come printf in C. In pratica, consente di inserire dei segnaposto all'interno della stringa e sostituirli con i valori forniti come argomenti.)
+ \begin{lstlisting}[style=java]
+public class Main {
+    public static void main(String[] args) {
+        String nome = "Mario";
+        int eta = 30;
+
+        // Formattazione della stringa con String.format()
+        String risultato = String.format("Ciao, mi chiamo %s e ho %d anni.", nome, eta);
+        System.out.println(risultato);
+    }
+}
+\end{lstlisting}
+ \item \textbf{int indexOf(int character)} ( l'indice della prima occorrenza di un carattere specificato all'interno della stringa. Se il carattere non viene trovato nella stringa, il metodo restituisce -1.)
+ \item \textbf{int indexOf(String what)} (restituisce l'indice della prima occorrenza della sottostringa specificata all'interno della stringa su cui viene chiamato il metodo. Se la sottostringa non viene trovata, restituisce -1.)
+  \begin{lstlisting}[style=java]
+public class Main {
+    public static void main(String[] args) {
+        String str = "Benvenuto nel mondo di Java";
+
+        // Trova la prima occorrenza della sottostringa "mondo"
+        int index = str.indexOf("mondo");
+        System.out.println("Indice della sottostringa 'mondo': " + index);  // 14
+
+        // Trova la prima occorrenza della sottostringa "Java"
+        index = str.indexOf("Java");
+        System.out.println("Indice della sottostringa 'Java': " + index);  // 21
+
+        // Se la sottostringa non e presente
+        index = str.indexOf("Python");
+        System.out.println("Indice della sottostringa 'Python': " + index);  // -1
+    }
+}
+
+\end{lstlisting}
+ \item \textbf{boolean isEmpty()} (utilizzato per verificare se una stringa è vuota, ovvero se non contiene caratteri. Una stringa è considerata vuota se la sua lunghezza è zero ("").)
+ \item \textbf{int length()} (restituisce la lunghezza della stringa, ovvero il numero di caratteri che essa contiene. Questo include anche spazi, simboli e lettere. La lunghezza è contata a partire da 1, quindi se la stringa è vuota, il metodo restituisce 0.)
+ \item \textbf{boolean startsWith(String what)} (utilizzato per verificare se una stringa inizia con una sottostringa specificata. Questo metodo restituisce true se la stringa inizia con la sottostringa specificata, altrimenti restituisce false.)
+ \item \textbf{String substring(int start)} (da start incluso)
+ \item \textbf{String substring(int start, int end)} (da start incluso ad end escluso)
+ \item \textbf{String toLowerCase()} (viene utilizzato per convertire tutti i caratteri di una stringa in minuscolo. Questo metodo è utile quando si desidera uniformare il caso dei caratteri, ad esempio per confronti o per formattazione.)
+ \item \textbf{String toUpperCase()} (contrario toLowerCase())
+ \item \textbf{String trim()} (rimuovere gli spazi bianchi all'inizio e alla fine di una stringa. Questo è utile per pulire le stringhe di input, in particolare quando si lavora con dati forniti dagli utenti, in cui possono esserci spazi indesiderati.)
+ \item \textbf{static String valueOf(int i)} (esegue una conversione esplicita di tipo; esiste per tutti i tipi primitivi, non solo per int; implicitamente usato per la concatenazione con +)
+\end{itemize}
+Facciamo un esempio con String per ragionarci su prendendo la classe di prima Papagallo:
+\begin{lstlisting}[style=java]
+include java.Util.Scanner
+public class Papagallo { 
+    public static void main(String[] args) {
+        Scanner Keyboard = new Scanner (System.In);
+        do{
+            String line = Keyboard.nextLine(); 
+            System.out.println(line);
+            Keyboard.close(); 
+        }while(line != "fine")
+    }
+}
+\end{lstlisting}
+Possiamo notare che in riga 6 viene dichiarata una nuova variabile,c'è una regola fondamentale ovvero che:
+\begin{tcolorbox}[title=Importante, colback=yellow!5, colframe=red!80, sharp corners=southwest]
+La durata di vita di una variabile e da dove la dichiaro fino alla prima graffa di chiusura.
+\end{tcolorbox}
+Allora facciamo cosi:
+\begin{lstlisting}[style=java]
+include java.Util.Scanner
+public class Papagallo { 
+    public static void main(String[] args) {
+        Scanner Keyboard = new Scanner (System.In);
+        String line;
+        do{
+            line = Keyboard.nextLine(); 
+            System.out.println(line);
+            Keyboard.close(); 
+        }while(line != "fine")
+    }
+}
+\end{lstlisting}
+Però non funziona lo stesso perchè "fine" è  un oggetto String allocato in una memoria,in Java, l'operatore == confronta i riferimenti (o gli indirizzi di memoria) degli oggetti, non il loro contenuto. Quando hai a che fare con oggetti di tipo String, usare == non confronta il contenuto delle stringhe, ma verifica se entrambi i riferimenti puntano alla stessa posizione di memoria.(stessa cosa con !=).
+L'unico modo allora è usare uno dei metodi presente su String overo \textbf{.equals()} in questo modo:
+\begin{lstlisting}[style=java]
+include java.Util.Scanner
+public class Papagallo { 
+    public static void main(String[] args) {
+        Scanner Keyboard = new Scanner (System.In);
+        String line;
+        do{
+            line = Keyboard.nextLine(); 
+            System.out.println(line);
+            Keyboard.close(); 
+        }while(!line.equals("fine"))
+    }
+}
+\end{lstlisting}
+

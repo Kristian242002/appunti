@@ -1,0 +1,63 @@
+\section{Regole di programmazione}
+\subsection{Concatenazione}
+Per usare la concatenazione si utilizza il simbolo +.
+\begin{lstlisting}[style=java]
+public class concatenamento { 
+    public static void main(String[] args) {
+        int contatore = 0;
+        System.out.Println("Contatore : " + contatore);
+    }
+}
+\end{lstlisting}
+NB.non posso concatenare \textbf{variabile + variabile} e mandare in output.
+\subsection{Operazioni aritmetiche}
+Le operazioni aritmetiche sono \textbf{C style}(anche l'assegnamento e l'incrementamento).
+Esistono le operazioni \textbf{aritmetiche ibride} tra tipi nel quale prevale il tipo più grande.
+\subsection{Tipi primitivi e Tipi riferimento}
+Nel linguaggio Java esistono due tipi di valori i valori primitivi per esempio  \textbf{int i = 13} e \textbf{Scanner n = new Scanner(System.in)}.
+La differenza e che il tipo primitivo dentro la variabile ci sta un valore invece dentro il tipo riferimento il valore viene riferito a partire della variabile.
+Possiamo immaginarli come due contenitori dove nel primo ci sta proprio il valore invece nel secondo contiene un riferimento all'oggetto.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{stack.jpg}
+    \label{fig:enter-label}
+\end{figure}
+Come possiamo vedere dall'immagine le variabili primitive stanno nella memoria heap della ram invece l'oggetto puntato sta nella memoria stack.
+Proprio per questo è molto sbagliato fare i.lenght().\\
+\textbf{NON BISOGNA MAI CHIAMARE METODI SUI TIPI PRIMITIVI}
+Invece per buona informatica e giusto definire la classe con la prima lettera maiuscola anche durante la fase di coding quando si chiama un'oggetto definirlo con lettera maiuscola.
+\subsection{NULL}
+null in programmazione rappresenta un valore speciale utilizzato per indicare che una variabile di tipo riferimento non punta a nessun oggetto o dato valido. È una sorta di "segnaposto" che dice: "Questa variabile esiste, ma non contiene attualmente nessun valore o oggetto valido."
+
+\begin{lstlisting}[style=java]
+
+
+public class Main {
+    public static void main(String[] args) {
+        String s;
+        s = null;
+        int l = s.lenght();
+    }
+}
+\end{lstlisting}
+Se si compila il programma esso darà un errore in riga 7 ovvero \textbf{Null pointer exeption} ovvero stiamo provare un metodo su un puntatore a null.
+Il vantaggio e che possiamo assegnarlo a ogni oggetto lo svantaggio e che ti darà sempre errore in fase di esecuzione.
+Lo svantaggio dell'inizializzazione con null, come hai detto, è che devi gestire esplicitamente questi casi per evitare errori di runtime, il che può essere fonte di problemi se non ci si fa attenzione.
+Ad esempio si puo risolvere in questo modo:
+
+\begin{lstlisting}[style=java]
+public class Main {
+    public static void main(String[] args) {
+        String s = null;
+
+        if (s != null) {
+            int l = s.length();
+            System.out.println("La lunghezza della stringa e: " + l);
+        } else {
+            System.out.println("La stringa e null");
+        }
+    }
+}
+
+\end{lstlisting}
+

@@ -1,0 +1,271 @@
+\section{Costruttore più in specifico}
+Come abbiamo visto nei capitoli seguenti il costruttore ha lo stesso nome della classe,non ha tipi di ritorno e nelle parentesi graffe vanno gli attributi che servono per inizializzare l'oggetto.
+Per richiamare il costruttore si fa nel main in questo modo : \textbf{new nomeOggetto(campi richiesti) }.\\
+\begin{tcolorbox}[title=Importante, colback=yellow!5, colframe=red!80, sharp corners=southwest]
+Se la nostra classe non ha un costruttore il compilatore aggiunge un \textbf{costruttore di default}.Il costruttore di default è il seguente:
+\begin{lstlisting}[style=java]
+public class C { 
+    public C(){}
+}
+\end{lstlisting}
+Come si può notare esso non fa nulla.
+\end{tcolorbox}
+\subsection{Overloading del Costruttore}
+L'overloading del costruttore si verifica quando una classe presenta più costruttori, ciascuno con una firma diversa, consentendo così di creare oggetti in modi differenti a seconda dei parametri forniti.\\
+Per esempio:
+\begin{lstlisting}[style=java]
+public class Date(){
+    \\Attributi
+    private final int day;
+    private final int month;
+    private final int year;
+    private static Language language = Language.ITALIAN;
+    
+    \\costruttori
+    public Date(int day,int month,int year){
+        this.day = day;
+        this.month = month;
+        this.year = year;
+    }
+    \\year implicitamente 2021
+    public Date(int day,int month){
+        this.day = day;
+        this.month = month;
+        this.year = 2021;
+    }
+    
+}
+\end{lstlisting}
+Il compilatore decide automaticamente quale costruttore utilizzare in base agli argomenti forniti. Se nel metodo main si forniscono due argomenti, il costruttore predefinito verrà invocato, e l'anno verrà inizializzato automaticamente al valore predefinito di 2021. D'altra parte, se vengono forniti tre argomenti, verrà utilizzato il primo costruttore, che accetta un nome, un mese e un giorno, consentendo di specificare maggiori dettagli sull'oggetto creato.
+\subsection{Concatenazione dei Costruttori}
+Quando facciamo un overloading di costruttori potrebbe sembrare che il codice sia tutto uguale per esempio:
+\begin{lstlisting}[style=java]
+public class Date(){
+    \\Attributi
+    private final int day;
+    private final int month;
+    private final int year;
+    private static Language language = Language.ITALIAN;
+    
+    \\costruttori
+    public Date(int day,int month,int year){
+        this.day = day;
+        this.month = month;
+        this.year = year;
+    }
+    \\year implicitamente 2021
+    public Date(int day,int month){
+        this.day = day;
+        this.month = month;
+        this.year = 2021;
+    }
+    public Date(int day){
+        this.day = day;
+        this.month = 10;
+        this.year = 2021;
+    }
+    public Date(){
+        Random random = new Random();
+        this.day = random.nextInt(31) + 1;
+        this.month = random.nextInt(12) + 1;
+        this.year = random.nextInt(40) + 1990
+    }
+    
+}
+\end{lstlisting}
+Possiamo ottimizzare questo codice in questo modo :
+\begin{lstlisting}[style=java]
+public class Date(){
+    \\Attributi
+    private final int day;
+    private final int month;
+    private final int year;
+    private static Language language = Language.ITALIAN;
+    
+    \\costruttori
+    public Date(int day,int month,int year){
+        this.day = day;
+        this.month = month;
+        this.year = year;
+    }
+    \\year implicitamente 2021
+    public Date(int day,int month){
+        this(day,month,2021);
+        \\chiama il costruttore di questo oggetto
+    }
+    public Date(int day){
+        this(day,10,2021);
+    }
+    public Date(){
+        Random random = new Random();
+        this.day = random.nextInt(31) + 1;
+        this.month = random.nextInt(12) + 1;
+        this.year = random.nextInt(40) + 1990
+    }
+    
+}
+\end{lstlisting}
+Quando scrivo \textbf{this(day,10,2021)} sto dicendo di chiamare il costruttore di questo oggetto in questo modo.
+Inoltre se premo F3 su \textbf{this} mi porta sul primo costruttore.
+\begin{tcolorbox}[title=Vincolo, colback=yellow!5, colframe=red!80, sharp corners=southwest]
+\textbf{this(bla,bla,bla) }\textbf{DEVE ESSERE LA PRIMA ISTRUZIONE DEL COSTRUTTORE}.\\
+Infatti nel terzo caso \textbf{NON} possiamo usare la notazione this perchè verrebbe utilizzata come seconda istruzione.
+\end{tcolorbox}
+L'unico modo per ottimizzare al massimo sarebbe mettere il Random fuori in questo modo :
+\begin{lstlisting}[style=java]
+public class Date(){
+    \\Attributi
+    private final int day;
+    private final int month;
+    private final int year;
+    private static Language language = Language.ITALIAN;
+    
+    \\costruttori
+    public Date(int day,int month,int year){
+        this.day = day;
+        this.month = month;
+        this.year = year;
+    }
+    \\year implicitamente 2021
+    public Date(int day,int month){
+        this(day,month,2021);
+        \\chiama il costruttore di questo oggetto
+    }
+    public Date(int day){
+        this(day,10);
+    }
+    private final static Random random = new Random();
+    public Date(){
+        this(random.nextInt(31)+1,random.nextInt(12)+1,random.nextInt(40)+1990);
+    }
+    
+}
+\end{lstlisting}
+\subsection{Inserimento dei vincoli del costruttore}
+Possiamo notare che se inizializziamo un oggetto Date possiamo anche inserire mesi negativi per risolvere questo problema dobbiamo inserire dei \textbf{vincoli}.
+\begin{lstlisting}[style=java]
+public class Date(){
+    \\Attributi
+    private final int day;
+    private final int month;
+    private final int year;
+    private static Language language = Language.ITALIAN;
+    
+    \\costruttori
+    public Date(int day,int month,int year){
+        this.day = day;
+        this.month = month;
+        this.year = year;
+
+        if(month<1||month>12||day <1 || day > daysInMonth(month,year)|| year < 1600){
+            System.out.ptinln("Data inesistente");
+        }
+    
+    }
+
+    private static int daysinMonth[]={
+    31,28,31,30,31,30,31,31,30,31,30,31
+    };
+    private static int daysInMonth(int month,int year){
+    if(month == 2 && isLeapYear(year)){
+        return 29;
+    }else{
+        return daysInMonth[month-1];
+    }
+    }
+    private static boolean isLeapYear(int year){
+        return year % 4 ==0 && (year % 100 != 0 || year % 400 == 0)
+    }
+}
+\end{lstlisting}
+Visto che ho i costruttori concatenati basta che si inserisca il vincolo solo sul primo costruttore.\\
+Dal momento che isLeapYear() e daysInMonth() non usano this e assomigliano molto a delle funzioni piuttosto che a dei metodi sarebbe meglio metterci static per renderle un attimo piu efficienti.
+\subsection{Interfaccia pubblica della classe}
+Sono tutte le cose pubbliche definite dalla classe.Su Eclipse se andiamo nella sezione Outline vediamo questo : 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{outline.PNG}
+    \label{fig:enter-label}
+\end{figure}
+I pallini verdi raffigurano tutti i punti public invece i pallini rossi tutti i punti private.
+In linea di massima nel public si mette il meno possibile.
+\subsection{Stato dell'oggetto}
+Lo stato dell'oggetto è definito dall'insieme dei campi(attributi) che fanno parte dell'oggetto (non sono static).
+\subsection{Oggetti mutabili e immutabili}
+Se degli attributi hanno \textbf{final} vuol dire che sono inizializzabili solo dal costruttore,dal momento che si usa il final lo stato viene chiamato \textbf{immutabile} ovvero che non ce modo modificare questi oggetti.
+Quindi esistono anche oggetti \textbf{mutabili} ovvero coloro che possono modificare lo stato dell'oggetto.\\
+Esempio immutabile :
+\begin{lstlisting}[style=java]
+public class Date(){
+    \\Attributi
+    private final int day;
+    private final int month;
+    private final int year;
+}
+\end{lstlisting}
+Esempio mutabile :
+\begin{lstlisting}[style=java]
+public class MutableDate(){
+    \\Attributi
+    private  int day;
+    private  int month;
+    private  int year;
+
+    \\metodi
+    public void increase(){
+        day++;
+        if(day>daysInMonth(mnth,year)){
+            day = 1;
+            month++;
+            if(month == 13){
+                month = 1;
+                year ++;
+            }
+        }
+    }
+}
+\end{lstlisting}
+\subsection{Aliasing/Side effect}
+Succede quando lo stesso oggetto può essere raggiunto da percorsi diversi,se nel percorso modifico l'oggetto lo modifico anche per l'altro percorso.
+Per esempio se facciamo questo in un nuovo Main:
+\begin{lstlisting}[style=java]
+public class MainAlias{
+    public static void main(String[] args){
+        MutableDate today = new MutableDate(19,10,2021);
+        MutableDate tommorow = today;
+        tommorow.increase();
+
+        System.out.ptinln("today is " + today);
+        System.out.println("tommorow is " + tommorow);
+    }
+}
+\end{lstlisting}
+Esso stamperà in out la stessa data visto che hanno un percorso collegato.
+\subsection{Commenti}
+Di solito quando si programma a oggetti bisogna commentare solo la parte public.
+\subsubsection{Commenti JavaDoc}
+I commenti JavaDoc si possono mettere dei tag che specificano l'informazione semantica del commento per esempio :
+\begin{lstlisting}[style=java]
+public class Date(){
+    /**
+    *Costruisce una data del calendario,
+    *verificando che sia legale.
+    *@param day giorno della data
+    *@param month mese della data
+    *@param year anno della data
+    */
+    private final int day;
+    private final int month;
+    private final int year;
+    /**
+    * Per i metodi ci sono i seguenti tag
+    *   @param
+    *   @return
+    */
+}
+\end{lstlisting}
+Il vantaggio di scrivere con questo standard e che ci sono dei tool che eseguendo automaticamente questi commenti.
+Puoi anche Generare il JavaDoc se utilizzi il menu in alto,verrà generata una cartella con diversi file.\\
+Questo JavaDoc crea il tuo sito internet con la documentazione del tuo progetto.
+\subsection{Cosa succede se metto due file in package diversi?}
+Facendo cosi potremmo notare che si formerà un errore di compilazione, possiamo notare che non ci trova proprio la classe. L'unico modo per usare due file in due diversi package è usare \textbf{import nomepackage.nomeclasse;}

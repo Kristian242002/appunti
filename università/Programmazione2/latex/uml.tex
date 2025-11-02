@@ -1,0 +1,163 @@
+\section{Astrazione}
+\subsection{UML}
+UML (Unified Modeling Language) è un linguaggio di modellazione standardizzato utilizzato per specificare, visualizzare, progettare e documentare i sistemi software. Non è un linguaggio di programmazione, ma una notazione che fornisce un insieme di simboli e diagrammi per rappresentare in modo grafico vari aspetti di un sistema.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{uml.PNG}
+    \label{fig:enter-label}
+\end{figure}
+\subsection{Cos'è una Interfaccia}
+In Java visto che non esiste l'ereditarietà multipla si utilizza quello che viene detto Interfaccia ovvero una classe che è una classe senza codice ma con \textbf{SOLAMENTE} le dichiarazioni.
+\begin{lstlisting}[style=java]
+public interface NoteWithDuration(){
+    public Duration getDuration();
+}
+\end{lstlisting}
+In pratica impongo a ai miei figli il mio metodo.
+Inoltre bisogna cambiare il codice nel figlio in questo modo:
+\begin{lstlisting}[style=java]
+public class ItaliannoteWithDuration extends ItalianNote implements NoteWithDuration{
+.
+.
+.
+.
+.
+.
+}
+\end{lstlisting}
+\subsection{Metodo astratto}
+Un metodo astratto è un metodo senza la sua implementazione ovvero un metodo non ancora concretizzato.
+Nelle classi si può creare  un miscuglio di metodi concretizzati e metodi astratti usando la clausola \textbf{abstract} in qusto modo:
+\begin{lstlisting}[style=java]
+public abstract class ItaliannoteWithDuration extends ItalianNote implements NoteWithDuration{
+.
+.
+.
+public abstract String toString();
+.
+.
+}
+\end{lstlisting}
+Inoltre se aggiungiamo il metodo abstract anche la classe sara abstract tipo il COVID(ne basta uno ammalato e tutti si possono ammalare).
+\begin{tcolorbox}[title=Importante, colback=yellow!5, colframe=red!80, sharp corners=southwest]
+NB. se dichiaro una classe astratta essa non puo piu essere usata nel Main
+\end{tcolorbox}
+\subsection{Classe Generica}
+Una classe generica in Java è una classe che può operare con tipi diversi senza dover essere riscritta per ciascun tipo. La genericità permette di scrivere codice più riutilizzabile e sicuro, riducendo il rischio di errori in fase di esecuzione (runtime), come i cast impropri. Con le generics, puoi definire parametri di tipo per classi, interfacce e metodi.
+\begin{lstlisting}[style=java]
+public class Pair<F, S> {
+    private F first;  // Primo elemento della coppia
+    private S second; // Secondo elemento della coppia
+
+    // Costruttore
+    public Pair(F first, S second) {
+        this.first = first;
+        this.second = second;
+    }
+
+    // Getter per il primo elemento
+    public F getFirst() {
+        return first;
+    }
+
+    // Getter per il secondo elemento
+    public S getSecond() {
+        return second;
+    }
+
+}
+\end{lstlisting}
+Inoltre F e S sono dei tipi generici e sono \textbf{SEMPRE} scritti in maiuscolo.
+\subsection{Come si usano le classi generiche}
+\begin{lstlisting}[style=java]
+public class Main{
+    public static void main(String[] args){
+    //volgio creare una coppia di due stringhe:
+        Pair<String,String> p1 = new Pair<String,String>("ciao","ciao");
+    //volgio creare una copia di una classe creata da me:
+    Pair<Figure,Figure> p2 = new Pair <Figure,Figure>(f1,f2);
+    }
+}
+\end{lstlisting}
+\subsection{java.lang.Comparable $<T>$}
+All'interno di questa classe ce solo un metodo astratto che si chiama \textbf{int compareTo(T other)}: ritorna un numero negativo se viene prima this,un numero positvo se viene prima other e 0 se this e other si equivalgono.
+\begin{lstlisting}[style=java]
+public abstract class Note implements Comparable<Note>{
+.
+.
+.
+.
+}
+\end{lstlisting}
+\subsection{Chiamata a metodo di un tipo generico}
+Il tipo generico può venir chiamate all'interno del metodo per esempio in questo modo : \\
+Voglio fare un sort di un array:
+\begin{lstlisting}[style=java]
+    public class Utils {
+        public static <T extends Comparable<T>> void sort(T[] arr){
+        // bubblesort
+            while(swap(arr));
+        }
+
+        private static <T extends Comparable<T>> boolean swap(T[] arr){
+            boolean done = false;
+                    
+            for(int pos = 0 ;pos<arr.lenght-1;pos++){
+                if(arr[pos].compareTo(arr[pos+1]) > 0){
+                    T temp = arr[pos];
+                    arr[pos] = arr[pos + 1];
+                    arr[pos+1] = temp;
+                    done = true;
+                }
+            }
+            return done;
+        }
+    }
+\end{lstlisting}
+Ora il tipo generico è \textbf{locale al metodo} (array di tipo generico mele,pere,banane,int...), invece con \textbf{extends Comparable<T>} lo suo per vincolare T ovvero li sto dicendo di comparare un oggetto uguale a lui.
+Da un errore se viene passato una array di interi perchè gli <T> hanno un limite ovvero che possono essere passati solo per riferimento.
+In java i tipi generici \textbf{NON} possono essere passati i tipi primitivi
+\subsection{Tipi di avvolgimento o Classi Wrapper}
+Sono tipi di riferimento che identificano i tipi primitivi così da ovviare ai problemi dei tipi generici è sono : Byte,Short,Long,Integer,Float,Double,Character,Boolean.
+Quindi:
+\begin{lstlisting}[style=java]
+    Integer[]arr4 = {
+        Integer.valueOf(13);
+        Integer.valueOf(14);
+        Integer.valueOf(58);
+    }
+
+    Integere i0 = 78; //Come dire Integer i0.valueof(78); boxing automatico
+\end{lstlisting}
+\subsection{Metodi di uso frequente della classe java.lang.Integer}
+\begin{itemize}
+    \item static int MAX\_VALUE (costante che contiene il massimo int utilizzabile in Java)
+    \item  static int MIN\_VALUE (costante che contiene il minimo int utilizzabile in Java)
+    \item Integer(int value) (deprecato!)
+    \item Integer(String value) throws java.lang.NumberFormatException
+    \item int intValue() (restituisce il valore int corrispondente)
+    \item int compareTo(Integer other) (infatti Integer implementa Comparable<Integer>)
+    \item static int parseInt(String s) throws java.lang.NumberFormatException (traduce la stringa s in int)
+    \item static String toBinaryString(int i) (ritorna la rappresentazione binaria di i)
+    \item static String toHexString(int i) (ritorna la rappresentazione esadecimale di i)
+    \item static Integer valueOf(int i) (ritorna new Integer(i) ma usa una cache per chiamate ripetute)
+\end{itemize}
+Esistono altre classi wrapper corrispondenti agli altri tipi primitivi, con costanti, costruttori e metodi simili a quanto riportato sopra: java.lang.Short, java.lang.Long, java.lang.Float, java.lang.Double,java.lang.Byte e java.lang.Boolean.
+\subsection{Metodi di uso frequente della classe java.lang.Character}
+\begin{itemize}
+    \item static char MAX\_VALUE (costante che contiene il massimo char utilizzabile in Java)
+    \item static char MIN\_VALUE (costante che contiene il minimo char utilizzabile in Java)
+    \item Character(char value) (deprecato!)
+    \item char charValue() (restituisce il valore char corrispondente)
+    \item int compareTo(Character other) (infatti Character implementa Comparable<Character>)
+    \item static boolean isDigit(char c)
+    \item static boolean isLetter(char c)
+    \item static boolean isLetterOrDigit(char c)
+    \item static boolean isLowerCase(char c)
+    \item static boolean isUpperCase(char c)
+    \item static boolean isWhitespace(char c)
+    \item static char toLowerCase(char c)
+    \item static char toUpperCase(char c)
+    \item static Character valueOf(char c) (ritorna new Character(c) ma usa una cache per chiamate ripetute)
+
+\end{itemize}

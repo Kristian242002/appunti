@@ -1,0 +1,184 @@
+\section{Ereditarietà}
+Come abbiamo visto nelle lezioni precedenti l'ereditarietà è una caratteristica fondamentale della programmazione ad oggetti.L'Ereditarietà `e un principio nel quale una classe definita come sottoclasse
+eredita attributi e metodi fa un’altra classe detta superclasse,cosi da poter
+riutilizzare il codice e crea una sorta di gerarchia tra le classi.
+\subsection{Creazione del figlio}
+Partiamo da una classe Note.java : 
+\begin{lstlisting}[style=java]
+public class Note {
+    private final int semitone;
+
+    public Note(int semitone){
+        this.semitone = semitone;
+    }
+
+    public String toString(){
+        System.out.println("nota di semitono" + semitone);
+    }
+
+}
+\end{lstlisting}
+Creiamo ora una nuova classe ItalianNote:
+\begin{lstlisting}[style=java]
+public class ItalianNote extends Note{
+
+}
+\end{lstlisting}
+Usare l'operatore \textbf{extends} significa che stiamo ereditando da Note.L'ereditarietà permette di riutilizzare il codice di una classe base all'interno di una classe derivata, senza dover riscrivere manualmente il codice (si ottengono attributi e metodi senza ereditare il costruttore) quindi :
+\begin{lstlisting}[style=java]
+public class ItalianNote extends Note{
+    public ItalianNote(int semitone){
+        this.semitone = semitone
+    }
+}
+\end{lstlisting}
+Ma perchè non funziona?
+\subsection{Funzione super}
+Come possiamo vedere nella nostra classe Note, abbiamo utilizzato l'attributo \textbf{private}, quindi non possiamo accedervi direttamente a causa del principio dell'incapsulamento.
+Allora l'unico modo è quello di delegare il costruttore in questo modo:
+\begin{lstlisting}[style=java]
+public class ItalianNote extends Note{
+    public ItalianNote(int semitone){
+        super(semitone);
+    }
+}
+\end{lstlisting}
+\textbf{super} fa una delega al costruttore della superclasse(la classe che sta sopra).
+\subsection{superclasse e sottoclasse}
+Una \textbf{superclasse} (o classe base) è una classe che fornisce attributi e metodi che possono essere ereditati da altre classi. In sostanza, rappresenta la classe generica da cui altre classi possono derivare.
+Una \textbf{sottoclasse} (o classe derivata) è una classe che eredita attributi e metodi da una superclasse, ma può anche aggiungere o sovrascrivere funzionalità per specializzarsi o comportarsi in modo diverso.\\
+In questo caso la sottoclasse è ItalianNote e la superclasse è Note.
+\subsection{Funzione Get e uso di protected}
+Get serve per accedere indirettamente a un attributo private
+\begin{lstlisting}[style=java]
+public class Note {
+    private final int semitone;
+
+    public Note(int semitone){
+        this.semitone = semitone;
+    }
+
+    public String toString(){
+        System.out.println("nota di semitono" + semitone);
+    }
+
+    protected int getSemitone(){
+        return semitone;
+    }
+
+}
+\end{lstlisting}
+Se utilizzo \textbf{protected} sto dicendo che posso usare quei metodi anche nelle sue sottoclassi(si fa cosi perchè non va bene creare molti metodi public).
+Inoltre in Java posso rimpiazzare i metodi delle funzioni in questo modo:
+\begin{lstlisting}[style=java]
+public class ItalianNote extends Note{
+    
+    public ItalianNote(int semitone){
+        super(semitone);
+    }
+    
+    private final static String[] notes = {"DO","DO#","RE","RE#","MI","MI#","FA","FA#","SOL","SOL#","LA","LA#","SI","SI#"}; 
+    
+    public String toString(){
+        return notes[semitone];
+    }
+}
+\end{lstlisting}
+\subsection{Relazione di sottotipo o sostituzione di Liskov}
+se un tipo B è un sottotipo di A, significa che ogni oggetto di tipo B può essere utilizzato al posto di un oggetto di tipo A senza rompere il codice (principio di sostituzione di \textbf{Liskov}). Questo implica che:
+
+Il sottotipo B eredita tutte le caratteristiche (attributi e metodi) del supertipo A.
+Il sottotipo B può aggiungere nuove funzionalità o comportarsi in modo più specifico, ma senza violare l'interfaccia del supertipo.
+Esempio classico: Se "Veicolo" è un supertipo e "Auto" è un sottotipo, un'auto è sempre un veicolo, quindi possiamo trattarla come tale.
+Quindi nel main posso scrivere così:
+\begin{lstlisting}[style=java]
+public class Main{
+    public static void main(String[] args){
+        Note n1;
+        n1 = new Note(3);
+        Note n1;
+        n2 = new Note(3);
+        ItalianNote n1;
+        n1 = new ItalianNote(8);
+        //posso fare:
+        Note n4;
+        n4 = new ItalianNote(7);
+    }
+}
+\end{lstlisting}
+
+\subsection{Tipo statico e Tipo Dinamico}
+Il \textbf{tipo statico} di una variabile è il tipo che viene determinato durante la fase di compilazione. In altre parole, il tipo della variabile viene dichiarato esplicitamente nel codice e non cambia durante l'esecuzione
+Il \textbf{tipo dinamico} di una variabile è il tipo che viene determinato durante l'esecuzione del programma, cioè il tipo effettivo dell'oggetto a cui la variabile fa riferimento al runtime.
+\subsection{Legame ritardato}
+Il legame ritardato (o late binding), noto anche come dynamic dispatch, è un concetto della programmazione orientata agli oggetti in cui la decisione su quale metodo chiamare avviene durante l'esecuzione del programma, e non durante la compilazione. 
+Quando un oggetto di una sottoclasse viene trattato come un'istanza della sua superclasse, il metodo che verrà eseguito (quello della superclasse o della sottoclasse) viene determinato al runtime in base al tipo effettivo dell'oggetto.
+\subsection{Class Tag}
+La class tag è un termine usato per descrivere una situazione in cui una classe in una gerarchia di ereditarietà esiste principalmente come un identificatore o segnaposto, piuttosto che per definire una nuova funzionalità o comportamento. In altre parole, è una classe che viene utilizzata per "etichettare" oggetti, in modo da poterli trattare in modo differente in base alla loro appartenenza a questa classe, ma senza aggiungere nuove funzionalità o attributi.
+L'aspetto negativo è che avviene uno spreco di memoria quindi ogni oggetto spreca memoria col suo class tag.
+\subsection{Java.lang.object}
+In Java tutte le superclassi di default sono estese da object essa è l'unica superclasse che non è estesa da nulla. Inoltre otteniamo anche i suoi metodi tipo  :
+\begin{itemize}
+    \item equals() : controlla se due oggetti sono uguali ma molto raramente è utile conviene crearsi il proprio.
+    \item ToString() : ritorna nome classe + indirizzo di memoria
+\end{itemize}
+\subsection{Chiamata a metodi ereditario}
+\begin{tcolorbox}[title=Importante, colback=yellow!5, colframe=red!80, sharp corners=southwest]
+Una classe può chiamare dentro se stessa i metodi della funzione della sua superclasse.
+\end{tcolorbox}
+sfruttando la funzione \textbf{super()} in questo modo:
+\begin{lstlisting}[style=java]
+public class ItalianNoteWithDuration extends ItalianNote{
+    private final Duration duration;
+
+    public ItalianNoteWithDuration(int semitone,Duration duration){
+        super(semitone);
+        this.duration = duration;
+    }
+
+    public String toString(){
+        return super.toString() + " " + duration;
+    }
+}
+\end{lstlisting}
+\subsection{Operatori di Casting tra Oggetti}
+In Java, il casting è il processo di conversione di una variabile da un tipo a un altro, ed è fondamentale per gestire variabili di tipi diversi (si può attuare anche con delle variabili).
+\begin{lstlisting}[style=java]
+public class Main{
+    public static void main(String[] args){
+        ItalianNote n2 = new ItalianNoteWithDuration(8,Duration.MINIMA);
+
+        System.out.println("n3 durata:" + ((ItalianNoteWithDuration) n3).getDuration();
+    } 
+}
+\end{lstlisting}
+\subsection{istanceof()}
+istanceof() serve per controllare il tipo dinamico di una variabile.
+\begin{lstlisting}[style=java]
+public class Note{
+    .
+    .
+    .
+    .
+    .
+    .
+    public boolean equals(Object other){
+        if(other e Note ){
+            return semitone == ((Note) other).semitone;
+        }else{
+            return false;
+        }
+    }
+    .
+    .
+    .
+    public boolean equals(Object other){
+        if(other istanceof Note){
+            return semitone == ((Note) other).semitone;
+        }else{
+            return false;
+        }
+    }
+}
+\end{lstlisting}
+Utile perchè molte librerie usano object quindi bisogna ridefinire con equals di object

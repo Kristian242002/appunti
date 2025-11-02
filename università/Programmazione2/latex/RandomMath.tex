@@ -1,0 +1,45 @@
+\section{Classi Random e Math}
+\subsection{Random}
+La libreria designata per usare un oggetto random è \textbf{java.util.Random}.
+Per creare un oggetto random bisogna eseguire il seguente commando : \textbf{Random r = new Random();}\\
+Vediamo ora altri metodi di questa funzione:
+\begin{itemize}
+    \item \textbf{boolean nextBoolean()} (genera un numero booleano randomico)
+    \item \textbf{double nextDouble()}
+    \item \textbf{float nextFloat()}
+    \item \textbf{int nextInt()}
+    \item \textbf{int nextInt(int max)} (restituisce un numero casuale tra 0 e max escluso)
+    \item \textbf{long nextLong()}
+\end{itemize}
+Vediamo ora un'applicazione pratica:
+\begin{lstlisting}[style=java]
+// generare un intero randomico e mandarlo a video 
+import java.Util.Scanner
+import java.Util.Random
+
+public class Main {
+    public static void main(String[] args) {
+        Random r = new Random();
+        int a = r.nextInt();
+        System.out.print(a);
+    }
+}
+\end{lstlisting}
+\subsection{Math}
+La libreria designata per un oggetto Math è \textbf{java.until.Math}\\
+Vediamo ora altri metodi di questa funzione:
+\begin{itemize}
+    \item \textbf{static double E} (costante della classe)
+    \item \textbf{static double PI} (costante della classe)
+    \item \textbf{static int abs(int i) }(esiste anche per altri tipi numerici)
+    \item \textbf{static double cos(double d)}
+    \item \textbf{static double log(double d)} (in base e)
+    \item \textbf{static double log{10}(double d)} (in base 10)
+    \item \textbf{static int max(int a, int b)} (esiste anche per altri tipi numerici)
+    \item \textbf{static int min(int a, int b)} (esiste anche per altri tipi numerici)
+    \item \textbf{static double sin(double d)}
+    \item \textbf{static double sqrt(double d)}
+    \item \textbf{static double tan(double d)}
+    \item \textbf{static double toDegrees(double radiants)}
+    \item \textbf{static double toRadiants(double degrees)}
+\end{itemize}
