@@ -1,0 +1,255 @@
+\documentclass[a4paper,12pt]{article}
+
+% Pacchetti utili
+\usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tcolorbox} % per riquadri colorati
+\usepackage{pifont} % for \ding{113} (open square)
+
+% Impostazioni grafiche minime
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+% Quadratino per le risposte (pifont)
+\newcommand{\cbox}{\ding{113}}
+
+\title{I SISTEMI DI ELABORAZIONE}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+\section{I tipi di computer}
+I computer,come i dispositivi mobili , sono \textbf{sistemi di elaborazione}, che funzionano grazie all'hardware e ai programmi (software).
+I computer si differenziano per diverse qualità specifiche:
+\begin{enumerate}
+    \item \textbf{potenza} : data da un insieme di caratteristiche che riguardano la dimensione della memoria e la velocità di elaborazione;
+    \item \textbf{capacità di interagire} con altri dispositivi
+    \item \textbf{portabilità}
+    \item \textbf{multielaborazione} :  capacità di gestire più utenti collegati
+\end{enumerate}
+\subsection{Principali tipologie di computer}
+\begin{itemize}
+    \item \textbf{Super computer, mainframe e minicomputer} :\textbf{i supercopmuter} sono simili ai classici computer, ma il loro funzionamento si basa su \textbf{cluster}, cioè gruppi di computer collegati tra loro che lavorano insieme per risolvere un unico problema.
+Vengono utilizzati per problemi che richiedono \textbf{calcoli estremamente complessi}, come le previsioni meteorologiche, la modellazione climatica, la simulazione di reazioni nucleari o la ricerca scientifica avanzata.
+Un esempio famoso è \textbf{Summit}, un supercomputer sviluppato da IBM per il Dipartimento dell’Energia degli Stati Uniti. 
+I \textbf{mainframe} invece sono computer di grandi dimensioni utilizzati in applicazioni diverse rispetto ai supercomputer.
+Eseguono calcoli relativamente semplici, ma devono gestire enormi quantità di dati e migliaia di operazioni simultanee.
+Sono usati, ad esempio, nelle banche o nelle compagnie assicurative per gestire transazioni finanziarie.
+Spesso un mainframe funziona come server, cioè un computer che fornisce risorse o servizi ad altri computer collegati ad esso, detti client.
+\textbf{I minicomputer} hanno prestazioni intermedie tra quelle di un mainframe e di un normale personal computer (PC).
+Sono stati molto diffusi tra gli anni ’60 e ’80 nelle aziende di medie dimensioni, dove venivano usati per gestire reparti o laboratori specifici.
+Oggi il loro ruolo è stato in gran parte sostituito dai server moderni.
+\item \textbf{Personal Computer (PC)}: sono i computer più diffusi al mondo. 
+Possono essere \textbf{computer da tavolo} (\emph{desktop} o \emph{tower}) oppure \textbf{portatili} (\emph{laptop} o \emph{notebook}), 
+e vengono utilizzati sia in \textbf{ambito domestico} che \textbf{professionale}. 
+
+I primi modelli di PC erano pensati per \textbf{un solo utente alla volta} e avevano prestazioni limitate. 
+Oggi, invece, esistono molte varianti che si adattano a diversi usi:
+\begin{itemize}
+    \item \textbf{Desktop o Tower}: computer fissi, potenti e facilmente aggiornabili.
+    \item \textbf{Laptop o Notebook}: portatili pratici e leggeri, adatti allo studio e al lavoro.
+    \item \textbf{All-in-One}: computer con monitor e componenti integrati in un unico blocco, per occupare meno spazio.
+\end{itemize}
+
+Una categoria particolare è quella delle \textbf{workstation}, computer molto potenti destinati a professionisti 
+che devono eseguire elaborazioni grafiche, simulazioni o calcoli complessi. 
+Le workstation combinano la potenza dei computer professionali con la flessibilità dei PC.
+\item \textbf{Dispositivi mobili}: sono computer portatili di piccole dimensioni, 
+come \textbf{smartphone} e \textbf{tablet}, progettati per un utilizzo in movimento.  
+Hanno come caratteristiche principali lo \textbf{schermo touch screen}, 
+una \textbf{batteria ricaricabile} per un uso portatile e una \textbf{memoria flash} (come le \emph{schede SD card}) 
+per l’archiviazione dei dati.  
+
+I dispositivi mobili possono connettersi alla rete tramite \textbf{Wi-Fi} 
+oppure tramite \textbf{schede telefoniche} con connessione dati.  
+Le versioni più recenti di questi dispositivi hanno raggiunto una \textbf{larghissima diffusione}, 
+anche grazie alla \textbf{potenza di calcolo paragonabile a quella dei personal computer}.
+
+\end{itemize}
+\section{Architettura di un sistema di elaborazione}
+\subsection{Architettura concettuale}
+Dal punto di vista concettuale, un sistema di elaborazione può essere suddiviso in diversi strati.
+Si parte dal livello più basso, rappresentato dall’hardware, fino ad arrivare al livello più alto, costituito dai programmi applicativi.
+Ogni strato sfrutta i servizi offerti da quello sottostante e, a sua volta, fornisce funzionalità più evolute allo strato superiore.
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{ChatGPT Image Oct 9, 2025, 10_18_22 PM.png}
+\end{figure}
+\subsection{Architettura Fisica o Architettura di Von Neumann}
+Lo schema seguente rappresenta i componenti principali che formano la struttura fisica di un computer, ispirati al modello di Von Neumann.
+Questo modello, che diede origine al primo computer digitale, rappresenta un punto di riferimento fondamentale per l’ingegneria informatica, poiché la sua architettura costituisce la base della maggior parte dei calcolatori moderni.
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.75\linewidth]{ChatGPT Image Oct 9, 2025, 10_28_35 PM.png}
+\end{figure}
+
+In base a questo modello si possono distinguere \textbf{due sezioni principali}:
+una \textbf{centrale} e una \textbf{esterna} (costituita dalle unità di input/output).
+
+La \textbf{CPU} e la \textbf{memoria centrale} fanno parte dell'\textbf{unità centrale},
+mentre le \textbf{memorie di massa} e le \textbf{periferiche} appartengono alle \textbf{unità di input/output}.
+
+La \textbf{CPU} rappresenta la parte del computer che \textbf{esegue le istruzioni dei programmi};
+è \textbf{realizzata fisicamente dal microprocessore} ed è composta da:
+
+\begin{itemize}
+    \item \textbf{ALU (Unità Aritmetico-Logica)}: esegue le operazioni logiche e matematiche;
+    \item \textbf{CU (Unità di Controllo)}: coordina e gestisce le operazioni del sistema;
+    \item \textbf{Registri}: piccole memorie interne ad alta velocità utilizzate per immagazzinare temporaneamente dati e istruzioni.
+\end{itemize}
+\begin{tcolorbox}[colback=yellow!15!white,colframe=black,title=Unità di misura della CPU]
+L'\textbf{unità di misura della CPU} è il \textbf{gigahertz (GHz)}, che indica il numero di \textbf{istruzioni eseguite al secondo}.  
+Ad esempio, una CPU da \textbf{3 GHz} può eseguire fino a circa \textbf{3 miliardi di operazioni al secondo}.
+\end{tcolorbox}
+
+La \textbf{memoria centrale} è un \textbf{dispositivo elettronico} che contiene una \textbf{quantità limitata di informazioni}
+e si suddivide in:
+
+\begin{itemize}
+    \item \textbf{Memoria RAM (Random Access Memory)}
+    \item \textbf{Memoria ROM (Read Only Memory)}
+    \item \textbf{Memoria Cache}: memoria molto veloce che conserva temporaneamente i dati più utilizzati dalla CPU per velocizzare l’elaborazione.
+\end{itemize}
+\subsection{I bus e le porte di communicazione}
+
+I principali circuiti del computer, come la \textbf{CPU}, la \textbf{RAM} e la \textbf{ROM}, sono collocati sulla \textbf{scheda madre},
+che rappresenta la parte principale del computer dove vengono collegati tutti i componenti.
+
+Gli altri dispositivi (come la scheda video, i dischi, le porte USB, ecc.) si connettono alla scheda madre
+tramite speciali \textbf{connettori} o \textbf{linee di collegamento} chiamate \textbf{bus}.
+
+Il più importante è il \textbf{bus di sistema}, che collega la \textbf{CPU} alla \textbf{memoria centrale}
+e permette lo \textbf{scambio veloce di dati e istruzioni} tra i vari componenti.
+
+\begin{tcolorbox}[colback=blue!10!white,colframe=black,title=Esempio per ricordare il bus]
+Il \textbf{bus} può essere immaginato come una \textbf{strada} su cui viaggiano le \textbf{informazioni}.  
+La \textbf{CPU} è come un conducente che deve raggiungere la \textbf{memoria} per prendere o consegnare dei dati.  
+Se la strada è larga (bus veloce), le informazioni viaggiano più rapidamente;  
+se è stretta o trafficata, il trasferimento è più lento.
+\end{tcolorbox}
+\subsection{Fasi di avvio del computer}
+
+Quando si accende un computer, si avvia una sequenza di operazioni chiamata \textbf{fase di avvio} (\emph{boot}).  
+I passaggi principali sono i seguenti:
+
+\begin{enumerate}
+    \item \textbf{Accensione e alimentazione:}  
+    Premendo il tasto di accensione, l’alimentatore fornisce energia ai componenti del computer, in particolare alla scheda madre e alla CPU.
+
+    \item \textbf{Attivazione del firmware:}  
+    Subito dopo, entra in funzione il \textbf{firmware}, un piccolo programma contenuto nella \textbf{memoria ROM}.  
+    Questo programma si chiama \textbf{BIOS} (Basic Input/Output System) oppure, nei computer più recenti, \textbf{UEFI}.  
+    Il firmware esegue una serie di controlli sull’hardware, chiamati \textbf{POST} (\emph{Power On Self Test}).
+
+    \item \textbf{Ricerca del dispositivo di avvio:}  
+    Dopo i controlli, il BIOS/UEFI cerca un \textbf{dispositivo di avvio} (come un disco rigido, SSD o chiavetta USB) che contenga il \textbf{sistema operativo}.
+
+    \item \textbf{Bootstrap:}  
+    Trovato il dispositivo corretto, il BIOS carica in memoria un piccolo programma chiamato \textbf{bootstrap loader},  
+    il quale ha il compito di \textbf{caricare il sistema operativo nella RAM}.
+
+    \item \textbf{Avvio del sistema operativo:}  
+    Una volta caricato, il \textbf{sistema operativo} prende il controllo del computer, gestendo le risorse hardware e permettendo all’utente di interagire tramite l’interfaccia grafica.
+\end{enumerate}
+
+\begin{tcolorbox}[colback=yellow!15!white,colframe=black,title=In sintesi]
+Il \textbf{firmware (BIOS/UEFI)} prepara e controlla l’hardware.  
+Il \textbf{bootstrap loader} carica il \textbf{sistema operativo} nella memoria.  
+Da quel momento in poi, il \textbf{sistema operativo} gestisce tutto il funzionamento del computer.
+\end{tcolorbox}
+\newpage
+\newpage
+\section{Esercizi di verifica}
+
+\begin{enumerate}
+    \item I supercomputer sono utilizzati principalmente per: \\
+    \cbox\ Gestire transazioni bancarie \\
+    \cbox\ Calcoli scientifici complessi e simulazioni \\
+    \cbox\ Contabilità aziendale \\
+    \cbox\ Navigazione su Internet
+
+    \item I mainframe si differenziano dai supercomputer perché: \\
+    \cbox\ Sono portatili \\
+    \cbox\ Gestiscono grandi quantità di dati ma con calcoli più semplici \\
+    \cbox\ Sono progettati solo per videogiochi \\
+    \cbox\ Non usano alcun sistema operativo
+
+    \item L’ALU all’interno della CPU serve per: \\
+    \cbox\ Archiviare dati permanentemente \\
+    \cbox\ Eseguire operazioni logiche e aritmetiche \\
+    \cbox\ Gestire la rete Internet \\
+    \cbox\ Accendere il computer
+
+    \item L’unità di misura della velocità della CPU è: \\
+    \cbox\ Byte \\
+    \cbox\ Volt \\
+    \cbox\ Gigahertz \\
+    \cbox\ Megabyte
+
+    \item La memoria RAM è detta \emph{volatile} perché: \\
+    \cbox\ È molto lenta \\
+    \cbox\ Si cancella allo spegnimento del computer \\
+    \cbox\ Contiene solo istruzioni permanenti \\
+    \cbox\ È integrata nella CPU
+
+    \item Il bus di sistema serve per: \\
+    \cbox\ Alimentare la CPU \\
+    \cbox\ Collegare la CPU alla memoria centrale \\
+    \cbox\ Gestire i file nel disco rigido \\
+    \cbox\ Connettere Internet
+
+    \item Il firmware chiamato BIOS o UEFI si trova: \\
+    \cbox\ Nel disco rigido \\
+    \cbox\ Nella memoria ROM \\
+    \cbox\ Nella memoria RAM \\
+    \cbox\ Sulla scheda video
+
+    \item Il \textbf{bootstrap loader} ha la funzione di: \\
+    \cbox\ Caricare il sistema operativo in memoria \\
+    \cbox\ Controllare la temperatura della CPU \\
+    \cbox\ Collegare le periferiche esterne \\
+    \cbox\ Gestire la rete locale
+
+    \item I dispositivi mobili si distinguono perché: \\
+    \cbox\ Non possono connettersi a Internet \\
+    \cbox\ Usano schermo touch, batteria e memoria flash \\
+    \cbox\ Hanno solo memoria ROM \\
+    \cbox\ Non possiedono CPU
+
+    % --- ESERCIZIO 10: completamento con parole ---
+    \item \textbf{Completa il testo con le parole corrette.}  
+    \textit{Attenzione: ci sono più parole del necessario.}
+
+    \begin{tcolorbox}[colback=white!95!gray,colframe=black,title=Parole da usare]
+    CPU, RAM, ROM, BIOS, POST, gigahertz, bus, mainframe, supercomputer, personal computer, ALU, CU, registri, cache, firmware, sistema operativo, bootstrap, scheda madre, memoria centrale, cluster, batteria, touch screen
+    \end{tcolorbox}
+
+    Un computer è un \underline{\hspace{2.3cm}} che elabora informazioni grazie a \underline{\hspace{2.3cm}} e \underline{\hspace{2.3cm}}.  
+    La parte principale è la \underline{\hspace{2.3cm}}, dove si trovano la \underline{\hspace{2.3cm}} e la \underline{\hspace{2.3cm}}.  
+    La velocità del processore si misura in \underline{\hspace{2.3cm}}.  
+    Durante l’avvio, il \underline{\hspace{2.3cm}} esegue il controllo iniziale detto \underline{\hspace{2.3cm}}  
+    e avvia il \underline{\hspace{2.3cm}} nella memoria.
+
+    % --- ESERCIZIO 11: completamento libero (10 frasi) ---
+    \item \textbf{Completa le frasi seguenti inserendo il termine corretto.}
+
+    \begin{enumerate}
+        \item La CPU è composta da ALU, CU e \underline{\hspace{3cm}}.
+        \item La memoria \underline{\hspace{3cm}} conserva dati anche senza alimentazione.
+        \item Il \underline{\hspace{3cm}} collega tra loro CPU, memoria e periferiche.
+        \item Il programma che controlla l’avvio del computer si chiama \underline{\hspace{3cm}}.
+        \item I \underline{\hspace{3cm}} vengono utilizzati per simulazioni scientifiche complesse.
+        \item La \underline{\hspace{3cm}} ospita tutti i componenti principali del computer.
+        \item La velocità della CPU si misura in \underline{\hspace{3cm}}.
+        \item I dispositivi mobili hanno uno schermo \underline{\hspace{3cm}} e una \underline{\hspace{3cm}} ricaricabile.
+        \item La memoria \underline{\hspace{3cm}} è detta “volatile” perché perde i dati allo spegnimento.
+        \item Il sistema operativo si carica nella \underline{\hspace{3cm}} durante la fase di avvio.
+    \end{enumerate}
+    \item \textbf{Descrivere le fasi di avvio del computer.}
+\end{enumerate}
+
+\end{document}
+

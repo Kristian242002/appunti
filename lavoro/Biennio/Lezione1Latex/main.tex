@@ -1,0 +1,297 @@
+\documentclass[a4paper,12pt]{article}
+
+% Pacchetti utili
+\usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tcolorbox} % per riquadri colorati
+
+% Impostazioni grafiche minime
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\title{Cos'è l'Informatica}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Cos'è l'informatica}
+L’informatica è la scienza che si occupa dello \textbf{studio, della rappresentazione e dell’elaborazione automatica delle informazioni}. La parola stessa deriva dall’unione di \emph{informazione} e \emph{automatica}, cioè la capacità di trattare informazioni in modo automatico grazie a strumenti come i computer. Non si limita soltanto all’uso del computer, ma studia anche i principi teorici, i metodi e le tecniche che permettono di risolvere problemi reali attraverso il calcolo e la gestione dei dati.  
+
+Per comprendere meglio il ruolo dell’informatica è fondamentale distinguere due concetti: \textbf{dato} e \textbf{informazione}. Un dato è un elemento grezzo, un fatto isolato o un valore che da solo non ha significato. L’informazione, invece, nasce quando un dato viene interpretato e collocato in un contesto che lo rende comprensibile e utile. Possiamo dire che un dato è come una parola senza spiegazione, mentre l’informazione è la frase che dà senso a quella parola.  
+
+Ad esempio, il numero \texttt{37} preso da solo è un semplice dato, ma se diciamo che “37 °C è la temperatura corporea normale di un essere umano” stiamo fornendo un’informazione. Allo stesso modo, una data come \texttt{2025-10-01} è un dato, ma se aggiungiamo che “il 1° ottobre 2025 si terrà l’interrogazione di informatica” diventa informazione. Il colore \texttt{Verde} è un dato, ma diventa informazione quando sappiamo che “il semaforo è verde, quindi si può attraversare la strada”. Anche un codice come \texttt{101010} è un dato, e assume significato solo se sappiamo che “il numero binario 101010 corrisponde al numero decimale 42”.  
+
+\begin{tcolorbox}[colback=white,colframe=red!80!black,title=Per capire meglio]
+Un dato è come un mattone: preso da solo non serve a molto.  
+Quando i mattoni vengono messi insieme per costruire una casa, essi diventano informazione.
+\end{tcolorbox}
+
+\subsection{Computer}
+Il computer si è evoluto nel tempo in molteplici configurazioni, dalle prime macchine da calcolo fino ai moderni dispositivi portatili. Oggi possiamo considerare computer non solo i classici personal computer, ma anche \textbf{notebook}, \textbf{tablet}, \textbf{smartphone} e molti altri dispositivi che utilizziamo quotidianamente. Nonostante le diverse forme, il computer rimane uno \textbf{strumento indispensabile}, il sistema di elaborazione dei dati più diffuso.  
+
+Spesso il computer è chiamato anche \textbf{elaboratore elettronico digitale}.  
+\begin{itemize}
+    \item È detto \emph{elaboratore} perché è una macchina in grado di trattare dati mediante un programma.  
+    \item È detto \emph{elettronico} perché è realizzato con componenti elettronici (circuiti integrati, transistor, microprocessori).  
+    \item È detto \emph{digitale} perché elabora e memorizza le informazioni attraverso due simboli fondamentali: \texttt{0} e \texttt{1}, ossia il linguaggio binario.  
+\end{itemize}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!60!black,title=Definizione di Sistema]
+Un \textbf{sistema} è un insieme di componenti che interagiscono tra loro per raggiungere un obiettivo comune.  
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!60!black,title=Definizione di Programma]
+Un \textbf{programma} è una sequenza di istruzioni scritte in un linguaggio comprensibile al computer, che permettono di svolgere un compito preciso.  
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!60!black,title=Definizione di Algoritmo]
+Un \textbf{algoritmo} è una sequenza finita e ordinata di operazioni che descrive come risolvere un problema.  
+\\[6pt]
+\textit{Differenza:} un algoritmo è un concetto logico e astratto, mentre un programma è la sua traduzione pratica in un linguaggio che il computer può eseguire.  
+\end{tcolorbox}
+L'attività svolta da un \textbf{computer} consiste nell'elaborare informazione che provengono dall'esterno e fornire dei risultati.
+\begin{itemize}
+\item Fase di \textbf{input}: è la fase in cui i dati vengono inseriti nel computer attraverso appositi dispositivi detti \emph{periferiche di input}. 
+    In questa fase il computer riceve dall’esterno dati grezzi che non hanno ancora un significato, ma che saranno poi elaborati. 
+    \\
+    \textit{Esempi di dispositivi di input:} tastiera (inserimento di testo e comandi), mouse o touchpad (puntamento e selezione), microfono (acquisizione della voce), scanner (digitalizzazione di documenti e immagini), fotocamera (acquisizione di foto e video).  
+\item Fase di \textbf{elaborazione} : i dati vengono elaborati attraverso un circuito elettronico
+    \item Fase di \textbf{output}: è la fase in cui il computer restituisce all’utente i risultati dell’elaborazione dei dati, trasformandoli in informazioni comprensibili. Questo avviene tramite dispositivi detti \emph{periferiche di output}.  
+    \\
+    \textit{Esempi di dispositivi di output:} monitor o schermo (visualizzazione di testi, immagini e video), stampante (produzione di documenti cartacei), altoparlanti o cuffie (riproduzione di suoni e musica), videoproiettore (proiezione di contenuti su superfici più ampie).  
+\end{itemize}
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!80!black,title=Dispositivi di Input/Output]
+Esistono anche dispositivi che possono svolgere sia la funzione di \textbf{input} sia di \textbf{output}.  
+Ad esempio:  
+\begin{itemize}
+    \item un \textbf{CD} o un \textbf{DVD}, che possono essere letti (input) o scritti (output);  
+    \item un \textbf{hard disk} o una \textbf{chiavetta USB}, che permettono sia la memorizzazione di dati (output) sia la lettura degli stessi (input);  
+    \item una \textbf{fotocamera digitale}, che acquisisce immagini (input) ma può anche mostrarle sul display o trasferirle al computer (output).  
+\end{itemize}
+\end{tcolorbox}
+Affinchè il computer possa funzionare,è neccessario che possieda due componenti:l'hardware e il software.
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!60!black,title={Hardware, Software e Firmware}]
+\begin{itemize}
+    \item \textbf{Hardware}: è la parte fisica e tangibile del computer, composta da tutti i componenti elettronici e meccanici (CPU, memoria, tastiera, monitor, hard disk, ecc.).
+    \item \textbf{Software}: è l’insieme dei programmi e delle istruzioni che consentono all’hardware di funzionare e di svolgere compiti specifici (sistemi operativi, applicazioni, giochi, ecc.).
+    \item \textbf{Firmware}: è un particolare tipo di software installato direttamente nell’hardware (ad esempio nella scheda madre, in una stampante o in uno smartphone), che ne controlla le funzioni di base e permette l’avvio e la gestione dei dispositivi.
+\end{itemize}
+\end{tcolorbox}
+\subsection{Il Computer e le sue componenti}
+
+Il \textbf{computer} è uno strumento estremamente diffuso e potente non solo perché elabora informazioni, ma anche perché può essere aggiornato e potenziato nel tempo.  
+Una delle sue caratteristiche più apprezzate è proprio la possibilità di sostituire o migliorare i componenti interni.  
+
+Tutti i componenti si trovano all’interno di un contenitore chiamato \textbf{case}.  
+Esistono diversi tipi di case in base alle dimensioni:
+\begin{itemize}
+    \item \textbf{Mini tower}: compatto, adatto a spazi ridotti ma con poche possibilità di espansione.
+    \item \textbf{Middle tower}: la dimensione più comune, offre un buon equilibrio tra spazio e possibilità di aggiornamento.
+    \item \textbf{Big tower}: molto grande, pensato per configurazioni potenti e numerosi componenti aggiuntivi (schede video multiple, sistemi di raffreddamento avanzati, ecc.).
+\end{itemize}
+
+\bigskip
+\textbf{Componenti principali di un computer:}
+\begin{itemize}
+    \item \textbf{CPU (Central Processing Unit)}: il cervello del computer, esegue le istruzioni dei programmi e coordina tutte le attività.
+    \item \textbf{Scheda madre (Motherboard)}: la scheda principale che collega e permette la comunicazione tra tutti i componenti.
+    \item \textbf{RAM (Random Access Memory)}: memoria volatile che contiene temporaneamente i dati e i programmi in uso. Viene svuotata allo spegnimento del computer.
+    \item \textbf{Scheda video (VGA / GPU)}: elabora le immagini e i video, fondamentale per giochi, grafica e applicazioni multimediali.
+    \item \textbf{HDD (Hard Disk Drive)}: memoria di massa tradizionale con dischi magnetici, grande capacità ma velocità minore.
+    \item \textbf{SSD (Solid State Drive)}: memoria di massa moderna basata su chip elettronici, molto più veloce dell’HDD.
+    \item \textbf{DVD Writer}: lettore e masterizzatore ottico, oggi meno diffuso ma ancora utilizzato per CD/DVD.
+\end{itemize}
+
+\bigskip
+\textbf{Differenze importanti:}
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!60!black,title=RAM vs ROM]
+\begin{itemize}
+    \item \textbf{RAM (Random Access Memory)}: memoria volatile, usata per contenere dati e programmi durante l’esecuzione. Si svuota quando il computer si spegne.
+    \item \textbf{ROM (Read Only Memory)}: memoria non volatile, contiene informazioni permanenti (ad esempio il BIOS/firmware). Non si cancella allo spegnimento.
+\end{itemize}
+\textit{Errore comune:} molti confondono RAM e ROM, ma in realtà hanno funzioni molto diverse.
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!60!black,title=RAM vs Hard Disk]
+\begin{itemize}
+    \item La \textbf{RAM} è veloce ma temporanea: serve per i dati in uso immediato.
+    \item L’\textbf{Hard Disk/SSD} è più lento ma permanente: conserva i dati in maniera stabile anche dopo lo spegnimento.
+\end{itemize}
+\textit{Un esempio semplice:} la RAM è come il tavolo da lavoro dove appoggi i documenti su cui stai lavorando, mentre l’hard disk è l’armadio in cui li archivi per conservarli.
+\end{tcolorbox}
+\subsection{Fab Lab e Mock-Up}
+
+Un \textbf{Fab Lab} (Fabrication Laboratory) è un laboratorio di \emph{fabbricazione digitale} dove si possono progettare e realizzare oggetti partendo da un modello digitale.  
+È uno spazio aperto a studenti, appassionati e professionisti, che offre strumenti moderni per creare prototipi, fare esperimenti e trasformare un’idea in un oggetto reale.  
+
+Tra gli strumenti più comuni presenti in un Fab Lab troviamo:
+\begin{itemize}
+    \item \textbf{Stampanti 3D}: producono oggetti aggiungendo materiale strato per strato.
+    \item \textbf{Fresatrici CNC}: macchine che scolpiscono il materiale rimuovendone una parte (lavorazione sottrattiva).
+    \item \textbf{Taglio laser}: permette di incidere o tagliare materiali come legno, plastica o cartone.
+    \item \textbf{Scanner 3D}: acquisiscono la forma di un oggetto reale e la trasformano in un modello digitale.
+    \item \textbf{Plotter da taglio}: utilizzati per materiali sottili come carta o vinile.
+    \item \textbf{Laboratori di elettronica}: con saldatori, schede e sensori per realizzare circuiti.
+\end{itemize}
+
+Nel Fab Lab si realizzano spesso dei \textbf{mock-up}, cioè modelli o prototipi di oggetti creati per mostrare come sarà il prodotto finale.  
+Un mock-up non serve solo a vedere l’aspetto estetico, ma anche a capire se il progetto funziona, se le proporzioni sono corrette e se deve essere modificato prima della produzione definitiva.  
+
+Grazie alle tecnologie come la stampa 3D o lo scanner 3D, oggi è possibile passare molto velocemente dall’idea al modello fisico, permettendo di testare, correggere e migliorare un progetto in tempi ridotti.  
+\subsection{Realtà Virtuale e Realtà Aumentata}
+
+La \textbf{realtà virtuale (VR)} è una tecnologia che permette all’utente di immergersi in un ambiente digitale completamente simulato.  
+Indossando dispositivi specifici come i \emph{visori} o gli \textbf{smart glasses}, l’utente si trova circondato da immagini, suoni e a volte anche sensazioni tattili che ricreano uno spazio artificiale, separato dal mondo reale.  
+Un esempio di applicazione sono i videogiochi in realtà virtuale, nei quali il giocatore si muove e interagisce dentro un mondo interamente digitale.  
+
+La \textbf{realtà aumentata (AR)}, invece, non sostituisce il mondo reale, ma lo arricchisce sovrapponendo elementi digitali all’ambiente circostante.  
+Attraverso la fotocamera di uno smartphone o dispositivi appositi, si possono visualizzare informazioni aggiuntive, animazioni o oggetti virtuali che “si mescolano” con ciò che vediamo dal vivo.  
+
+Tra i primi esempi di applicazioni di realtà aumentata troviamo:
+\begin{itemize}
+    \item \textbf{Layar}: una delle prime app AR per smartphone, che mostrava contenuti digitali sovrapposti all’inquadratura della fotocamera.
+    \item \textbf{Google Tango}: un progetto di Google che consentiva agli smartphone compatibili di mappare l’ambiente in 3D e integrare oggetti virtuali nello spazio reale con grande precisione.
+\end{itemize}
+
+In sintesi: la \emph{realtà virtuale} crea un mondo completamente digitale in cui immergersi, mentre la \emph{realtà aumentata} aggiunge contenuti virtuali al mondo reale che ci circonda.  
+\newpage
+\subsection*{Domande di verifica}
+
+\textbf{Domande aperte}
+\begin{enumerate}
+    \item Spiega con parole tue la differenza tra \textbf{dato} e \textbf{informazione}, facendo un esempio pratico.
+    \item Quali sono le principali differenze tra \textbf{RAM} e \textbf{Hard Disk}?
+    \item Descrivi cos’è un \textbf{Fab Lab} e cita almeno due strumenti che si possono trovare al suo interno.
+    \item Cosa si intende per \textbf{realtà aumentata} e come si differenzia dalla realtà virtuale?
+    \item Elenca e descrivi brevemente le tre fasi principali di funzionamento di un computer (\textit{input}, \textit{elaborazione}, \textit{output}).
+\end{enumerate}
+
+\bigskip
+\textbf{Domande a crocette}
+\begin{enumerate}
+    \item[6.] La \textbf{ROM} è:  
+    \begin{itemize}
+        \item[A)] Una memoria volatile che si cancella allo spegnimento  
+        \item[B)] Una memoria non volatile che contiene informazioni permanenti  
+        \item[C)] La memoria principale del computer  
+        \item[D)] Una periferica di input  
+    \end{itemize}
+
+    \item[7.] Quale di questi è un esempio di \textbf{periferica di output}?  
+    \begin{itemize}
+        \item[A)] Tastiera  
+        \item[B)] Microfono  
+        \item[C)] Stampante  
+        \item[D)] Scanner  
+    \end{itemize}
+
+    \item[8.] Quale tra questi dispositivi può essere sia \textbf{input} che \textbf{output}?  
+    \begin{itemize}
+        \item[A)] Hard disk  
+        \item[B)] Tastiera  
+        \item[C)] Mouse  
+        \item[D)] Monitor  
+    \end{itemize}
+
+    \item[9.] La \textbf{CPU} è:  
+    \begin{itemize}
+        \item[A)] Una memoria permanente del computer  
+        \item[B)] Un programma che controlla le periferiche  
+        \item[C)] Il processore che esegue le istruzioni e coordina le attività  
+        \item[D)] Una scheda grafica  
+    \end{itemize}
+
+    \item[10.] Quale tra queste app è stata un esempio di \textbf{realtà aumentata}?  
+    \begin{itemize}
+        \item[A)] Photoshop  
+        \item[B)] Layar  
+        \item[C)] Excel  
+        \item[D)] WinRAR  
+    \end{itemize}
+\end{enumerate}
+\bigskip
+
+\begin{enumerate}
+    \setcounter{enumi}{10} % continua la numerazione da 11
+    \item[11.] Quale tra i seguenti è un \textbf{dispositivo di input}?  
+    \begin{itemize}
+        \item[A)] Monitor  
+        \item[B)] Tastiera  
+        \item[C)] Stampante  
+        \item[D)] Altoparlante  
+    \end{itemize}
+
+    \item[12.] Il termine \textbf{firmware} indica:  
+    \begin{itemize}
+        \item[A)] Un programma temporaneo in RAM  
+        \item[B)] Un software che controlla le funzioni di base di un hardware  
+        \item[C)] Una memoria esterna di massa  
+        \item[D)] Un sistema operativo open source  
+    \end{itemize}
+
+    \item[13.] In un computer, la memoria \textbf{cache} serve per:  
+    \begin{itemize}
+        \item[A)] Archiviare in modo permanente i file dell’utente  
+        \item[B)] Fornire uno spazio veloce per i dati usati di frequente dalla CPU  
+        \item[C)] Salvare i programmi dopo lo spegnimento  
+        \item[D)] Gestire la connessione a Internet  
+    \end{itemize}
+
+    \item[14.] La differenza principale tra \textbf{HDD} e \textbf{SSD} è:  
+    \begin{itemize}
+        \item[A)] L’HDD è più veloce ma costoso, l’SSD è più lento ma economico  
+        \item[B)] L’HDD utilizza dischi magnetici, l’SSD chip elettronici  
+        \item[C)] L’HDD è una memoria volatile, l’SSD è non volatile  
+        \item[D)] L’HDD è usato solo nei server, l’SSD solo nei PC portatili  
+    \end{itemize}
+
+    \item[15.] Quale affermazione è \textbf{corretta} riguardo un algoritmo?  
+    \begin{itemize}
+        \item[A)] È sempre scritto in linguaggio macchina  
+        \item[B)] È una sequenza finita e ordinata di operazioni  
+        \item[C)] È identico a un programma eseguibile  
+        \item[D)] È un componente hardware del computer  
+    \end{itemize}
+\end{enumerate}
+
+\bigskip
+\textbf{Esercizi di completamento}
+
+\begin{enumerate}
+    \item[16.] Completa le seguenti frasi inserendo i termini corretti:  
+    \begin{itemize}
+        \item Il \_\_\_\_\_ è il cervello del computer e si occupa di eseguire le \_\_\_\_\_.  
+        \item La \_\_\_\_\_ è una memoria volatile che si svuota allo \_\_\_\_\_.  
+        \item La \_\_\_\_\_ è una memoria permanente che contiene istruzioni fisse come il BIOS.  
+        \item L’\_\_\_\_\_ è il processo con cui il computer riceve i dati dall’esterno.  
+        \item L’\_\_\_\_\_ è la fase in cui i risultati elaborati vengono mostrati all’utente.  
+    \end{itemize}
+
+    \item[17.] Completa le frasi con le parole mancanti:  
+    \begin{itemize}
+        \item Un \_\_\_\_\_ è una sequenza ordinata di operazioni per risolvere un problema.  
+        \item Un \_\_\_\_\_ è la sua traduzione in un linguaggio comprensibile al computer.  
+        \item Un \_\_\_\_\_ è un insieme di componenti che lavorano per uno scopo comune.  
+        \item L’\_\_\_\_\_ è la scheda principale che collega tutti i componenti hardware.  
+        \item Un \_\_\_\_\_ è un prototipo creato per testare e visualizzare un progetto prima della produzione definitiva.  
+    \end{itemize}
+    \item[18.] Completa il seguente testo con i termini corretti:  
+
+    L' \_\_\_\_\_\_\_\_\_\_\_\_ è la parte fisica e tangibile del computer, mentre il \_\_\_\_\_\_\_\_\_\_\_ è l’insieme dei programmi che permettono all’hardware di funzionare.  
+    Ogni computer possiede una \_\_\_\_\_\_\_\_\_\_\_, che collega e mette in comunicazione tutti i componenti interni.  
+    La memoria \_\_\_\_\_\_\_\_\_\_\_ è detta volatile perché si cancella allo spegnimento, mentre la memoria \_\_\_\_\_\_\_\_\_\_\_ contiene informazioni permanenti.  
+    Tra i dispositivi di \_\_\_\_\_\_\_\_\_\_\_ troviamo la tastiera e il mouse, mentre tra quelli di \_\_\_\_\_\_\_\_\_\_\_ ci sono il monitor e la stampante.  
+    La \_\_\_\_\_\_\_\_\_\_\_ è il processore che esegue le istruzioni e coordina tutte le attività della macchina.  
+
+    \bigskip
+    \textbf{Parole da usare (SONO PIU DEL NECCESSARIO ATTENZIONE!):}  
+    CPU, hardware, software, firmware, scheda madre, RAM, ROM, input, output, hard disk, sistema operativo, algoritmo, periferica, mouse, processore
+
+\end{enumerate}
+
+\end{document}
