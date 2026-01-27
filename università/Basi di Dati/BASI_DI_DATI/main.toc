@@ -1,0 +1,120 @@
+\babel@toc {italian}{}\relax 
+\babel@toc {italian}{}\relax 
+\contentsline {section}{\numberline {1}Introduzione}{4}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Problemi e soluzione}{4}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}DBMS}{4}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Architettura di un DBMS}{5}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}Indipendenza dei dati}{5}{subsection.1.4}%
+\contentsline {section}{\numberline {2}Progettazione di una base di dati}{6}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Cos'è una metodologia di progettazione}{7}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Caratteristiche di una buona metodologia}{7}{subsection.2.2}%
+\contentsline {section}{\numberline {3}Progettazione Concettuale : il Modello ER}{9}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Cos'è il modello ER}{9}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Costrutti del modello ER}{9}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Entità}{9}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Relazione}{9}{subsection.3.4}%
+\contentsline {subsubsection}{\numberline {3.4.1}Relazione Ricorsiva}{11}{subsubsection.3.4.1}%
+\contentsline {subsubsection}{\numberline {3.4.2}Relazione Ternaria}{11}{subsubsection.3.4.2}%
+\contentsline {subsubsection}{\numberline {3.4.3}Indizi di modellazione errata (uso improprio della relazione ternaria)}{12}{subsubsection.3.4.3}%
+\contentsline {subsubsection}{\numberline {3.4.4}Esempio coretto di relazione ternaria}{12}{subsubsection.3.4.4}%
+\contentsline {subsubsection}{\numberline {3.4.5}Come capire se un concetto ha vita propria}{13}{subsubsection.3.4.5}%
+\contentsline {subsection}{\numberline {3.5}Attributo}{13}{subsection.3.5}%
+\contentsline {subsubsection}{\numberline {3.5.1}Attributo opzionale e multivalore}{14}{subsubsection.3.5.1}%
+\contentsline {subsubsection}{\numberline {3.5.2}Attributo composto}{15}{subsubsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.6}Identificatore di Entità}{16}{subsection.3.6}%
+\contentsline {subsection}{\numberline {3.7}Generalizzazione}{17}{subsection.3.7}%
+\contentsline {subsubsection}{\numberline {3.7.1}Classificazione delle Generalizzazioni}{18}{subsubsection.3.7.1}%
+\contentsline {section}{\numberline {4}Strategie per la progettazione concettuale}{20}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Strategia Top-Down}{20}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Strategia Bottom-Up}{20}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Strategia Inside-Out}{21}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Analisi di qualità dello schema}{21}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Ridondanze}{22}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}Semplificazioni dello schema}{23}{subsection.4.6}%
+\contentsline {section}{\numberline {5}Modello Relazionale}{25}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Costrutti Principali del Modello Relazionale}{25}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Domini di Base}{25}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Costrutto Relazionale}{26}{subsection.5.3}%
+\contentsline {subsubsection}{\numberline {5.3.1}Definizione: Relazione come insieme di ennuple (LISTS)}{26}{subsubsection.5.3.1}%
+\contentsline {paragraph}{Accesso ai valori di una ennupla:}{27}{paragraph*.1}%
+\contentsline {subsubsection}{\numberline {5.3.2}Definizione RELAZIONE come insieme di tuple (MAPPINGS)}{27}{subsubsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.4}Come progettare una basi di dati relazionale}{27}{subsection.5.4}%
+\contentsline {paragraph}{Per Esempio:}{27}{paragraph*.2}%
+\contentsline {paragraph}{Anomalie:}{28}{paragraph*.3}%
+\contentsline {subsubsection}{\numberline {5.4.1}Terminologia di schema di una relazione}{30}{subsubsection.5.4.1}%
+\contentsline {subsubsection}{\numberline {5.4.2}Terminologia Schema di una base di dati}{30}{subsubsection.5.4.2}%
+\contentsline {subsubsection}{\numberline {5.4.3}Terminologia istanza di una relazione di schema $R(X)$}{30}{subsubsection.5.4.3}%
+\contentsline {subsubsection}{\numberline {5.4.4}Terminologia istanza di una base di dati di schema $S = \{R_1(X_1),\dots ,R_n(X_n)$}{30}{subsubsection.5.4.4}%
+\contentsline {subsection}{\numberline {5.5}Valori nulli}{30}{subsection.5.5}%
+\contentsline {subsection}{\numberline {5.6}Vincoli di integrità}{31}{subsection.5.6}%
+\contentsline {subsection}{\numberline {5.7}Esempi di vincoli}{32}{subsection.5.7}%
+\contentsline {subsection}{\numberline {5.8}Classificazione vincoli di integrità}{32}{subsection.5.8}%
+\contentsline {subsection}{\numberline {5.9}Notazione per indicare i vincoli strutturali}{34}{subsection.5.9}%
+\contentsline {subsubsection}{\numberline {5.9.1}Chiave primaria}{34}{subsubsection.5.9.1}%
+\contentsline {subsubsection}{\numberline {5.9.2}Vincolo di integrità referenziale}{34}{subsubsection.5.9.2}%
+\contentsline {subsection}{\numberline {5.10}Esercizio}{35}{subsection.5.10}%
+\contentsline {subsection}{\numberline {5.11}Progettazione Logica}{36}{subsection.5.11}%
+\contentsline {subsubsection}{\numberline {5.11.1}Analisi della derivabilità}{36}{subsubsection.5.11.1}%
+\contentsline {subsubsection}{\numberline {5.11.2}Analisi delle ridondanze}{37}{subsubsection.5.11.2}%
+\contentsline {subsubsection}{\numberline {5.11.3}Eliminazione delle Generalizzazioni}{37}{subsubsection.5.11.3}%
+\contentsline {subsubsection}{\numberline {5.11.4}Accorpamento delle entità figlie nel padre}{37}{subsubsection.5.11.4}%
+\contentsline {subsubsection}{\numberline {5.11.5}Accorpamento del padre nelle entità figlie}{38}{subsubsection.5.11.5}%
+\contentsline {subsubsection}{\numberline {5.11.6}Sostituzione con relazioni}{39}{subsubsection.5.11.6}%
+\contentsline {subsection}{\numberline {5.12}Traduzione verso il modello relazionale}{40}{subsection.5.12}%
+\contentsline {subsection}{\numberline {5.13}Classificazione delle relazioni binarie}{41}{subsection.5.13}%
+\contentsline {subsection}{\numberline {5.14}Regole di traduzione}{41}{subsection.5.14}%
+\contentsline {section}{\numberline {6}Tecnologie NoSQL: Sistemi Document-Based}{48}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Approcci NoSQL}{49}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Sistemi Document-Store}{49}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Regole di traduzione di uno schema ER in collezioni di documenti}{50}{subsection.6.3}%
+\contentsline {subsubsection}{\numberline {6.3.1}Prima Fase (entità principali)}{50}{subsubsection.6.3.1}%
+\contentsline {subsubsection}{\numberline {6.3.2}Seconda Fase (incapsulamento entità non principali)}{51}{subsubsection.6.3.2}%
+\contentsline {subsubsection}{\numberline {6.3.3}Terza Fase (relazioni non strutturali)}{53}{subsubsection.6.3.3}%
+\contentsline {subsection}{\numberline {6.4}Quarta fase}{55}{subsection.6.4}%
+\contentsline {section}{\numberline {7}Algebra relazionale}{61}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Classificazione degli operatori}{61}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Operatori insiemistici}{62}{subsection.7.2}%
+\contentsline {subsubsection}{\numberline {7.2.1}Cardinalità degli operatori insiemistici}{62}{subsubsection.7.2.1}%
+\contentsline {subsection}{\numberline {7.3}Operatori specifici}{63}{subsection.7.3}%
+\contentsline {subsubsection}{\numberline {7.3.1}Operatore di rinominaizone}{63}{subsubsection.7.3.1}%
+\contentsline {subsubsection}{\numberline {7.3.2}Operatore di Selezione}{64}{subsubsection.7.3.2}%
+\contentsline {subsubsection}{\numberline {7.3.3}Proiezione}{65}{subsubsection.7.3.3}%
+\contentsline {subsubsection}{\numberline {7.3.4}Cardinalità degli operatori specifici}{65}{subsubsection.7.3.4}%
+\contentsline {paragraph}{Selezione:}{65}{paragraph*.4}%
+\contentsline {paragraph}{Proiezione}{66}{paragraph*.5}%
+\contentsline {subsubsection}{\numberline {7.3.5}Operatori di giunzione (JOIN)}{66}{subsubsection.7.3.5}%
+\contentsline {subsubsection}{\numberline {7.3.6}JOIN naturale}{66}{subsubsection.7.3.6}%
+\contentsline {paragraph}{Commutatività:}{67}{paragraph*.6}%
+\contentsline {paragraph}{Associatività:}{68}{paragraph*.7}%
+\contentsline {paragraph}{Relazioni con lo stesso schema:}{68}{paragraph*.8}%
+\contentsline {paragraph}{Assenza di attributi comuni:}{68}{paragraph*.9}%
+\contentsline {subsubsection}{\numberline {7.3.7}Cardinalità del JOIN naturale}{68}{subsubsection.7.3.7}%
+\contentsline {subsubsection}{\numberline {7.3.8}THETA JOIN}{69}{subsubsection.7.3.8}%
+\contentsline {paragraph}{Ridenominazione}{70}{paragraph*.10}%
+\contentsline {subsection}{\numberline {7.4}Algebra con valori nulli}{70}{subsection.7.4}%
+\contentsline {subsubsection}{\numberline {7.4.1}Selezione}{71}{subsubsection.7.4.1}%
+\contentsline {subsubsection}{\numberline {7.4.2}Join naturale}{71}{subsubsection.7.4.2}%
+\contentsline {subsection}{\numberline {7.5}Ottimizzazione di espressioni DML}{71}{subsection.7.5}%
+\contentsline {subsection}{\numberline {7.6}Equivalenza tra espressioni algebriche}{72}{subsection.7.6}%
+\contentsline {subsubsection}{\numberline {7.6.1}Equivalenza dipendente dallo schema}{72}{subsubsection.7.6.1}%
+\contentsline {subsubsection}{\numberline {7.6.2}Equivalenza assoluta}{72}{subsubsection.7.6.2}%
+\contentsline {subsection}{\numberline {7.7}Trasformazioni di equivalenza}{72}{subsection.7.7}%
+\contentsline {subsubsection}{\numberline {7.7.1}Idempotenza delle proiezioni}{72}{subsubsection.7.7.1}%
+\contentsline {subsection}{\numberline {7.8}Trasformazioni di equivalenza con il join}{72}{subsection.7.8}%
+\contentsline {subsection}{\numberline {7.9}Combinazione di anticipazione e idempotenza}{73}{subsection.7.9}%
+\contentsline {section}{\numberline {8}Calcolo Relazionale}{77}{section.8}%
+\contentsline {paragraph}{Caratteristiche del linguaggio}{77}{paragraph*.11}%
+\contentsline {paragraph}{Interpretazione}{77}{paragraph*.12}%
+\contentsline {paragraph}{Sintassi}{78}{paragraph*.13}%
+\contentsline {subsection}{\numberline {8.1}Sintassi}{78}{subsection.8.1}%
+\contentsline {paragraph}{Sintassi Target List}{78}{paragraph*.14}%
+\contentsline {paragraph}{Sintassi range list}{79}{paragraph*.15}%
+\contentsline {paragraph}{Sintassi della formula}{79}{paragraph*.16}%
+\contentsline {paragraph}{Formula atomica}{79}{paragraph*.17}%
+\contentsline {paragraph}{Formula non atomica}{79}{paragraph*.18}%
+\contentsline {paragraph}{Notazione}{79}{paragraph*.19}%
+\contentsline {subsection}{\numberline {8.2}Semantica}{79}{subsection.8.2}%
+\contentsline {paragraph}{Semantica}{79}{paragraph*.20}%
+\contentsline {paragraph}{Interpretazione di un’espressione del calcolo come interrogazione}{80}{paragraph*.21}%
+\contentsline {subsection}{\numberline {8.3}Calcolo relazionale sulle tuple}{80}{subsection.8.3}%
+\contentsline {section}{\numberline {9}Linguaggi di interrogazione nei sistemi NoSql}{85}{section.9}%

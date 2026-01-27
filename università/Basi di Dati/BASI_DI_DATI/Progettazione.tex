@@ -1,0 +1,134 @@
+\section{Progettazione di una base di dati}
+Il ciclo di vita del processo di automazione di un sistema informativo comprende diverse fasi fondamentali, che vanno dall'analisi iniziale fino alla progettazione vera e propria.
+
+\begin{tcolorbox}[colback=red!10!white, colframe=red!70!black, title=\textbf{1. Studio di fattibilità}]
+In questa fase si valuta se il progetto è \textbf{realizzabile e conveniente}.  
+Si analizzano i \textbf{costi}, i \textbf{tempi} e le \textbf{alternative possibili}.  
+L’obiettivo è decidere se vale la pena procedere con lo sviluppo del sistema informativo.  
+\textit{È come chiedersi: "Ha senso costruire questo sistema?"}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=orange!10!white, colframe=orange!70!black, title=\textbf{2. Raccolta e analisi dei requisiti}]
+In questa fase si cercano di capire i \textbf{bisogni reali degli utenti} e cosa dovrà fare il sistema.  
+Si individuano le \textbf{proprietà e le funzionalità} principali (dati e applicazioni), producendo una descrizione \textbf{completa ma informale}.  
+\textit{È come chiedersi: "Cosa deve fare il sistema per essere utile?"}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=yellow!10!white, colframe=yellow!70!black, title=\textbf{3. Progettazione}]
+Una volta compresi i requisiti, si passa alla fase di \textbf{progettazione del database e delle applicazioni}.  
+Si decide come saranno organizzati i \textbf{dati} (modello ER, tabelle, relazioni) e come le applicazioni interagiranno con essi.  
+\textit{È la fase in cui si costruisce il progetto su carta, prima di realizzarlo.}
+\end{tcolorbox}
+\begin{tcolorbox}[colback=green!10!white, colframe=green!70!black, title=\textbf{4. Progettazione del sistema}]
+Una volta definiti i requisiti, si passa alla \textbf{progettazione del sistema}, che si divide in due parti principali:
+\begin{itemize}
+    \item \textbf{Progettazione dei dati}: descrive in modo formale come i dati saranno organizzati, ovvero la struttura logica del database.  
+    Il risultato è lo \textbf{schema} del database (modello concettuale e logico).
+    \item \textbf{Progettazione delle applicazioni}: definisce come gli utenti potranno interagire con i dati.  
+    Il risultato è la \textbf{specifica delle applicazioni}, cioè le operazioni e le funzionalità del sistema.
+\end{itemize}
+\textit{In sintesi: si progetta sia la parte “tecnica dei dati”, sia la parte “funzionale” che li utilizza.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=blue!10!white, colframe=blue!70!black, title=\textbf{5. Implementazione e collaudo}]
+Dopo la progettazione, si passa alla fase di \textbf{realizzazione concreta}:
+\begin{itemize}
+    \item \textbf{Implementazione su un DBMS}: lo schema del database viene tradotto e caricato in un sistema di gestione (DBMS).  
+    Si inseriscono i dati e si realizzano le applicazioni.
+    \item \textbf{Validazione e collaudo}: si verifica che il sistema funzioni correttamente e rispetti i requisiti definiti nelle fasi precedenti.  
+    Eventuali errori o mancanze vengono corretti prima dell’utilizzo effettivo.
+\end{itemize}
+\textit{In questa fase il progetto diventa finalmente operativo e utilizzabile.}
+\end{tcolorbox}
+\begin{tcolorbox}[colback=cyan!10!white, colframe=cyan!70!black, title=\textbf{6. Progettazione dei dati}]
+In questa fase si realizza la \textbf{struttura logica del database}.  
+Si definiscono:
+\begin{itemize}
+    \item le \textbf{entità}, gli \textbf{attributi} e le \textbf{relazioni} tra di essi;
+    \item le \textbf{chiavi primarie} e le \textbf{chiavi esterne};
+    \item i vincoli di integrità che garantiscono la coerenza dei dati.
+\end{itemize}
+Il risultato è uno \textbf{schema completo del database}, pronto per essere implementato.
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=teal!10!white, colframe=teal!70!black, title=\textbf{7. Implementazione su un DBMS}]
+Qui il progetto diventa concreto:  
+lo schema logico del database viene \textbf{tradotto in un linguaggio SQL} e installato in un \textbf{DBMS} (Database Management System).  
+\begin{itemize}
+    \item Si creano le tabelle e le relazioni.  
+    \item Si inseriscono i dati iniziali.  
+    \item Si configurano le applicazioni che interagiranno con il database.
+\end{itemize}
+\textit{È la fase di costruzione reale del sistema.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=purple!10!white, colframe=purple!70!black, title=\textbf{8. Validazione e collaudo}]
+Ultima fase del ciclo: si verifica che il sistema funzioni in modo corretto.  
+\begin{itemize}
+    \item Si confronta il risultato con i requisiti iniziali.  
+    \item Si testano le funzionalità e le prestazioni.  
+    \item Si correggono eventuali errori o incongruenze.
+\end{itemize}
+Solo dopo la validazione, il sistema è \textbf{pronto per l’uso reale} da parte degli utenti.
+\end{tcolorbox}
+
+\subsection{Cos'è una metodologia di progettazione}
+
+Una \textbf{metodologia di progettazione} definisce il modo in cui si affronta e si organizza il progetto di un database.  
+Serve a garantire che il lavoro sia ordinato, coerente e ripetibile, evitando errori e migliorando la qualità del risultato finale.
+
+Una metodologia di progettazione è costituita da:
+\begin{itemize}
+    \item una \textbf{decomposizione} in passi dell’attività di progetto, che suddivide il lavoro in fasi chiare e gestibili;
+    \item un insieme di \textbf{strategie} da seguire e di \textbf{criteri di scelta}, che guidano le decisioni del progettista;
+    \item un insieme di \textbf{modelli di riferimento}, che forniscono strutture e standard per rappresentare correttamente i dati.
+\end{itemize}
+
+\subsection{Caratteristiche di una buona metodologia}
+
+Una buona metodologia deve essere:
+\begin{itemize}
+    \item \textbf{Generale}, ovvero applicabile a diversi tipi di progetti e contesti;
+    \item \textbf{Facile da usare}, in modo che i progettisti possano adottarla senza difficoltà;
+    \item \textbf{Efficace}, cioè in grado di produrre un risultato di qualità, con un progetto \textbf{completo, coerente e corretto}.
+\end{itemize}
+
+In sintesi, una metodologia ben definita aiuta a costruire database \textbf{ben strutturati, comprensibili e facilmente mantenibili nel tempo}.
+
+Per essere una buona metodologia deve essere:
+\begin{itemize}
+    \item Generale
+    \item Facile da Usare
+    \item In grado di produrre un risultato di qualità
+\end{itemize}
+
+\begin{itemize}
+    \item \textbf{Progettazione concettuale}:L’obiettivo della progettazione concettuale è quello di rappresentare in modo chiaro, formale e completo le informazioni che dovranno essere memorizzate nel database, senza ancora preoccuparsi di come verranno salvate in un sistema reale.\\
+    In questa fase:\\
+    \begin{itemize}
+        \item si analizza cosa deve contenere la base di dati (le entità, i loro attributi e le relazioni tra di esse);
+        \item si realizza un modello concettuale, di solito attraverso il diagramma Entità-Relazione (E-R);
+        \item si mantiene tutto indipendente dalla tecnologia, cioè senza pensare al tipo di DBMS o al linguaggio che verrà usato in seguito.
+    \end{itemize}
+    \item \textbf{Progettazione logica }: il suo obbiettivo è quello di tradurre lo schema concettuale nello schema logico aderente al modello dei dati del DBMS scelto per l'implementazione.
+    \item \textbf{Progettazione fisica} : Completare lo schema logico con i parametri relativi alla memorizzazione fisica dei dati e con gli opportuni metodi d’accesso (INDICI) per garantire un accesso efficiente ai dati.
+    \item \textbf{Schema Concettuale}:È la rappresentazione astratta dei dati e delle loro relazioni, realizzata durante la progettazione concettuale.
+Usa strumenti come il diagramma E-R (Entità-Relazione) e mostra cosa deve contenere la base di dati, senza dipendere dal tipo di DBMS.
+    \item \textbf{Schema logico}:È la traduzione dello schema concettuale in una forma più tecnica, adatta al modello di database scelto (ad esempio, relazionale).
+Si decide come rappresentare le entità e le relazioni (tabelle, chiavi primarie, chiavi esterne).
+    \item \textbf{Schema fisico}: È la realizzazione concreta del database all’interno di un DBMS specifico.
+Si definiscono i nomi delle tabelle, i tipi di dato (VARCHAR, INT, DATE...), gli indici, i vincoli e l’organizzazione fisica dei file.
+\end{itemize}
+\begin{tcolorbox}[colback=white, colframe=red!70!black, title=\textbf{Differenza tra Progettazione e Schema}, coltitle=black]
+
+\textbf{Progettazione} → è il \textbf{processo}, cioè l’attività di analisi e definizione che porta alla costruzione del modello dei dati.  
+In questa fase si studiano le informazioni, si identificano le entità e le relazioni e si costruisce il modello concettuale.
+
+\textbf{Schema} → è il \textbf{risultato finale} della progettazione.  
+Rappresenta in modo formale e sintetico la struttura dei dati ottenuta al termine del processo.
+
+\medskip
+\textcolor{red!80!black}{\textbf{In sintesi:}}  
+la \textbf{progettazione} è l’attività di creazione,  
+mentre lo \textbf{schema} è il prodotto che ne deriva.
+\end{tcolorbox}

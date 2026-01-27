@@ -1,0 +1,84 @@
+\section{Introduzione}
+
+\begin{itemize}
+    \item \textbf{Sistema informativo}: è l’insieme delle attività umane e dei dispositivi di memorizzazione ed elaborazione che organizzano e gestiscono le informazioni di interesse per un’organizzazione, di qualunque dimensione.  
+    Un sistema informativo \textbf{non contiene necessariamente tecnologia informatica}.
+    
+    \item \textbf{Dato}: è un elemento grezzo, un fatto isolato o un valore che, preso da solo, non ha significato.
+    
+    \item \textbf{Informazione}: nasce quando un dato viene interpretato e collocato in un contesto che lo rende comprensibile e utile.
+\end{itemize}
+
+\noindent
+Ad esempio: il numero \emph{37} da solo è un semplice dato. Se però diciamo che “37 °C è la temperatura corporea normale di un essere umano”, allora stiamo fornendo un’informazione.
+
+\begin{tcolorbox}[colback=white,colframe=red!80!black,title=Per capire meglio]
+Un dato è come un mattone: preso da solo non serve a molto.  
+Quando i mattoni vengono messi insieme per costruire una casa, essi diventano informazione.
+\end{tcolorbox}
+
+\noindent
+Per capire meglio come funziona un sistema informativo (cioè come circolano i dati e chi li utilizza) si utilizzano \textbf{diagrammi di flusso}, analizzando quattro aspetti principali:
+\begin{enumerate}
+    \item Definizione di archivi e sorgenti di dati
+    \item Definizione degli utenti
+    \item Definizione di procedure e processi
+    \item Definizione dei flussi di dati
+\end{enumerate}
+
+\begin{itemize}
+    \item \textbf{Base di dati}: è una collezione di dati utilizzata per rappresentare, con l’ausilio della tecnologia informatica, le informazioni di interesse di un sistema informativo.
+\end{itemize}
+
+\subsection{Problemi e soluzione}
+
+Negli anni ’70 ogni programma aveva i propri file di dati separati, gestiti direttamente dal \textbf{File System}.  
+Questa soluzione presentava alcuni problemi:
+\begin{itemize}
+    \item Scarsa efficienza nell’accesso ai dati su file
+    \item Ridondanza dei dati (duplicazione)
+    \item Inconsistenza dei dati (informazioni non aggiornate ovunque)
+    \item Progettazione dei dati replicata per ogni programma
+\end{itemize}
+
+\noindent
+Per risolvere questi limiti vennero introdotti i \textbf{DBMS (Database Management System)}: software che fanno da intermediari tra programmi e dati.
+
+\textbf{Vantaggi dei DBMS:}
+\begin{itemize}
+    \item Maggiore astrazione e potenza espressiva per descrivere i dati
+    \item Operazioni complesse di accesso e interrogazione tramite linguaggi specifici
+\end{itemize}
+
+\subsection{DBMS}
+
+\begin{itemize}
+    \item \textbf{Linguaggi di interazione}:
+    \begin{itemize}
+        \item \textbf{DDL (Data Definition Language)}: definisce la struttura del database.
+        \item \textbf{DML (Data Manipulation Language)}: consente di interrogare e modificare i dati (es. SQL).
+    \end{itemize}
+\end{itemize}
+
+\begin{tcolorbox}[colback=yellow!20!white, colframe=black, title=Differenza tra Database e DBMS]
+\textbf{Database}: è l’insieme organizzato dei dati.  
+\emph{Esempio}: un archivio con le informazioni sugli studenti di una scuola.  
+
+\textbf{DBMS (Database Management System)}: è il software che permette di creare, gestire e consultare un database.  
+\emph{Esempi}: MySQL, PostgreSQL, Oracle, SQLite.
+\end{tcolorbox}
+
+\subsection{Architettura di un DBMS}
+
+\begin{itemize}
+    \item \textbf{Schema logico}: rappresentazione delle strutture e delle proprietà della base di dati, definita tramite i costrutti del modello del DBMS.
+    \item \textbf{Schema interno}: rappresentazione della base di dati attraverso le strutture fisiche di memorizzazione.
+    \item \textbf{Schema esterno}: descrive una porzione dello schema logico di interesse per uno specifico utente o applicazione.
+\end{itemize}
+
+\subsection{Indipendenza dei dati}
+
+\begin{itemize}
+    \item \textbf{Indipendenza fisica}: lo schema logico della base di dati è indipendente dallo schema interno.
+    \item \textbf{Indipendenza logica}: gli schemi esterni della base di dati sono indipendenti dallo schema logico.
+\end{itemize}

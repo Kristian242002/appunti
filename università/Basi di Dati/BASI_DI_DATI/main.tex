@@ -1,0 +1,80 @@
+\documentclass[a4paper,11pt]{article}
+
+% --- Lingua e codifica ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+\usepackage{float}
+\usepackage{lmodern}
+
+% --- Impaginazione e tipografia ---
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{microtype}            % migliora la giustificazione
+\usepackage{parskip}              % spazio tra paragrafi, niente indentazione
+\setlength{\parskip}{6pt}
+
+% --- Grafica e tabelle ---
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb}
+\usepackage{tikz}
+\usepackage{tcolorbox}
+
+% --- Header/Footer eleganti ---
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setlength{\headheight}{14pt} % FIX warning headheight
+\fancyhf{} % pulisci
+\lhead{\textit{Basi di Dati}}
+\rhead{\textit{Kristian Xhani}}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% --- Sezioni un filo più eleganti ---
+\usepackage{titlesec}
+\titleformat{\section}{\Large\bfseries}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}{\bfseries}{\thesubsubsection}{0.6em}{}
+
+% --- Collegamenti cliccabili + segnalibri PDF ---
+\usepackage{hyperref}
+\usepackage{bookmark}
+\hypersetup{
+	pdftitle={Basi di Dati},
+	pdfauthor={Kristian Xhani},
+	colorlinks=true,
+	linkcolor=blue!50!black,
+	urlcolor=blue!50!black,
+	citecolor=blue!50!black
+}
+
+% --- Profondità e nome dell'indice ---
+\setcounter{tocdepth}{3}  
+\renewcommand{\contentsname}{Indice}
+
+% --- Metadati frontespizio ---
+\title{\textbf{BASI DI DATI}}
+\author{Kristian Xhani}
+\date{Ottobre 2025}
+
+\begin{document}
+	
+	\maketitle
+	
+	% Indice cliccabile + segnalibro in testa
+	\pdfbookmark[section]{Indice}{indice}
+	\tableofcontents
+	\clearpage
+	
+	% --- Contenuti (nomi file SENZA spazi) ---
+	\include{introduzione}
+	\include{Progettazione}
+	\include{ModellloEr}
+	\include{vincoli di cardinalita}   % rinominato!
+	\include{Strategie}
+	\include{ModelloRelazionale}
+	\include{documentBased}
+	\include{algebraRelazionale}
+	\include{calcoloRelazionale}
+	\include{LinguaggiNoSql}
+\end{document}
