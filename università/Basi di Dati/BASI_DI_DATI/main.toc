@@ -129,3 +129,14 @@
 \contentsline {subsection}{\numberline {11.2}Clausola FROM}{99}{subsection.11.2}%
 \contentsline {subsection}{\numberline {11.3}Clausola WHERE}{100}{subsection.11.3}%
 \contentsline {subsubsection}{\numberline {11.3.1}Operatore LIKE}{102}{subsubsection.11.3.1}%
+\contentsline {subsubsection}{\numberline {11.3.2}Operatore SIMILAR TO}{103}{subsubsection.11.3.2}%
+\contentsline {subsubsection}{\numberline {11.3.3}Operatore BETWEEN}{103}{subsubsection.11.3.3}%
+\contentsline {subsubsection}{\numberline {11.3.4}Operatore IN}{104}{subsubsection.11.3.4}%
+\contentsline {subsubsection}{\numberline {11.3.5}Operatore IS NULL}{105}{subsubsection.11.3.5}%
+\contentsline {subsection}{\numberline {11.4}SQL e Algebra Relazionale}{106}{subsection.11.4}%
+\contentsline {subsection}{\numberline {11.5}SELECT}{107}{subsection.11.5}%
+\contentsline {subsubsection}{\numberline {11.5.1}SELECT : alias di tabella o di attributo}{107}{subsubsection.11.5.1}%
+\contentsline {subsubsection}{\numberline {11.5.2}SELECT: senza proiezione}{107}{subsubsection.11.5.2}%
+\contentsline {subsubsection}{\numberline {11.5.3}Proiezione:gestione dei duplicati in SQL}{107}{subsubsection.11.5.3}%
+\contentsline {subsubsection}{\numberline {11.5.4}SELECT: Selezione,Proiezione,Join}{109}{subsubsection.11.5.4}%
+\contentsline {subsection}{\numberline {11.6}Interrogazioni con JOIN}{109}{subsection.11.6}%

@@ -214,3 +214,260 @@ dove \textbf{from\_item} può essere una delle seguenti clausole (versione sempl
 	\caption{Estrarre gli impiegati che hanno un cognomen cha ha una “o” in seconda posizione e finisce con una “I”.}
 	\label{fig:image129}
 \end{figure}
+\subsubsection{Operatore SIMILAR TO}
+L'operatore \textbf{SIMILAR TO} è una versione più espressiva dell'operatore \textbf{LIKE}.  
+Permette di confrontare stringhe utilizzando un \textbf{pattern} basato su un sottoinsieme delle 
+\textbf{espressioni regolari POSIX} nella versione prevista dallo standard SQL.
+
+Questo operatore consente quindi di effettuare confronti più avanzati rispetto a \texttt{LIKE}, 
+utilizzando operatori tipici delle espressioni regolari.
+
+\begin{itemize}
+	
+	\item \texttt{\_} : rappresenta \textbf{un singolo carattere qualsiasi}.
+	
+	\item \texttt{\%} : rappresenta \textbf{una sequenza di zero o più caratteri qualsiasi}.
+	
+	\item \texttt{*} : indica la \textbf{ripetizione del match precedente zero o più volte}.
+	
+	\item \texttt{+} : indica la \textbf{ripetizione del match precedente una o più volte}.
+	
+	\item \texttt{\{n,m\}} : indica la \textbf{ripetizione del match precedente almeno $n$ volte e al massimo $m$ volte}.
+	
+	\item \texttt{[...]} : rappresenta un \textbf{insieme di caratteri ammessi}; il match è valido se il carattere appartiene all'insieme specificato.
+	
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image130}
+	\caption{Esempio SIMILAR TO}
+	\label{fig:image130}
+\end{figure}
+\subsubsection{Operatore BETWEEN}
+L'operatore \textbf{BETWEEN} permette di verificare se il valore di un attributo  è compreso tra due valori estremi.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image131}
+	\caption{Esempio Between}
+	\label{fig:image131}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image132}
+	\caption{Esempio 2 di Between}
+	\label{fig:image132}
+\end{figure}
+\subsubsection{Operatore IN}
+Nella clausola \textbf{WHERE} può essere utilizzato l'operatore \textbf{[NOT] IN} 
+per verificare se il valore di un attributo appartiene ad un insieme di valori.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image133}
+	\caption{Sintassi IN}
+	\label{fig:image133}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image134}
+	\caption{Esempio Operatore IN}
+	\label{fig:image134}
+\end{figure}
+\subsubsection{Operatore IS NULL}
+Per verificare se un attributo ha un valore nullo oppure no si utilizza il predicato 
+\textbf{IS NULL}.
+
+\begin{itemize}
+	
+	\item \texttt{attributo IS NULL}: restituisce \textbf{true} se l'attributo ha valore nullo.
+	
+	\item \texttt{attributo IS NOT NULL}: è la negazione del predicato precedente e restituisce 
+	\textbf{true} se l'attributo ha un valore diverso da \texttt{NULL}.
+	
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image135}
+	\caption{Sintassi IS NULL}
+	\label{fig:image135}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image136}
+	\caption{Esempio IS NULL}
+	\label{fig:image136}
+\end{figure}
+\subsection{SQL e Algebra Relazionale}
+Vediamo ora alcuni esempi di interrogazioni in \textbf{SQL} e analizziamo 
+la loro corrispondenza con le equivalenti interrogazioni procedurali 
+espresse tramite l'\textbf{algebra relazionale}.
+
+L'obiettivo è comprendere come le interrogazioni dichiarative scritte in SQL 
+possano essere interpretate come una sequenza di operazioni dell'algebra 
+relazionale, che descrivono in modo procedurale i passi necessari per 
+ottenere il risultato desiderato.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image137}
+	\caption{Sintassi algebra relazione e sql}
+	\label{fig:image137}
+\end{figure}
+Nel caso di condizioni più complesse, la formula di conversione tra una
+interrogazione \textbf{SQL} e la corrispondente espressione in
+\textbf{algebra relazionale} non è sempre direttamente rappresentabile.
+
+Una condizione fondamentale per poter effettuare questa conversione è
+che l'interrogazione SQL utilizzi solo operatori che esistono anche
+nell'algebra relazionale.
+
+Se l'interrogazione SQL utilizza operatori non presenti nell'algebra
+relazionale (ad esempio \textbf{operatori aggregati} come
+\texttt{COUNT}, \texttt{SUM}, \texttt{AVG}, ecc.), la conversione
+diretta non è possibile.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image138}
+	\caption{Tabella usata per gli esempi}
+	\label{fig:image138}
+\end{figure}
+\subsection{SELECT}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image139}
+	\caption{}
+	\label{fig:image139}
+\end{figure}
+\subsubsection{SELECT : alias di tabella o di attributo}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image140}
+	\caption{SELECT : alias di tabella o di attributo}
+	\label{fig:image140}
+\end{figure}
+\subsubsection{SELECT: senza proiezione}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image141}
+	\caption{SELECT senza proiezione}
+	\label{fig:image141}
+\end{figure}
+\subsubsection{Proiezione:gestione dei duplicati in SQL}
+
+Una differenza significativa tra \textbf{SQL} e l'\textbf{algebra relazionale}
+riguarda la gestione dei duplicati.
+
+Nell'algebra relazionale i risultati delle operazioni sono considerati
+\textbf{insiemi} e quindi non possono contenere duplicati.
+In SQL, invece, i risultati sono trattati come \textbf{multinsiemi}
+(\textit{bag}), per cui le righe duplicate possono essere presenti.
+
+L'eliminazione delle righe duplicate è un'operazione computazionalmente
+costosa; per questo motivo, \textbf{SQL mantiene i duplicati per default}.
+
+Il costrutto \texttt{DISTINCT}, utilizzato dopo la parola chiave
+\texttt{SELECT}, permette di eliminare le righe duplicate dal risultato.
+
+Il costrutto \texttt{ALL} permette invece di mantenere esplicitamente
+i duplicati, anche se questa è già la scelta predefinita del linguaggio SQL.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image142}
+	\caption{Proiezione: gestione dei duplicati in SQL}
+	\label{fig:image142}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image143}
+	\caption{}
+	\label{fig:image143}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image144}
+	\caption{Esempio : gestione dei duplicati in SQL}
+	\label{fig:image144}
+\end{figure}
+\subsubsection{SELECT: Selezione,Proiezione,Join}
+L'istruzione \textbf{SELECT} permette di esprimere diverse operazioni
+dell'\textbf{algebra relazionale}, a seconda della struttura
+dell'interrogazione.
+
+\begin{itemize}
+	
+	\item Con \textbf{una sola relazione} nella clausola \texttt{FROM} è possibile
+	realizzare:
+	\begin{itemize}
+		\item \textbf{selezioni} ($\sigma$)
+		\item \textbf{proiezioni} ($\pi$)
+		\item \textbf{ridenominazioni} ($\rho$), utilizzando il costrutto \texttt{AS}
+	\end{itemize}
+	
+	\item Con \textbf{più relazioni} nella clausola \texttt{FROM} si possono
+	realizzare:
+	\begin{itemize}
+		\item \textbf{join} ($\bowtie$)
+		\item \textbf{prodotti cartesiani}
+	\end{itemize}
+	
+\end{itemize}
+
+Le principali corrispondenze tra le clausole SQL e le operazioni
+dell'algebra relazionale sono:
+
+\begin{itemize}
+	
+	\item \texttt{SELECT} $\rightarrow$ $\pi$ \textbf{Proiezione} + $\rho$ \textbf{Ridenominazione}
+	
+	\item \texttt{FROM} $\rightarrow$ $\bowtie$ \textbf{Join} (prodotto cartesiano)
+	
+	\item \texttt{WHERE} $\rightarrow$ $\sigma$ \textbf{Selezione} + $\bowtie$ \textbf{Join} (condizione)
+	
+\end{itemize}
+\subsection{Interrogazioni con JOIN}
+In \textbf{SQL} il \textbf{join} può essere definito in due modi diversi.
+
+\begin{itemize}
+	
+	\item Il primo metodo non richiede l'uso di una nuova sintassi: il legame tra
+	le tabelle coinvolte viene specificato nella clausola \texttt{WHERE}.
+	
+	\item Il secondo metodo utilizza invece una sintassi dedicata all'interno
+	della clausola \texttt{FROM}. In questo caso il join viene espresso
+	esplicitamente tramite gli operatori di join.
+	
+\end{itemize}
+
+Nel seguito verrà utilizzato il secondo approccio.
+La clausola \textbf{FROM} ammette come argomento:
+
+\begin{center}
+	\texttt{table\_name [[AS] name] [, ...]}
+\end{center}
+
+Se nella clausola \texttt{FROM} sono presenti due o più nomi di tabelle,
+viene eseguito il \textbf{prodotto cartesiano} tra tutte le tabelle.
+Lo schema del risultato può quindi contenere tutti gli attributi
+derivanti dal prodotto cartesiano delle relazioni coinvolte.
+
+Il prodotto cartesiano tra due o più tabelle è chiamato
+\textbf{CROSS JOIN}.
+
+A partire dallo standard \textbf{SQL-2}, sono stati introdotti
+altri tipi di join (\textit{join\_type}), tra cui:
+
+\begin{itemize}
+	\item \textbf{INNER JOIN}
+	\item \textbf{LEFT [OUTER] JOIN}
+	\item \textbf{RIGHT [OUTER] JOIN}
+	\item \textbf{FULL [OUTER] JOIN}
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image145}
+	\caption{Sintassi JOIN}
+	\label{fig:image145}
+\end{figure}
+dove \textit{join\_condition} è un'espressione booleana che seleziona le tuple
+del join da aggiungere al risultato.
+
+Le tuple selezionate possono essere successivamente filtrate
+mediante la condizione specificata nella clausola \texttt{WHERE}.
