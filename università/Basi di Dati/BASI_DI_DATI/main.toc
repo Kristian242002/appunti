@@ -118,3 +118,14 @@
 \contentsline {paragraph}{Interpretazione di un’espressione del calcolo come interrogazione}{80}{paragraph*.21}%
 \contentsline {subsection}{\numberline {8.3}Calcolo relazionale sulle tuple}{80}{subsection.8.3}%
 \contentsline {section}{\numberline {9}Linguaggi di interrogazione nei sistemi NoSql}{85}{section.9}%
+\contentsline {section}{\numberline {10}Tecnologie - Transazioni}{88}{section.10}%
+\contentsline {subsection}{\numberline {10.1}Tecnologia dei DBMS}{88}{subsection.10.1}%
+\contentsline {subsection}{\numberline {10.2}Architettura su 3 livelli dei DBMS}{88}{subsection.10.2}%
+\contentsline {subsection}{\numberline {10.3}Transazione}{89}{subsection.10.3}%
+\contentsline {subsubsection}{\numberline {10.3.1}Proprietà delle transazioni}{90}{subsubsection.10.3.1}%
+\contentsline {subsection}{\numberline {10.4}Architettura di un DBMS}{91}{subsection.10.4}%
+\contentsline {section}{\numberline {11}Linguaggio di Interrogazione SQL}{96}{section.11}%
+\contentsline {subsection}{\numberline {11.1}Clausola SELECT}{97}{subsection.11.1}%
+\contentsline {subsection}{\numberline {11.2}Clausola FROM}{99}{subsection.11.2}%
+\contentsline {subsection}{\numberline {11.3}Clausola WHERE}{100}{subsection.11.3}%
+\contentsline {subsubsection}{\numberline {11.3.1}Operatore LIKE}{102}{subsubsection.11.3.1}%

@@ -1,0 +1,216 @@
+\section{Linguaggio di Interrogazione SQL}
+
+\textbf{SQL} (Structured Query Language) è il linguaggio di riferimento per la gestione delle \textbf{basi di dati relazionali}. 
+In origine l'acronimo indicava \textit{Structured Query Language}, mentre oggi viene considerato semplicemente un \textbf{nome proprio}.
+
+SQL è un linguaggio molto completo che permette di svolgere diverse operazioni su una base di dati.
+
+
+SQL consente di:
+
+\begin{itemize}
+	\item Definire la struttura di una base di dati
+	\item Modificare lo schema della base di dati
+	\item Inserire, modificare e cancellare i dati
+	\item Eseguire interrogazioni semplici
+	\item Eseguire interrogazioni complesse (interrogazioni annidate, raggruppamenti, ecc.)
+\end{itemize}
+
+Per questo motivo SQL è diviso in diversi sottolinguaggi.
+
+\begin{itemize}
+	\item \textbf{DDL (Data Definition Language)}: permette di definire la struttura della base di dati e i vincoli di integrità.
+	\item \textbf{DML (Data Manipulation Language)}: permette di inserire, modificare o cancellare i dati.
+	\item \textbf{DQL (Data Query Language)}: permette di interrogare la base di dati tramite query.
+\end{itemize}
+
+SQL è un \textbf{linguaggio dichiarativo}.  
+Questo significa che l'utente specifica \textbf{cosa vuole ottenere}, ma non \textbf{come} il sistema deve eseguire l'operazione.
+
+Ad esempio, quando si scrive una query SQL, si indica semplicemente il risultato desiderato.
+
+\begin{center}
+	\texttt{SELECT nome FROM Studenti WHERE voto > 25}
+\end{center}
+
+Il modo in cui la query viene eseguita è deciso automaticamente dal \textbf{DBMS}.
+
+Una componente del DBMS chiamata \textbf{query optimizer} traduce la query SQL in operazioni interne più efficienti.  
+Questo processo è nascosto all'utente e permette di esprimere interrogazioni in modo \textbf{astratto e ad alto livello}.
+
+
+Nel tempo sono state definite diverse versioni dello standard SQL.
+
+\begin{itemize}
+	\item \textbf{SQL-86}: prima standardizzazione del linguaggio
+	\item \textbf{SQL-89}: introduzione dell'integrità referenziale
+	\item \textbf{SQL-92 (SQL-2)}: estensione significativa del linguaggio
+	\item \textbf{SQL:1999 (SQL-3)}: introduzione di concetti orientati agli oggetti, trigger e funzioni
+	\item Versioni successive (2003, 2006, 2008, 2011, 2016): introduzione di nuove funzionalità come supporto XML, JSON e dati temporali
+\end{itemize}
+
+Le varie versioni dello standard hanno progressivamente ampliato le capacità del linguaggio, mantenendo comunque compatibilità con le versioni precedenti.
+\subsection{Clausola SELECT}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image116}
+	\caption{Sintassi SELECT}
+	\label{fig:image116}
+\end{figure}
+\begin{itemize}
+	\item \textbf{expression} è un’espressione che determina un attributo.
+	\item \textbf{from\_item} è un’espressione che determina una sorgente per gli attributi.
+	\item \textbf{condition} è un’espressione booleana utilizzata per selezionare i valori degli attributi.
+	\item \textbf{grouping\_element} è un’espressione che permette di eseguire operazioni su più valori di un attributo e considerare il risultato complessivo.
+\end{itemize}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{image117}
+	\caption{Forma semplificata SELECT}
+	\label{fig:image117}
+\end{figure}
+
+
+\begin{itemize}
+	\item \textbf{SELECT}, \textbf{FROM} e \textbf{WHERE} sono chiamate \textbf{clausole}.
+	\item La query estrae dal \textbf{prodotto cartesiano} delle tabelle elencate nella clausola \textbf{FROM} le righe che soddisfano la condizione specificata nella clausola \textbf{WHERE}.
+	\item Il risultato dell’interrogazione è una \textbf{tabella} con una riga per ogni riga prodotta dalla clausola \textbf{FROM} ed eventualmente filtrata dalla clausola \textbf{WHERE} (se presente).
+	\item Le colonne della tabella risultante dipendono dalla lista degli attributi specificata nella clausola \textbf{SELECT}.
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image118}
+	\caption{DISTINCT}
+	\label{fig:image118}
+\end{figure}
+\begin{itemize}
+	\item \textbf{*} è un’abbreviazione utilizzata per indicare tutti gli attributi delle tabelle.
+	\item \textbf{expression} è un’espressione che coinvolge gli attributi della tabella (può anche essere semplicemente il nome di un attributo).
+	\item \textbf{output\_name} è il nome assegnato all’attributo che conterrà il risultato della valutazione dell’espressione \textbf{expression} nella relazione risultato.
+	\item \textbf{DISTINCT}: se presente richiede l’eliminazione delle tuple duplicate.
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image119}
+	\caption{Esempio : Estrarre lo stipendio degli impiegati di cognome "Rossi"}
+	\label{fig:image119}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image120}
+	\caption{Uso di AS (ridenominazione)}
+	\label{fig:image120}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image121}
+	\caption{Uso dell'asterisco}
+	\label{fig:image121}
+\end{figure}
+\subsection{Clausola FROM}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image122}
+	\caption{Sintassi FROM}
+	\label{fig:image122}
+\end{figure}
+dove \textbf{from\_item} può essere una delle seguenti clausole (versione semplificata):
+
+\begin{itemize}
+	\item \textbf{table\_name [[AS] alias [(column\_alias [, ...])]]}
+	
+	Se sono presenti due o più tabelle, si esegue il \textbf{prodotto cartesiano} tra tutte le tabelle.  
+	Se ci sono attributi con lo stesso nome su tabelle diverse, nella clausola \textbf{SELECT} questi attributi sono identificati anteponendo il nome della tabella e un punto:
+	
+	\begin{center}
+		\texttt{nomeTabella.nomeAttributo}
+	\end{center}
+	
+	\item \textbf{(other\_select) [AS] nomeRisultato [(column\_alias [, ...])]}
+	
+	È una \textbf{SELECT innestata}.  
+	Il risultato della SELECT interna viene trattato come una tabella temporanea con nome \textbf{nomeRisultato}, sulla quale viene eseguita la SELECT esterna.
+	
+	\item \textbf{from\_item [NATURAL] join\_type from\_item [ON condition]}
+	
+	È la clausola \textbf{JOIN}.  
+	
+	Rappresenta un metodo più sofisticato rispetto al caso 1), che permette di selezionare un sottoinsieme del prodotto cartesiano di due o più tabelle.  
+	Il parametro \textbf{join\_type} specifica il tipo di join da utilizzare. I principali tipi di join sono descritti nelle slide successive.
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image123}
+	\caption{Estrarre i nomi ed il cognome degli impiegati e le città in cui lavorano}
+	\label{fig:image123}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image124}
+	\caption{Stessa cosa di prima ma con AS}
+	\label{fig:image124}
+\end{figure}
+\subsection{Clausola WHERE}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image125}
+	\caption{Sintassi WHERE}
+	\label{fig:image125}
+\end{figure}
+\begin{itemize}
+	\item La clausola \textbf{WHERE} ammette come argomento un’espressione booleana costruita combinando predicati semplici con gli operatori \textbf{AND}, \textbf{OR} e \textbf{NOT}.
+	
+	\item \textbf{AND}: seleziona le righe in cui tutti i predicati sono veri.
+	
+	\item \textbf{OR}: seleziona le righe in cui almeno un predicato è vero.
+	
+	\item \textbf{NOT}: seleziona le righe in cui il predicato è falso.
+	
+	\item Ciascun predicato semplice utilizza gli operatori \textbf{=}, \textbf{$<>$}, \textbf{$<$}, \textbf{$>$}, \textbf{$\leq$} e \textbf{$\geq$} per confrontare un’espressione costruita a partire dal valore di un attributo con un valore costante oppure con un’altra espressione.
+	
+	\item Per esprimere la precedenza tra gli operatori \textbf{AND} e \textbf{OR} si utilizzano le \textbf{parentesi}.
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image126}
+	\caption{Estrarre i nomi ed il cognome degli impiegati che lavorano nell'ufficio 20 del dipartimento Amministrazione}
+	\label{fig:image126}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image127}
+	\caption{Estrarre i nomi ed il cognome degli impiegati che lavorano dipartimento Amministrazione o nel dipartimento Produzione.}
+	\label{fig:image127}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image128}
+	\caption{Estrarre i nomi degli impiegati di cognome Rossi che lavorano dipartimento Amministrazione o nel dipartimento Produzione.}
+	\label{fig:image128}
+\end{figure}
+\subsubsection{Operatore LIKE}
+\begin{itemize}
+	\item Per il confronto tra stringhe, SQL mette a disposizione anche l’operatore \textbf{LIKE}, che consente di verificare se una stringa rispetta un certo \textbf{pattern} (oppure \textbf{ILIKE} per confronti \textit{case insensitive}).
+	
+	\item Due caratteri speciali utilizzati nei pattern sono \textbf{\_} e \textbf{\%}:
+	
+	\begin{itemize}
+		\item \textbf{\_}: rappresenta un singolo carattere arbitrario.
+		\item \textbf{\%}: rappresenta una sequenza di lunghezza arbitraria (anche nulla) di caratteri arbitrari.
+	\end{itemize}
+	
+	\item Ad esempio:
+	
+	\begin{center}
+		\texttt{\_o\%i}
+	\end{center}
+	
+	rappresenta una stringa che ha una \textbf{o} in seconda posizione, seguita da una sequenza qualsiasi di caratteri (anche vuota) e che termina con una \textbf{i}.
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image129}
+	\caption{Estrarre gli impiegati che hanno un cognomen cha ha una “o” in seconda posizione e finisce con una “I”.}
+	\label{fig:image129}
+\end{figure}
