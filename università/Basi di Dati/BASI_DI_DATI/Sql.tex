@@ -471,3 +471,673 @@ del join da aggiungere al risultato.
 
 Le tuple selezionate possono essere successivamente filtrate
 mediante la condizione specificata nella clausola \texttt{WHERE}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image146}
+	\caption{Prodotto cartesiano}
+	\label{fig:image146}
+\end{figure}
+\subsubsection{INNER JOIN}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image147}
+	\caption{Sintassi INNER JOIN}
+	\label{fig:image147}
+\end{figure}
+L'\textbf{INNER JOIN} rappresenta il tradizionale $\theta$-join dell’algebra relazionale.
+Combina ciascuna riga $r_1$ della \texttt{table1} con ciascuna riga della \texttt{table2}
+che soddisfa la condizione specificata nella clausola \texttt{ON}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image148}
+	\caption{Esempio INNER JOIN}
+	\label{fig:image148}
+\end{figure}
+\subsubsection{LEFT OUTER JOIN}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image149}
+	\caption{Sintassi LEFT OUTER JOIN}
+	\label{fig:image149}
+\end{figure}
+Il \textbf{LEFT OUTER JOIN} esegue prima un \texttt{INNER JOIN}. 
+Successivamente, per ogni riga della \texttt{table1} che non trova 
+corrispondenza nella \texttt{table2}, viene comunque inserita nel risultato 
+una riga contenente i valori della \texttt{table1} e \texttt{NULL} negli 
+attributi della \texttt{table2}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image150}
+	\caption{Esempio}
+	\label{fig:image150}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image151}
+	\caption{Nota}
+	\label{fig:image151}
+\end{figure}
+\subsubsection{RIGHT OUTER JOIN}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image152}
+	\caption{Sintassi RIGHT OUTER JOIN}
+	\label{fig:image152}
+\end{figure}
+Il \textbf{RIGHT OUTER JOIN} esegue prima un \texttt{INNER JOIN}. 
+Successivamente, per ogni riga della \texttt{table2} che non trova 
+corrispondenza nella \texttt{table1}, viene comunque inserita nel risultato 
+una riga contenente i valori della \texttt{table2} e \texttt{NULL} negli 
+attributi della \texttt{table1}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image153}
+	\caption{Esempio RIGHT OUTER JOIN}
+	\label{fig:image153}
+\end{figure}
+\subsubsection{FULL OUTER JOIN}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image154}
+	\caption{FULL OUTER JOIN}
+	\label{fig:image154}
+\end{figure}
+Il \textbf{FULL OUTER JOIN} restituisce tutte le tuple prodotte da un 
+\texttt{INNER JOIN}, più le tuple della prima tabella che non trovano 
+corrispondenza nella seconda (come nel \texttt{LEFT OUTER JOIN}) e le 
+tuple della seconda tabella che non trovano corrispondenza nella prima 
+(come nel \texttt{RIGHT OUTER JOIN}). 
+
+Non è equivalente a un \texttt{CROSS JOIN}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image155}
+	\caption{Esempio}
+	\label{fig:image155}
+\end{figure}
+Il \textbf{join} può essere specificato direttamente nella clausola
+\texttt{FROM}, a livello delle tabelle coinvolte. Nello svolgimento degli
+esercizi utilizzeremo questa sintassi dedicata.
+
+\begin{verbatim}
+	SELECT ListaAttributi
+	FROM Tabella1 JOIN Tabella2 ON (CondizioneDiJoin)
+	[WHERE AltraCondizione]
+\end{verbatim}
+
+Esempio:
+
+\begin{verbatim}
+	SELECT i.Nome, d.Città
+	FROM Impiegato AS i JOIN Dipartimento AS d
+	ON (i.Dipart = d.Nome)
+\end{verbatim}
+\textbf{Q8:} Selezionare i padri di persone che guadagnano più di 20.
+
+\medskip
+
+\textbf{Algebra relazionale}
+
+\[
+\pi_{Padre} \big( \text{Paternità} \ \bowtie_{Figlio = Nome} \ (\sigma_{Reddito > 20}(\text{Persone})) \big)
+\]
+
+\medskip
+
+\textbf{SQL}
+
+\begin{verbatim}
+	SELECT DISTINCT Padre
+	FROM Persone
+	JOIN Paternità ON (Figlio = Nome)
+	WHERE Reddito > 20;
+\end{verbatim}
+\subsection{Uso di variabili (alias)}
+
+SQL permette di associare un \textbf{nome alternativo} (alias) alle tabelle
+che compaiono nella clausola \texttt{FROM}.
+
+\begin{itemize}
+	\item Il nome alternativo viene utilizzato per fare riferimento alla
+	tabella nel contesto dell'interrogazione.
+	
+	\item L'alias viene definito nella clausola \texttt{FROM} tramite la
+	parola chiave \texttt{AS} (opzionale).
+\end{itemize}
+
+\textbf{Motivi per usare gli alias:}
+
+\begin{itemize}
+	\item Fare riferimento alla tabella in modo più compatto.
+	\item Accedere più volte alla stessa tabella all'interno della stessa
+	interrogazione (self join).
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image156}
+	\caption{Esempio Uso di variabili (alias)}
+	\label{fig:image156}
+\end{figure}
+\begin{itemize}
+	\item Si può immaginare che, al momento della definizione degli alias,
+	vengano create due copie della tabella \texttt{Impiegato}, ciascuna
+	associata a una delle due variabili \texttt{i1} e \texttt{i2}.
+	
+	\item Le due copie contengono inizialmente tutte le righe della tabella
+	\texttt{Impiegato}.
+	
+	\item Successivamente, sulla copia \texttt{i2} vengono selezionate solo
+	le righe relative al dipartimento \texttt{'Produzione'}.
+\end{itemize}
+\subsection{Ordinamento del risultato}
+Come abbiamo visto, una relazione è un insieme di tuple \textbf{non ordinato}.
+Nella pratica, però, spesso è necessario visualizzare le righe secondo
+un determinato ordine.
+
+SQL permette di specificare un ordinamento (ascendente o discendente)
+delle righe dell'output tramite la clausola \texttt{ORDER BY}, che viene
+posta alla fine dell'interrogazione.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image157}
+	\caption{Sintassi Ordinamento del risultato}
+	\label{fig:image157}
+\end{figure}
+Se nella clausola \texttt{ORDER BY} sono presenti più attributi, le righe
+vengono ordinate rispetto al primo attributo dell'elenco; a parità di valore
+del primo attributo si utilizza il secondo, e così via in sequenza.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image158}
+	\caption{Esempio: Ordinamento del risultato}
+	\label{fig:image158}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image159}
+	\caption{Esempio Ordinamento del risultato}
+	\label{fig:image159}
+\end{figure}
+\subsubsection{Operazioni Insiemistiche}
+SQL mette a disposizione alcuni \textbf{operatori insiemistici} che permettono
+di combinare i risultati di più interrogazioni.
+
+\begin{verbatim}
+	SELECT ...
+	{ UNION | INTERSECT | EXCEPT [ALL] }
+	SELECT ...
+\end{verbatim}
+
+\begin{itemize}
+	\item Gli operatori insiemistici, a differenza del resto del linguaggio SQL,
+	\textbf{eliminano i duplicati per default}. 
+	
+	\item Se si vogliono mantenere i duplicati è necessario utilizzare la
+	parola chiave \texttt{ALL}.
+	
+	\item Le interrogazioni combinate devono restituire lo stesso
+	\textbf{numero di attributi} e avere \textbf{domini compatibili}.
+	
+	\item La corrispondenza tra gli attributi avviene per \textbf{posizione}
+	(ordine posizionale), non per nome.
+	
+	\item Se i nomi degli attributi sono diversi, di solito il sistema utilizza
+	il nome degli attributi del \textbf{primo operando}.
+\end{itemize}
+\subsubsection{Unione}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image160}
+	\caption{Esempio Unione}
+	\label{fig:image160}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image161}
+	\caption{Esempio Unione}
+	\label{fig:image161}
+\end{figure}
+\subsubsection{Intersezione}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image162}
+	\caption{Intersezione}
+	\label{fig:image162}
+\end{figure}
+\subsubsection{Differenza}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image163}
+	\caption{Differenza}
+	\label{fig:image163}
+\end{figure}
+\subsection{Operatori aggregati}
+
+Gli operatori di aggregazione rappresentano una delle più importanti
+estensioni di SQL rispetto all'algebra relazionale.
+
+\begin{itemize}
+	\item I principali operatori di aggregazione sono:
+	\texttt{COUNT}, \texttt{SUM}, \texttt{MAX}, \texttt{MIN} e \texttt{AVG}.
+	
+	\item Nell'algebra relazionale tutte le condizioni specificate vengono
+	valutate su \textbf{una tupla alla volta}.
+	
+	\item Gli operatori di aggregazione, invece, permettono di valutare
+	proprietà che dipendono da \textbf{insiemi di tuple}.
+	
+	\item Prima viene eseguita l'interrogazione considerando solo le
+	clausole \texttt{FROM} e \texttt{WHERE}.
+	
+	\item Successivamente l'operatore di aggregazione viene applicato
+	alla tabella contenente il risultato dell'interrogazione.
+\end{itemize}
+\subsubsection{COUNT}
+L'operatore \texttt{COUNT} conta il numero di righe di una tabella oppure
+il numero di valori di uno o più attributi.
+
+\begin{verbatim}
+	COUNT ( <* | [DISTINCT | ALL] ListaAttributi> )
+\end{verbatim}
+
+\begin{itemize}
+	\item \texttt{*}: conta il numero totale di righe della tabella.
+	
+	\item \texttt{DISTINCT ListaAttributi}: conta il numero di valori
+	\textbf{distinti} degli attributi specificati.
+	
+	\item \texttt{ALL ListaAttributi}: conta il numero di righe che hanno
+	valori \textbf{diversi da NULL} negli attributi indicati.
+	
+	\item \texttt{ALL} rappresenta il \textbf{comportamento di default}.
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image164}
+	\caption{Esempio COUNT}
+	\label{fig:image164}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image165}
+	\caption{Esempio Count}
+	\label{fig:image165}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image166}
+	\caption{Esempio Count}
+	\label{fig:image166}
+\end{figure}
+\subsubsection{Operatori aggregati: SUM.MAX,MIN,AVG}
+\begin{verbatim}
+	<SUM | MAX | MIN | AVG> ( [DISTINCT | ALL] AttrExpr )
+\end{verbatim}
+
+\begin{itemize}
+	\item \texttt{SUM}: restituisce la somma dei valori posseduti
+	dall'espressione.
+	
+	\item \texttt{MAX} / \texttt{MIN}: restituiscono rispettivamente il
+	valore massimo o minimo tra quelli posseduti dall'espressione.
+	
+	\item \texttt{AVG}: restituisce la media dei valori.
+	
+	\item \texttt{SUM} e \texttt{AVG} ammettono come argomento solo
+	espressioni che rappresentano valori \textbf{numerici} o
+	\textbf{intervalli di tempo}.
+	
+	\item \texttt{MAX} e \texttt{MIN} ammettono come argomento
+	espressioni su cui è definito un \textbf{ordinamento}
+	(ad esempio anche stringhe).
+	
+	\item \texttt{DISTINCT} elimina i valori duplicati prima
+	dell'applicazione dell'operatore.
+	
+	\item \texttt{ALL} considera tutti i valori, \textbf{trascurando solo
+		i valori NULL}. Questo è il comportamento di default.
+	
+	\item \texttt{DISTINCT} e \texttt{ALL} non hanno effetto sugli
+	operatori \texttt{MIN} e \texttt{MAX}.
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image167}
+	\caption{Esempio SUM}
+	\label{fig:image167}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image168}
+	\caption{Esempio MAX,MIN,AVG}
+	\label{fig:image168}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image169}
+	\caption{Esempio MAX}
+	\label{fig:image169}
+\end{figure}
+\begin{verbatim}
+	SELECT Cognome, Nome, MAX(I.Stipendio)
+	FROM Impiegato AS I JOIN Dipartimento AS D
+	ON I.Dipart = D.Nome
+	WHERE D.Città = 'Milano'
+\end{verbatim}
+
+\begin{itemize}
+	\item La seguente interrogazione non è corretta.
+	
+	\item Gli operatori di aggregazione non sono un meccanismo di selezione,
+	ma funzioni che restituiscono un valore quando vengono applicate
+	a un insieme di tuple.
+	
+	\item Gli attributi \texttt{Cognome} e \texttt{Nome} restituiscono
+	un valore per \textbf{ogni tupla selezionata}, mentre
+	\texttt{MAX()} restituisce un \textbf{unico valore} per
+	l'intero insieme.
+	
+	\item Si crea quindi un'incoerenza tra attributi normali
+	e funzione di aggregazione.
+	
+	\item Per risolvere questa situazione è necessario utilizzare
+	il meccanismo di \textbf{raggruppamento} tramite la clausola
+	\texttt{GROUP BY}.
+\end{itemize}
+\subsection{Interrogazioni con raggruppamento}
+Gli operatori di aggregazione possono essere applicati separatamente
+a \textbf{sottoinsiemi di righe}.
+
+\begin{itemize}
+	\item La clausola \texttt{GROUP BY} permette di specificare come
+	dividere le righe della tabella in sottoinsiemi.
+	
+	\item La clausola consente di indicare un insieme di attributi
+	rispetto ai quali effettuare il raggruppamento.
+	
+	\item L'interrogazione raggruppa quindi tutte le righe che
+	possiedono gli \textbf{stessi valori} per tali attributi.
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image170}
+	\caption{Esempio GROUP BY}
+	\label{fig:image170}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image171}
+	\caption{Esempio GROUP BY}
+	\label{fig:image171}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image172}
+	\caption{Esempio GROUP BY}
+	\label{fig:image172}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image173}
+	\caption{Esempio GROUP BY}
+	\label{fig:image173}
+\end{figure}
+In una interrogazione che utilizza la clausola \texttt{GROUP BY}, nella
+clausola \texttt{SELECT} possono comparire solo:
+
+\begin{itemize}
+	\item attributi che appartengono all'insieme specificato nella
+	clausola \texttt{GROUP BY};
+	\item oppure operatori di aggregazione.
+\end{itemize}
+
+\textbf{Esempio di interrogazione non corretta}
+
+\begin{verbatim}
+	SELECT Ufficio
+	FROM Impiegato
+	GROUP BY Dipart
+\end{verbatim}
+
+\textbf{Errore:}
+
+\begin{itemize}
+	\item Ad ogni valore dell'attributo \texttt{Dipart} possono
+	corrispondere diversi valori dell'attributo \texttt{Ufficio}.
+	
+	\item Ogni sottoinsieme di righe generato dal \texttt{GROUP BY}
+	deve corrispondere ad \textbf{una sola riga} nella tabella
+	risultato.
+\end{itemize}
+\subsubsection{HAVING}
+È possibile applicare delle \textbf{selezioni ai gruppi} generati tramite
+la clausola \texttt{GROUP BY}.
+
+\begin{itemize}
+	\item La clausola \texttt{HAVING} permette di specificare condizioni
+	che devono essere soddisfatte dai \textbf{gruppi di tuple} generati
+	dopo l'esecuzione del raggruppamento tramite \texttt{GROUP BY}.
+	
+	\item A differenza della clausola \texttt{WHERE}, che filtra le
+	\textbf{singole tuple} prima del raggruppamento, la clausola
+	\texttt{HAVING} filtra i \textbf{gruppi} dopo il raggruppamento.
+\end{itemize}
+
+\textbf{Esempio}
+
+\begin{verbatim}
+	SELECT Dipart, SUM(Stipendio) AS SommaStipendi
+	FROM Impiegato
+	GROUP BY Dipart
+	HAVING SUM(Stipendio) > 100;
+\end{verbatim}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image174}
+	\caption{HAVING + GROUP BY}
+	\label{fig:image174}
+\end{figure}
+\begin{itemize}
+	\item La clausola \texttt{WHERE} applica delle selezioni su
+	\textbf{singole righe}, prima dell'eventuale raggruppamento
+	tramite \texttt{GROUP BY}.
+	
+	\item La clausola \texttt{HAVING} applica delle selezioni su
+	\textbf{gruppi di righe}, generati dopo l'esecuzione del
+	raggruppamento tramite \texttt{GROUP BY}.
+\end{itemize}
+
+\textbf{Esempio}
+
+\begin{verbatim}
+	SELECT Dipart
+	FROM Impiegato
+	WHERE Ufficio = 20
+	GROUP BY Dipart
+	HAVING AVG(Stipendio) > 25;
+\end{verbatim}
+
+\textbf{Ordine logico di esecuzione}
+
+\begin{enumerate}
+	\item \texttt{WHERE} → seleziona le righe che verranno raggruppate.
+	\item \texttt{GROUP BY} → forma i gruppi con le righe selezionate.
+	\item \texttt{HAVING} → seleziona i gruppi che faranno parte del risultato.
+\end{enumerate}
+\subsection{Interrogazioni nidificate}
+Una \textbf{interrogazione nidificata} è una interrogazione SQL che
+contiene al suo interno una o più interrogazioni.
+
+\begin{itemize}
+	\item La nidificazione può avvenire nella clausola \texttt{SELECT},
+	nella clausola \texttt{FROM} oppure nella clausola \texttt{WHERE}.
+	
+	\item Il caso più comune è la nidificazione nella clausola
+	\texttt{WHERE}.
+	
+	\item In questo caso un predicato contiene un confronto tra
+	un valore (un'espressione valutata su una singola riga) e
+	il risultato di un'altra interrogazione SQL.
+\end{itemize}
+Quando in un predicato si confronta un attributo (o un'espressione che
+produce un valore singolo) con il risultato di un'interrogazione,
+può sorgere un problema di disomogeneità tra i termini del confronto,
+poiché la sottointerrogazione può restituire più valori.
+
+\begin{itemize}
+	\item I normali operatori di confronto
+	(\texttt{=}, \texttt{<>}, \texttt{<}, \texttt{>}, \texttt{<=}, \texttt{>=})
+	possono essere estesi con le parole chiave \texttt{ANY} e \texttt{ALL}.
+	
+	\item \texttt{ANY}: la riga soddisfa la condizione se il confronto
+	tra il valore dell'attributo (o dell'espressione) e \textbf{almeno
+		uno} dei valori restituiti dalla sottointerrogazione risulta vero.
+	
+	\item \texttt{ALL}: la riga soddisfa la condizione se il confronto
+	tra il valore dell'attributo (o dell'espressione) e \textbf{tutti}
+	i valori restituiti dalla sottointerrogazione risulta vero.
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image175}
+	\caption{WHERE}
+	\label{fig:image175}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image176}
+	\caption{}
+	\label{fig:image176}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image177}
+	\caption{}
+	\label{fig:image177}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image178}
+	\caption{}
+	\label{fig:image178}
+\end{figure}
+\textbf{Esempio con ALL}
+
+\begin{verbatim}
+	SELECT Nome
+	FROM Dipartimento
+	WHERE Nome <> ALL
+	(SELECT Dipart
+	FROM Impiegato
+	WHERE Cognome = 'Rossi');
+\end{verbatim}
+
+Questa interrogazione seleziona i dipartimenti il cui nome è
+\textbf{diverso da tutti} i valori restituiti dalla sottointerrogazione,
+cioè i dipartimenti in cui non lavora nessun impiegato con cognome
+\texttt{'Rossi'}.
+
+\medskip
+
+\textbf{Interrogazione equivalente}
+
+\begin{verbatim}
+	SELECT Nome
+	FROM Dipartimento
+	EXCEPT
+	SELECT Dipart
+	FROM Impiegato
+	WHERE Cognome = 'Rossi';
+\end{verbatim}
+Per le interrogazioni nidificate viste fino ad ora, la sottointerrogazione
+può essere eseguita \textbf{una sola volta} e il risultato ottenuto può
+essere salvato in una \textbf{tabella temporanea}, utilizzata per
+eseguire i confronti con le righe della tabella esterna.
+
+\begin{itemize}
+	\item In alcuni casi, però, la sottointerrogazione fa riferimento
+	al contesto dell'interrogazione esterna tramite l'uso di una
+	variabile (passaggio di \textit{binding}).
+	
+	\item In questo caso si parla di \textbf{interrogazione nidificata
+		correlata}.
+	
+	\item La sottointerrogazione deve essere quindi valutata
+	\textbf{separatamente per ogni riga} prodotta
+	dall'interrogazione esterna.
+\end{itemize}
+L'operatore logico \texttt{EXISTS} riceve come parametro
+un'interrogazione nidificata e restituisce il valore \textbf{vero}
+solo se la sottointerrogazione produce un risultato \textbf{non vuoto}.
+
+\begin{itemize}
+	\item Se la sottointerrogazione restituisce almeno una riga,
+	la condizione \texttt{EXISTS} risulta vera.
+	
+	\item Se la sottointerrogazione non restituisce alcuna riga,
+	la condizione \texttt{EXISTS} risulta falsa.
+	
+	\item Questo operatore è particolarmente utile quando esiste
+	un \textbf{passaggio di binding} tra la query esterna e la
+	sottointerrogazione.
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image179}
+	\caption{}
+	\label{fig:image179}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image180}
+	\caption{}
+	\label{fig:image180}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image181}
+	\caption{}
+	\label{fig:image181}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image182}
+	\caption{}
+	\label{fig:image182}
+\end{figure}
+Le interrogazioni nidificate possono essere utilizzate nella
+clausola \texttt{FROM} come sorgenti di dati su cui eseguire
+l'interrogazione principale.
+
+\begin{itemize}
+	\item È possibile creare una \textbf{catena di interrogazioni},
+	in cui ogni interrogazione utilizza il risultato della
+	precedente come se fosse una tabella di base.
+	
+	\item In questo modo il risultato di una sottointerrogazione
+	viene trattato come una \textbf{tabella temporanea}.
+\end{itemize}
+
+\textbf{Q28:} Estrarre per ogni cantante che è anche autore di canzoni
+il numero di canzoni di cui è rispettivamente interprete e autore.
+
+\begin{verbatim}
+	SELECT DISTINCT C.Nome, C.NumCantate, A.NumScritte
+	FROM
+	(SELECT Nome, COUNT(*) AS NumCantate
+	FROM Cantante
+	GROUP BY Nome) C
+	JOIN
+	(SELECT Nome, COUNT(*) AS NumScritte
+	FROM Autore
+	GROUP BY Nome) A
+	ON C.Nome = A.Nome;
+\end{verbatim}
+
+\begin{itemize}
+	\item Prima vengono eseguite le interrogazioni presenti nella
+	clausola \texttt{FROM}.
+	
+	\item I risultati ottenuti vengono poi utilizzati come
+	\textbf{normali tabelle} nell'interrogazione esterna.
+\end{itemize}
