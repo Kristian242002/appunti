@@ -168,3 +168,6 @@
 \contentsline {subsection}{\numberline {12.5}Modifica ed eliminazione delle strutture}{140}{subsection.12.5}%
 \contentsline {subsection}{\numberline {12.6}Cancellazione dei dati}{141}{subsection.12.6}%
 \contentsline {subsubsection}{\numberline {12.6.1}Eliminazione di una tabella}{141}{subsubsection.12.6.1}%
+\contentsline {section}{\numberline {13}Strutture fisiche e accesso ai dati}{142}{section.13}%
+\contentsline {subsection}{\numberline {13.1}Rappresentazione logica del buffer}{143}{subsection.13.1}%
+\contentsline {subsection}{\numberline {13.2}Primitive del gestore del buffer}{144}{subsection.13.2}%
