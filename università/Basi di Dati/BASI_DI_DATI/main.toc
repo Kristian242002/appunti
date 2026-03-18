@@ -156,18 +156,22 @@
 \contentsline {subsection}{\numberline {11.10}Interrogazioni con raggruppamento}{121}{subsection.11.10}%
 \contentsline {subsubsection}{\numberline {11.10.1}HAVING}{124}{subsubsection.11.10.1}%
 \contentsline {subsection}{\numberline {11.11}Interrogazioni nidificate}{125}{subsection.11.11}%
-\contentsline {section}{\numberline {12}Laboratorio}{130}{section.12}%
-\contentsline {subsection}{\numberline {12.1}PostgreSQL}{130}{subsection.12.1}%
-\contentsline {subsection}{\numberline {12.2}SQL comandi base}{131}{subsection.12.2}%
-\contentsline {subsubsection}{\numberline {12.2.1}Creazione Tabella}{131}{subsubsection.12.2.1}%
-\contentsline {subsubsection}{\numberline {12.2.2}Concetti fondamentali del DDL}{132}{subsubsection.12.2.2}%
-\contentsline {paragraph}{Valori interi}{133}{paragraph*.22}%
-\contentsline {paragraph}{Valori decimali}{133}{paragraph*.23}%
-\contentsline {subsection}{\numberline {12.3}Vincoli intrarelazionali}{135}{subsection.12.3}%
-\contentsline {subsection}{\numberline {12.4}Vincoli interrelazionali}{137}{subsection.12.4}%
-\contentsline {subsection}{\numberline {12.5}Modifica ed eliminazione delle strutture}{140}{subsection.12.5}%
-\contentsline {subsection}{\numberline {12.6}Cancellazione dei dati}{141}{subsection.12.6}%
-\contentsline {subsubsection}{\numberline {12.6.1}Eliminazione di una tabella}{141}{subsubsection.12.6.1}%
-\contentsline {section}{\numberline {13}Strutture fisiche e accesso ai dati}{142}{section.13}%
-\contentsline {subsection}{\numberline {13.1}Rappresentazione logica del buffer}{143}{subsection.13.1}%
-\contentsline {subsection}{\numberline {13.2}Primitive del gestore del buffer}{144}{subsection.13.2}%
+\contentsline {section}{\numberline {12}Strutture fisiche e accesso ai dati}{130}{section.12}%
+\contentsline {subsection}{\numberline {12.1}Rappresentazione logica del buffer}{131}{subsection.12.1}%
+\contentsline {subsection}{\numberline {12.2}Primitive del gestore del buffer}{132}{subsection.12.2}%
+\contentsline {subsection}{\numberline {12.3}Persistenza, scritture differite e log}{133}{subsection.12.3}%
+\contentsline {subsection}{\numberline {12.4}Algoritmo di ripresa in caso di guasto}{134}{subsection.12.4}%
+\contentsline {subsubsection}{\numberline {12.4.1}Algoritmo ripresa a caldo}{135}{subsubsection.12.4.1}%
+\contentsline {subsubsection}{\numberline {12.4.2}Algoritmo ripresa a freddo}{136}{subsubsection.12.4.2}%
+\contentsline {section}{\numberline {13}Laboratorio}{140}{section.13}%
+\contentsline {subsection}{\numberline {13.1}PostgreSQL}{140}{subsection.13.1}%
+\contentsline {subsection}{\numberline {13.2}SQL comandi base}{141}{subsection.13.2}%
+\contentsline {subsubsection}{\numberline {13.2.1}Creazione Tabella}{141}{subsubsection.13.2.1}%
+\contentsline {subsubsection}{\numberline {13.2.2}Concetti fondamentali del DDL}{142}{subsubsection.13.2.2}%
+\contentsline {paragraph}{Valori interi}{143}{paragraph*.22}%
+\contentsline {paragraph}{Valori decimali}{143}{paragraph*.23}%
+\contentsline {subsection}{\numberline {13.3}Vincoli intrarelazionali}{145}{subsection.13.3}%
+\contentsline {subsection}{\numberline {13.4}Vincoli interrelazionali}{147}{subsection.13.4}%
+\contentsline {subsection}{\numberline {13.5}Modifica ed eliminazione delle strutture}{150}{subsection.13.5}%
+\contentsline {subsection}{\numberline {13.6}Cancellazione dei dati}{151}{subsection.13.6}%
+\contentsline {subsubsection}{\numberline {13.6.1}Eliminazione di una tabella}{151}{subsubsection.13.6.1}%

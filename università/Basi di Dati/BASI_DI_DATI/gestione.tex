@@ -159,3 +159,228 @@ Il gestore del buffer mette a disposizione un insieme di primitive utilizzate pr
 	
 	Anche in questo caso, al termine dell'operazione il dirty bit $j$ viene posto a 0.
 \end{enumerate}
+\subsection{Persistenza, scritture differite e log}
+
+Per migliorare le prestazioni, il DBMS utilizza spesso una strategia di \textbf{scritture differite}, in cui le modifiche ai dati vengono inizialmente applicate solo in memoria centrale e scritte su memoria secondaria in un secondo momento.
+
+Questa tecnica introduce il rischio di perdita dei dati in caso di guasto. 
+Per garantire la \textbf{persistenza} e l'\textbf{atomicità} delle transazioni, interviene il \textbf{gestore dell'affidabilità}, che utilizza una struttura fondamentale chiamata \textbf{log}.
+
+Il log è un archivio persistente, memorizzato su memoria stabile (resistente ai guasti), in cui vengono registrate tutte le operazioni eseguite dal DBMS.
+
+All'interno del log si distinguono due categorie principali di record:
+
+\begin{itemize}
+	\item \textbf{Record di transazione}, che descrivono le operazioni effettuate sulle basi di dati:
+	\begin{itemize}
+		\item $B(T)$: \textit{Begin}, inizio della transazione $T$;
+		\item $C(T)$: \textit{Commit}, completamento corretto della transazione;
+		\item $A(T)$: \textit{Abort}, annullamento della transazione;
+		\item $I(T, O, AS)$: \textit{Insert}, inserimento dell'oggetto $O$ con stato finale (\textit{After State});
+		\item $U(T, O, BS, AS)$: \textit{Update}, modifica dell'oggetto $O$ dallo stato iniziale (\textit{Before State}) allo stato finale;
+		\item $D(T, O, BS)$: \textit{Delete}, eliminazione dell'oggetto $O$, memorizzando lo stato precedente.
+	\end{itemize}
+	
+	\item \textbf{Record di sistema}, che descrivono eventi del DBMS:
+	\begin{itemize}
+		\item \textbf{DUMP}: indica un salvataggio completo della base di dati;
+		\item \textbf{CHECKPOINT} $CK(T_1, \dots, T_n)$: registra l'insieme delle transazioni attive in un determinato momento.
+	\end{itemize}
+\end{itemize}
+
+L'obiettivo del log è consentire il \textbf{ripristino} del database attraverso due operazioni fondamentali:
+
+\begin{itemize}
+	\item \textbf{UNDO}: annulla gli effetti di una transazione non completata, riportando i dati allo stato precedente ($BS$);
+	\item \textbf{REDO}: ripristina gli effetti di una transazione completata, riportando i dati allo stato finale ($AS$).
+\end{itemize}
+
+Entrambe le operazioni soddisfano la cosiddetta \textbf{proprietà di idempotenza}:
+\[
+UNDO(UNDO(A)) = UNDO(A), \quad REDO(REDO(A)) = REDO(A)
+\]
+
+Il \textbf{checkpoint} è una tecnica utilizzata per ottimizzare il processo di recovery. 
+Esso viene eseguito periodicamente dal DBMS e consiste in:
+
+\begin{itemize}
+	\item sospendere temporaneamente le operazioni;
+	\item forzare la scrittura dei dati modificati su memoria secondaria;
+	\item registrare nel log le transazioni attive in quel momento;
+	\item riprendere la normale esecuzione.
+\end{itemize}
+
+Grazie al checkpoint, in caso di guasto non è necessario analizzare l'intero log, ma solo la parte successiva all'ultimo checkpoint.
+Le principali regole di scrittura del file di log sono fondamentali per garantire la correttezza del sistema e permettere le operazioni di recovery.
+
+\begin{enumerate}
+	\item \textbf{Regola WAL (Write-Ahead Logging)} \\
+	I record di log devono essere scritti sul log prima dell'esecuzione delle corrispondenti operazioni sui dati. 
+	In particolare, prima che una modifica venga applicata alla memoria secondaria, il relativo record deve essere già stato registrato nel log.
+	Questa regola garantisce la possibilità di effettuare operazioni di \textbf{UNDO}, permettendo di annullare modifiche non correttamente completate.
+	
+	\item \textbf{Regola di precedenza del commit} \\
+	I record di log relativi a una transazione devono essere scritti in modo persistente prima che venga effettuato il commit della transazione stessa.
+	Solo dopo che il record di commit è stato salvato stabilmente, la transazione può essere considerata completata.
+	Questa regola garantisce la possibilità di effettuare operazioni di \textbf{REDO}, permettendo di ripristinare le modifiche di transazioni completate anche in caso di guasto.
+\end{enumerate}
+\subsection{Algoritmo di ripresa in caso di guasto}
+
+Il DBMS deve essere in grado di gestire diverse tipologie di guasti che possono compromettere la correttezza dei dati. In particolare, si distinguono due categorie principali:
+
+\begin{enumerate}
+	\item \textbf{Guasto di sistema} \\
+	Si verifica quando viene perso il contenuto della memoria centrale (RAM), mentre la memoria secondaria rimane intatta. 
+	Esempi tipici sono:
+	\begin{itemize}
+		\item interruzione dell'alimentazione elettrica;
+		\item crash del sistema operativo;
+		\item errore hardware o software che causa il riavvio del sistema.
+	\end{itemize}
+	
+	In questo caso si applica un algoritmo detto di \textbf{ripresa a caldo} (\textit{warm restart}), che utilizza il log per:
+	\begin{itemize}
+		\item eseguire il \textbf{REDO} delle transazioni che avevano effettuato il commit ma le cui modifiche potrebbero non essere ancora state scritte su disco;
+		\item eseguire l'\textbf{UNDO} delle transazioni non completate al momento del guasto.
+	\end{itemize}
+	
+	\item \textbf{Guasto di dispositivo} \\
+	Si verifica quando viene perso il contenuto della memoria secondaria, ad esempio a causa di:
+	\begin{itemize}
+		\item guasto del disco;
+		\item corruzione dei dati su file system;
+		\item perdita totale o parziale dei dati memorizzati su disco.
+	\end{itemize}
+	
+	In questo caso si applica un algoritmo detto di \textbf{ripresa a freddo} (\textit{cold restart}), che consiste in:
+	\begin{itemize}
+		\item ripristino della base di dati a partire da una copia di backup (dump);
+		\item successiva applicazione del log per eseguire le operazioni di REDO necessarie.
+	\end{itemize}
+	
+	La ripresa a freddo può essere vista come un'estensione della ripresa a caldo, in quanto include anche le operazioni di recupero da backup oltre all'utilizzo del log.
+\end{enumerate}
+\subsubsection{Algoritmo ripresa a caldo}
+
+L'algoritmo di ripresa a caldo consente di ripristinare uno stato consistente della base di dati dopo un guasto di sistema, utilizzando le informazioni contenute nel log.
+
+\begin{enumerate}
+	\item \textbf{Individuazione del checkpoint} \\
+	Si accede al file di log e lo si analizza a ritroso fino a individuare il più recente record di checkpoint $CK(T_1, \dots, T_n)$.
+	
+	\item \textbf{Inizializzazione delle strutture dati} \\
+	Si inizializzano due insiemi:
+	\begin{itemize}
+		\item \textbf{UNDO}: insieme delle transazioni da annullare;
+		\item \textbf{REDO}: insieme delle transazioni da ripetere.
+	\end{itemize}
+	
+	L'inizializzazione avviene nel seguente modo:
+	\begin{itemize}
+		\item UNDO viene inizializzato con le transazioni attive presenti nel checkpoint ($T_1, \dots, T_n$);
+		\item REDO viene inizializzato come insieme vuoto.
+	\end{itemize}
+	
+	\item \textbf{Analisi in avanti del log} \\
+	A partire dal checkpoint, si scorre il log in avanti applicando le seguenti regole per ogni record:
+	\begin{itemize}
+		\item se si incontra $B(T)$, si aggiunge $T$ all'insieme UNDO;
+		\item se si incontra $C(T)$, si sposta $T$ da UNDO a REDO;
+	\end{itemize}
+	
+\item \textbf{Fase di UNDO} \\
+Si percorre il file di log all'indietro (dalla fine verso il checkpoint) e, per ogni operazione incontrata, si verifica se la transazione $T$ a cui appartiene è presente nell'insieme UNDO.
+
+Se la transazione appartiene a UNDO, si deve annullare l'operazione eseguendo l'operazione inversa, utilizzando le informazioni contenute nel log:
+
+\begin{itemize}
+	\item $I(T, O, AS)$ $\rightarrow$ si esegue una \textbf{DELETE} dell'oggetto $O$;
+	\item $D(T, O, BS)$ $\rightarrow$ si esegue una \textbf{INSERT} dell'oggetto $O$ ripristinando lo stato precedente ($BS$);
+	\item $U(T, O, BS, AS)$ $\rightarrow$ si riporta l'oggetto $O$ allo stato precedente ($BS$).
+\end{itemize}
+
+Il processo continua fino a raggiungere il record $B(T)$ della transazione più vecchia presente nell'insieme UNDO.
+	
+	\item \textbf{Fase di REDO} \\
+	Si scorre il log in avanti e si rieseguono le operazioni delle transazioni presenti nell'insieme REDO, utilizzando le informazioni di \textit{After State} ($AS$), garantendo che tutte le modifiche delle transazioni concluse siano effettivamente applicate.
+\end{enumerate}
+\subsubsection{Algoritmo ripresa a freddo}
+L'algoritmo di ripresa a freddo viene applicato in caso di guasto della memoria secondaria e prevede il ripristino della base di dati a partire da una copia di backup (dump), seguito dall'utilizzo del log.
+
+I passaggi sono i seguenti:
+
+\begin{enumerate}
+	\item \textbf{Ripristino dal dump} \\
+	Si accede all'ultima copia di backup della base di dati (dump) e si ripristina la parte deteriorata o l'intera base di dati, riportandola a uno stato consistente precedente al guasto.
+	
+	\item \textbf{Individuazione del punto nel log} \\
+	Si accede al file di log e si individua il punto corrispondente al dump utilizzato, da cui riprendere l'analisi.
+	
+	\item \textbf{Riesecuzione delle operazioni (REDO)} \\
+	Si scorre il log in avanti a partire dal dump e si rieseguono tutte le operazioni (REDO) necessarie per riportare la base di dati allo stato più aggiornato possibile, limitatamente alle informazioni disponibili.
+	
+	\item \textbf{Applicazione della ripresa a caldo} \\
+	Una volta ricostruito lo stato della base di dati, si applica l'algoritmo di ripresa a caldo per garantire la consistenza finale, eseguendo eventuali operazioni di UNDO e REDO sulle transazioni non completamente gestite.
+\end{enumerate}
+\subsubsection*{Esercizio 1. Ripresa a caldo}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image189}
+	\caption{Dati}
+	\label{fig:image189}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image190}
+	\caption{PASSO 1 : INDIVIDUAZIONE CK}
+	\label{fig:image190}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image191}
+	\caption{PASSO 2: INIZIALIZZAZIONE DELLE STRUTTURE DATI}
+	\label{fig:image191}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image192}
+	\caption{PASSO 3 : ANALISI IN AVANTI DEL LOG}
+	\label{fig:image192}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image193}
+	\caption{PASSO 4: FASE UNDO}
+	\label{fig:image193}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image194}
+	\caption{PASSO 5 : FASE DI REDO}
+	\label{fig:image194}
+\end{figure}
+\subsubsection*{Esercizio 2}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image195}
+	\caption{dati}
+	\label{fig:image195}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{image196}
+	\caption{PASSI 1 E 2}
+	\label{fig:image196}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{image197}
+	\caption{PASSO 3 E 4}
+	\label{fig:image197}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{image198}
+	\caption{PASSO 5}
+	\label{fig:image198}
+\end{figure}
