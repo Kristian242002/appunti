@@ -124,69 +124,85 @@
 \contentsline {subsection}{\numberline {10.3}Transazione}{90}{subsection.10.3}%
 \contentsline {subsubsection}{\numberline {10.3.1}Proprietà delle transazioni}{91}{subsubsection.10.3.1}%
 \contentsline {subsection}{\numberline {10.4}Architettura di un DBMS}{92}{subsection.10.4}%
-\contentsline {section}{\numberline {11}Linguaggio di Interrogazione SQL}{97}{section.11}%
-\contentsline {subsection}{\numberline {11.1}Clausola SELECT}{98}{subsection.11.1}%
-\contentsline {subsection}{\numberline {11.2}Clausola FROM}{100}{subsection.11.2}%
-\contentsline {subsection}{\numberline {11.3}Clausola WHERE}{101}{subsection.11.3}%
-\contentsline {subsubsection}{\numberline {11.3.1}Operatore LIKE}{103}{subsubsection.11.3.1}%
-\contentsline {subsubsection}{\numberline {11.3.2}Operatore SIMILAR TO}{104}{subsubsection.11.3.2}%
-\contentsline {subsubsection}{\numberline {11.3.3}Operatore BETWEEN}{104}{subsubsection.11.3.3}%
-\contentsline {subsubsection}{\numberline {11.3.4}Operatore IN}{105}{subsubsection.11.3.4}%
-\contentsline {subsubsection}{\numberline {11.3.5}Operatore IS NULL}{106}{subsubsection.11.3.5}%
-\contentsline {subsection}{\numberline {11.4}SQL e Algebra Relazionale}{107}{subsection.11.4}%
-\contentsline {subsection}{\numberline {11.5}SELECT}{108}{subsection.11.5}%
-\contentsline {subsubsection}{\numberline {11.5.1}SELECT : alias di tabella o di attributo}{108}{subsubsection.11.5.1}%
-\contentsline {subsubsection}{\numberline {11.5.2}SELECT: senza proiezione}{108}{subsubsection.11.5.2}%
-\contentsline {subsubsection}{\numberline {11.5.3}Proiezione:gestione dei duplicati in SQL}{108}{subsubsection.11.5.3}%
-\contentsline {subsubsection}{\numberline {11.5.4}SELECT: Selezione,Proiezione,Join}{110}{subsubsection.11.5.4}%
-\contentsline {subsection}{\numberline {11.6}Interrogazioni con JOIN}{110}{subsection.11.6}%
-\contentsline {subsubsection}{\numberline {11.6.1}INNER JOIN}{111}{subsubsection.11.6.1}%
-\contentsline {subsubsection}{\numberline {11.6.2}LEFT OUTER JOIN}{112}{subsubsection.11.6.2}%
-\contentsline {subsubsection}{\numberline {11.6.3}RIGHT OUTER JOIN}{113}{subsubsection.11.6.3}%
-\contentsline {subsubsection}{\numberline {11.6.4}FULL OUTER JOIN}{114}{subsubsection.11.6.4}%
-\contentsline {subsection}{\numberline {11.7}Uso di variabili (alias)}{115}{subsection.11.7}%
-\contentsline {subsection}{\numberline {11.8}Ordinamento del risultato}{115}{subsection.11.8}%
-\contentsline {subsubsection}{\numberline {11.8.1}Operazioni Insiemistiche}{116}{subsubsection.11.8.1}%
-\contentsline {subsubsection}{\numberline {11.8.2}Unione}{117}{subsubsection.11.8.2}%
-\contentsline {subsubsection}{\numberline {11.8.3}Intersezione}{118}{subsubsection.11.8.3}%
-\contentsline {subsubsection}{\numberline {11.8.4}Differenza}{118}{subsubsection.11.8.4}%
-\contentsline {subsection}{\numberline {11.9}Operatori aggregati}{118}{subsection.11.9}%
-\contentsline {subsubsection}{\numberline {11.9.1}COUNT}{119}{subsubsection.11.9.1}%
-\contentsline {subsubsection}{\numberline {11.9.2}Operatori aggregati: SUM.MAX,MIN,AVG}{120}{subsubsection.11.9.2}%
-\contentsline {subsection}{\numberline {11.10}Interrogazioni con raggruppamento}{121}{subsection.11.10}%
-\contentsline {subsubsection}{\numberline {11.10.1}HAVING}{124}{subsubsection.11.10.1}%
-\contentsline {subsection}{\numberline {11.11}Interrogazioni nidificate}{125}{subsection.11.11}%
-\contentsline {section}{\numberline {12}Strutture fisiche e accesso ai dati}{130}{section.12}%
-\contentsline {subsection}{\numberline {12.1}Rappresentazione logica del buffer}{131}{subsection.12.1}%
-\contentsline {subsection}{\numberline {12.2}Primitive del gestore del buffer}{132}{subsection.12.2}%
-\contentsline {subsection}{\numberline {12.3}Persistenza, scritture differite e log}{133}{subsection.12.3}%
-\contentsline {subsection}{\numberline {12.4}Algoritmo di ripresa in caso di guasto}{134}{subsection.12.4}%
-\contentsline {subsubsection}{\numberline {12.4.1}Algoritmo ripresa a caldo}{135}{subsubsection.12.4.1}%
-\contentsline {subsubsection}{\numberline {12.4.2}Algoritmo ripresa a freddo}{136}{subsubsection.12.4.2}%
-\contentsline {section}{\numberline {13}Laboratorio}{140}{section.13}%
-\contentsline {subsection}{\numberline {13.1}PostgreSQL}{140}{subsection.13.1}%
-\contentsline {subsection}{\numberline {13.2}SQL comandi base}{141}{subsection.13.2}%
-\contentsline {subsubsection}{\numberline {13.2.1}Creazione Tabella}{141}{subsubsection.13.2.1}%
-\contentsline {subsubsection}{\numberline {13.2.2}Concetti fondamentali del DDL}{142}{subsubsection.13.2.2}%
-\contentsline {paragraph}{Valori interi}{143}{paragraph*.22}%
-\contentsline {paragraph}{Valori decimali}{143}{paragraph*.23}%
-\contentsline {subsection}{\numberline {13.3}Vincoli intrarelazionali}{145}{subsection.13.3}%
-\contentsline {subsection}{\numberline {13.4}Vincoli interrelazionali}{147}{subsection.13.4}%
-\contentsline {subsection}{\numberline {13.5}Modifica ed eliminazione delle strutture}{150}{subsection.13.5}%
-\contentsline {subsection}{\numberline {13.6}Cancellazione dei dati}{151}{subsection.13.6}%
-\contentsline {subsubsection}{\numberline {13.6.1}Eliminazione di una tabella}{151}{subsubsection.13.6.1}%
-\contentsline {section}{\numberline {14}Gestore metodi d'accesso}{152}{section.14}%
-\contentsline {subsection}{\numberline {14.1}Operazioni sulle pagine}{153}{subsection.14.1}%
-\contentsline {subsubsection}{\numberline {14.1.1}Inserimento}{153}{subsubsection.14.1.1}%
-\contentsline {subsubsection}{\numberline {14.1.2}Cancellazione}{153}{subsubsection.14.1.2}%
-\contentsline {subsubsection}{\numberline {14.1.3}Accesso}{154}{subsubsection.14.1.3}%
-\contentsline {subsection}{\numberline {14.2}Criteri di organizzazione delle tuple nei blocchi}{154}{subsection.14.2}%
-\contentsline {subsection}{\numberline {14.3}Organizzazione sequenziale dei file}{154}{subsection.14.3}%
-\contentsline {subsubsection}{\numberline {14.3.1}Sequenziale disordinata (seriale)}{154}{subsubsection.14.3.1}%
-\contentsline {paragraph}{Inserimento}{154}{paragraph*.24}%
-\contentsline {paragraph}{Ricerca}{154}{paragraph*.25}%
-\contentsline {paragraph}{Cancellazione}{155}{paragraph*.26}%
-\contentsline {paragraph}{Modifica}{155}{paragraph*.27}%
-\contentsline {paragraph}{Problema principale}{155}{paragraph*.28}%
-\contentsline {subsubsection}{\numberline {14.3.2}Sequenziale ordinata}{155}{subsubsection.14.3.2}%
-\contentsline {paragraph}{Caratteristiche principali}{155}{paragraph*.29}%
+\contentsline {section}{\numberline {11}Strutture fisiche e accesso ai dati}{97}{section.11}%
+\contentsline {subsection}{\numberline {11.1}Rappresentazione logica del buffer}{98}{subsection.11.1}%
+\contentsline {subsection}{\numberline {11.2}Primitive del gestore del buffer}{99}{subsection.11.2}%
+\contentsline {subsection}{\numberline {11.3}Persistenza, scritture differite e log}{100}{subsection.11.3}%
+\contentsline {subsection}{\numberline {11.4}Algoritmo di ripresa in caso di guasto}{101}{subsection.11.4}%
+\contentsline {subsubsection}{\numberline {11.4.1}Algoritmo ripresa a caldo}{102}{subsubsection.11.4.1}%
+\contentsline {subsubsection}{\numberline {11.4.2}Algoritmo ripresa a freddo}{103}{subsubsection.11.4.2}%
+\contentsline {section}{\numberline {12}Gestore metodi d'accesso}{107}{section.12}%
+\contentsline {subsection}{\numberline {12.1}Operazioni sulle pagine}{108}{subsection.12.1}%
+\contentsline {subsubsection}{\numberline {12.1.1}Inserimento}{108}{subsubsection.12.1.1}%
+\contentsline {subsubsection}{\numberline {12.1.2}Cancellazione}{108}{subsubsection.12.1.2}%
+\contentsline {subsubsection}{\numberline {12.1.3}Accesso}{109}{subsubsection.12.1.3}%
+\contentsline {subsection}{\numberline {12.2}Criteri di organizzazione delle tuple nei blocchi}{109}{subsection.12.2}%
+\contentsline {subsection}{\numberline {12.3}Organizzazione sequenziale dei file}{109}{subsection.12.3}%
+\contentsline {subsubsection}{\numberline {12.3.1}Sequenziale disordinata (seriale)}{109}{subsubsection.12.3.1}%
+\contentsline {paragraph}{Inserimento}{109}{paragraph*.22}%
+\contentsline {paragraph}{Ricerca}{109}{paragraph*.23}%
+\contentsline {paragraph}{Cancellazione}{110}{paragraph*.24}%
+\contentsline {paragraph}{Modifica}{110}{paragraph*.25}%
+\contentsline {paragraph}{Problema principale}{110}{paragraph*.26}%
+\contentsline {subsubsection}{\numberline {12.3.2}Sequenziale ordinata}{110}{subsubsection.12.3.2}%
+\contentsline {paragraph}{Caratteristiche principali}{110}{paragraph*.27}%
+\contentsline {paragraph}{Operazioni principali}{111}{paragraph*.28}%
+\contentsline {subsection}{\numberline {12.4}Indici}{112}{subsection.12.4}%
+\contentsline {subsubsection}{\numberline {12.4.1}Struttura degli indici primari}{112}{subsubsection.12.4.1}%
+\contentsline {subsubsection}{\numberline {12.4.2}Indici primari densi e sparsi}{113}{subsubsection.12.4.2}%
+\contentsline {paragraph}{Indice primario denso}{113}{paragraph*.29}%
+\contentsline {paragraph}{Indice primario sparso}{113}{paragraph*.30}%
+\contentsline {paragraph}{Esempio}{113}{paragraph*.31}%
+\contentsline {subsubsection}{\numberline {12.4.3}Operazioni sugli indici primari}{114}{subsubsection.12.4.3}%
+\contentsline {paragraph}{Ricerca}{114}{paragraph*.32}%
+\contentsline {paragraph}{Inserimento}{115}{paragraph*.33}%
+\contentsline {paragraph}{Cancellazione}{115}{paragraph*.34}%
+\contentsline {subsubsection}{\numberline {12.4.4}Indici secondari}{115}{subsubsection.12.4.4}%
+\contentsline {paragraph}{Esempio}{116}{paragraph*.35}%
+\contentsline {subsubsection}{\numberline {12.4.5}Operazioni sugli indici secondari}{116}{subsubsection.12.4.5}%
+\contentsline {paragraph}{Ricerca}{116}{paragraph*.36}%
+\contentsline {paragraph}{Inserimento, cancellazione e modifica}{117}{paragraph*.37}%
+\contentsline {section}{\numberline {13}Laboratorio}{118}{section.13}%
+\contentsline {subsection}{\numberline {13.1}PostgreSQL}{118}{subsection.13.1}%
+\contentsline {subsection}{\numberline {13.2}SQL comandi base}{119}{subsection.13.2}%
+\contentsline {subsubsection}{\numberline {13.2.1}Creazione Tabella}{119}{subsubsection.13.2.1}%
+\contentsline {subsubsection}{\numberline {13.2.2}Concetti fondamentali del DDL}{120}{subsubsection.13.2.2}%
+\contentsline {paragraph}{Valori interi}{121}{paragraph*.38}%
+\contentsline {paragraph}{Valori decimali}{121}{paragraph*.39}%
+\contentsline {subsection}{\numberline {13.3}Vincoli intrarelazionali}{123}{subsection.13.3}%
+\contentsline {subsection}{\numberline {13.4}Vincoli interrelazionali}{125}{subsection.13.4}%
+\contentsline {subsection}{\numberline {13.5}Modifica ed eliminazione delle strutture}{128}{subsection.13.5}%
+\contentsline {subsection}{\numberline {13.6}Cancellazione dei dati}{129}{subsection.13.6}%
+\contentsline {subsubsection}{\numberline {13.6.1}Eliminazione di una tabella}{129}{subsubsection.13.6.1}%
+\contentsline {section}{\numberline {14}Linguaggio di Interrogazione SQL}{130}{section.14}%
+\contentsline {subsection}{\numberline {14.1}Clausola SELECT}{131}{subsection.14.1}%
+\contentsline {subsection}{\numberline {14.2}Clausola FROM}{133}{subsection.14.2}%
+\contentsline {subsection}{\numberline {14.3}Clausola WHERE}{134}{subsection.14.3}%
+\contentsline {subsubsection}{\numberline {14.3.1}Operatore LIKE}{136}{subsubsection.14.3.1}%
+\contentsline {subsubsection}{\numberline {14.3.2}Operatore SIMILAR TO}{137}{subsubsection.14.3.2}%
+\contentsline {subsubsection}{\numberline {14.3.3}Operatore BETWEEN}{137}{subsubsection.14.3.3}%
+\contentsline {subsubsection}{\numberline {14.3.4}Operatore IN}{138}{subsubsection.14.3.4}%
+\contentsline {subsubsection}{\numberline {14.3.5}Operatore IS NULL}{139}{subsubsection.14.3.5}%
+\contentsline {subsection}{\numberline {14.4}SQL e Algebra Relazionale}{140}{subsection.14.4}%
+\contentsline {subsection}{\numberline {14.5}SELECT}{141}{subsection.14.5}%
+\contentsline {subsubsection}{\numberline {14.5.1}SELECT : alias di tabella o di attributo}{141}{subsubsection.14.5.1}%
+\contentsline {subsubsection}{\numberline {14.5.2}SELECT: senza proiezione}{141}{subsubsection.14.5.2}%
+\contentsline {subsubsection}{\numberline {14.5.3}Proiezione:gestione dei duplicati in SQL}{141}{subsubsection.14.5.3}%
+\contentsline {subsubsection}{\numberline {14.5.4}SELECT: Selezione,Proiezione,Join}{143}{subsubsection.14.5.4}%
+\contentsline {subsection}{\numberline {14.6}Interrogazioni con JOIN}{143}{subsection.14.6}%
+\contentsline {subsubsection}{\numberline {14.6.1}INNER JOIN}{144}{subsubsection.14.6.1}%
+\contentsline {subsubsection}{\numberline {14.6.2}LEFT OUTER JOIN}{145}{subsubsection.14.6.2}%
+\contentsline {subsubsection}{\numberline {14.6.3}RIGHT OUTER JOIN}{146}{subsubsection.14.6.3}%
+\contentsline {subsubsection}{\numberline {14.6.4}FULL OUTER JOIN}{147}{subsubsection.14.6.4}%
+\contentsline {subsection}{\numberline {14.7}Uso di variabili (alias)}{148}{subsection.14.7}%
+\contentsline {subsection}{\numberline {14.8}Ordinamento del risultato}{148}{subsection.14.8}%
+\contentsline {subsubsection}{\numberline {14.8.1}Operazioni Insiemistiche}{149}{subsubsection.14.8.1}%
+\contentsline {subsubsection}{\numberline {14.8.2}Unione}{150}{subsubsection.14.8.2}%
+\contentsline {subsubsection}{\numberline {14.8.3}Intersezione}{151}{subsubsection.14.8.3}%
+\contentsline {subsubsection}{\numberline {14.8.4}Differenza}{151}{subsubsection.14.8.4}%
+\contentsline {subsection}{\numberline {14.9}Operatori aggregati}{151}{subsection.14.9}%
+\contentsline {subsubsection}{\numberline {14.9.1}COUNT}{152}{subsubsection.14.9.1}%
+\contentsline {subsubsection}{\numberline {14.9.2}Operatori aggregati: SUM.MAX,MIN,AVG}{153}{subsubsection.14.9.2}%
+\contentsline {subsection}{\numberline {14.10}Interrogazioni con raggruppamento}{154}{subsection.14.10}%
+\contentsline {subsubsection}{\numberline {14.10.1}HAVING}{157}{subsubsection.14.10.1}%
+\contentsline {subsection}{\numberline {14.11}Interrogazioni nidificate}{158}{subsection.14.11}%

@@ -201,3 +201,329 @@ In generale, questa chiave può essere diversa dalla \textbf{chiave primaria} ed
 	Le operazioni di aggiornamento (inserimento e modifica) devono mantenere l'ordinamento, 
 	con un conseguente aumento del costo computazionale.
 \end{itemize}
+\paragraph{Operazioni principali}
+\textbf{1. Inserimento}
+
+\begin{itemize}
+	\item si individua il blocco $b$ in cui effettuare l'inserimento, cioè il blocco che contiene la tupla precedente nell'ordinamento;
+	
+	\item una volta individuato il blocco $b$, si verifica se è presente spazio sufficiente:
+	
+	\begin{itemize}
+		\item \textbf{se c'è spazio} → inserimento semplice, mantenendo l'ordinamento;
+		
+		\item \textbf{se non c'è spazio} → si crea un \textbf{nuovo blocco} in cui inserire la tupla (eventualmente aggiornando i collegamenti tra i blocchi).
+	\end{itemize}
+\end{itemize}
+
+\textbf{2. Cancellazione}
+
+\begin{itemize}
+	\item si individua il blocco $b$ che contiene la tupla;
+	\item si elimina la tupla;
+	\item si aggiornano eventuali \textbf{puntatori} o strutture di supporto.
+\end{itemize}
+
+Le operazioni di cancellazione possono portare a una \textbf{frammentazione dello spazio}, rendendo necessario effettuare operazioni di riorganizzazione.
+
+\textbf{3. Riorganizzazione}
+
+Per mantenere efficiente l'utilizzo dello spazio, il DBMS può eseguire periodicamente operazioni di \textbf{riorganizzazione} del file.
+
+Queste operazioni si basano su \textbf{coefficienti di riempimento} (\textit{fill factor}), scelti dal DBMS in base a statistiche sul carico di lavoro.
+
+In particolare:
+
+\begin{itemize}
+	\item il DBMS non riempie completamente i blocchi, ma lascia una certa quantità di spazio libero;
+	\item questo spazio serve per facilitare inserimenti futuri senza dover creare nuovi blocchi o spostare troppe tuple;
+	\item i coefficienti di riempimento sono determinati analizzando la frequenza di inserimenti, cancellazioni e modifiche.
+\end{itemize}
+
+In questo modo si ottiene un compromesso tra:
+\begin{itemize}
+	\item \textbf{utilizzo dello spazio};
+	\item \textbf{efficienza delle operazioni di aggiornamento}.
+\end{itemize}
+\subsection{Indici}
+
+Gli \textbf{indici} sono strutture dati utilizzate per rendere più efficiente l'accesso ai dati nei file sequenziali.
+
+L'obiettivo principale è quello di \textbf{velocizzare l'accesso casuale} ai dati, evitando la scansione sequenziale dell'intero file.
+
+L'accesso avviene tramite una \textbf{chiave di ricerca}, che può essere costituita da uno o più attributi della relazione.
+
+In particolare:
+\begin{itemize}
+	\item la chiave di ricerca è l'insieme di attributi utilizzato per effettuare le operazioni di ricerca;
+	\item non coincide necessariamente con la chiave primaria;
+	\item può essere scelta in base alle query più frequenti.
+\end{itemize}
+
+Gli indici si distinguono principalmente in due categorie:
+
+\begin{itemize}
+	\item \textbf{Indici primari} \\
+	La chiave di ricerca coincide con la \textbf{chiave di ordinamento} del file.
+	
+	\item \textbf{Indici secondari} \\
+	La chiave di ricerca è \textbf{diversa} dalla chiave di ordinamento del file.
+\end{itemize}
+
+La scelta tra indice primario e secondario dipende dal tipo di accesso ai dati e dalle operazioni più frequenti sul database.
+
+\subsubsection{Struttura degli indici primari}
+
+Nel caso degli \textbf{indici primari}, poiché la chiave di ricerca coincide con la chiave di ordinamento, le tuple con lo stesso valore di chiave sono memorizzate in modo contiguo.
+
+Ogni record dell'indice è una coppia:
+\[
+\langle V_i, P_i \rangle
+\]
+dove:
+\begin{itemize}
+	\item $V_i$ è il valore della chiave di ricerca;
+	\item $P_i$ è un puntatore alla \textbf{prima tupla} che contiene quel valore.
+\end{itemize}
+
+È sufficiente un solo puntatore, poiché le tuple con lo stesso valore sono consecutive nel file.
+
+\subsubsection{Indici primari densi e sparsi}
+
+Gli indici primari possono essere di due tipi:
+
+\paragraph{Indice primario denso}
+
+\begin{itemize}
+	\item contiene un record di indice per \textbf{ogni valore} della chiave di ricerca;
+	\item permette un accesso molto preciso;
+	\item occupa più spazio.
+\end{itemize}
+
+\paragraph{Indice primario sparso}
+
+\begin{itemize}
+	\item contiene un record di indice per \textbf{ogni blocco} del file;
+	\item ogni voce punta alla prima tupla del blocco;
+	\item occupa meno spazio, ma richiede una scansione all'interno del blocco.
+\end{itemize}
+
+\paragraph{Esempio}
+
+Consideriamo la tabella mostrata in figura~\ref{fig:image201}.
+\begin{itemize}
+	\item \textbf{Indice primario denso} \\
+	L'indice contiene una coppia per ogni valore della chiave di ricerca:
+	\[
+	A,\; B,\; E,\; H,\; M
+	\]
+	Ogni valore è associato a un puntatore alla prima tupla corrispondente.
+	
+	\item \textbf{Indice primario sparso} \\
+	L'indice contiene una coppia per ogni blocco.
+	
+	Nell'esempio, se i dati sono distribuiti in due blocchi:
+	\begin{itemize}
+		\item una voce per il primo blocco (es. $A$);
+		\item una voce per il secondo blocco (es. $E$).
+	\end{itemize}
+	
+	Ogni voce punta alla prima tupla del blocco.
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{iamge202}
+	\caption{Esempio indice primario denso e indice primario sparso}
+	\label{fig:iamge202}
+\end{figure}
+\subsubsection{Operazioni sugli indici primari}
+
+\paragraph{Ricerca}
+
+\textbf{Indice primario denso}
+
+Data una chiave $K$:
+
+\begin{itemize}
+	\item si cerca $K$ nell'indice;
+	
+	\item \textbf{se $K$ non è presente}:
+	\begin{itemize}
+		\item la ricerca termina;
+		\item costo: $1$ accesso all'indice;
+	\end{itemize}
+	
+	\item \textbf{se $K$ è presente}:
+	\begin{itemize}
+		\item si trova la coppia $\langle K, P_K \rangle$;
+		\item si segue il puntatore $P_K$;
+		\item si accede al blocco dati;
+		\item costo: $1$ accesso all'indice + $1$ accesso al blocco dati.
+	\end{itemize}
+\end{itemize}
+
+\textbf{Indice primario sparso}
+
+Data una chiave $K$:
+
+\begin{itemize}
+	\item $K$ potrebbe non essere presente nell'indice anche se presente nei dati;
+	
+	\item si effettua una scansione dell'indice per trovare la coppia $\langle K', P_{K'} \rangle$ tale che:
+	\[
+	K' \leq K \text{ ed è il valore più grande possibile}
+	\]
+	
+	\item si segue il puntatore $P_{K'}$ per accedere al blocco dati;
+	
+	\item all'interno del blocco si cerca la tupla (eventualmente scansione sequenziale).
+	
+	\item costo: $1$ accesso all'indice + $1$ accesso al blocco dati.
+\end{itemize}
+\paragraph{Inserimento}
+
+Nel caso di inserimento di una nuova tupla, si procede innanzitutto come nel caso del file sequenziale (ordinato o disordinato).
+
+Successivamente, è necessario \textbf{aggiornare anche l'indice}. Si distinguono due casi:
+
+\begin{itemize}
+	\item \textbf{Indice denso} \\
+	Si inserisce una nuova coppia nell'indice solo se la chiave di ricerca della tupla inserita è \textbf{nuova} (cioè non già presente nell'indice).
+	
+	\item \textbf{Indice sparso} \\
+	Si inserisce una nuova coppia nell'indice solo se l'inserimento della tupla comporta la creazione di un \textbf{nuovo blocco}.
+\end{itemize}
+
+La presenza di un indice introduce quindi un \textbf{costo aggiuntivo} nelle operazioni di aggiornamento.
+
+Per questo motivo, nella pratica non è conveniente creare un indice per ogni attributo della tabella, ma è necessario trovare un \textbf{compromesso} tra:
+\begin{itemize}
+	\item numero di indici mantenuti;
+	\item efficienza delle operazioni di accesso.
+\end{itemize}
+
+\paragraph{Cancellazione}
+
+Nel caso di cancellazione di una tupla:
+
+\begin{itemize}
+	\item si elimina la tupla dal file sequenziale (ordinato o disordinato);
+	\item si aggiorna l'indice.
+\end{itemize}
+
+Anche qui si distinguono due casi:
+
+\begin{itemize}
+	\item \textbf{Indice denso} \\
+	Si elimina la coppia dall'indice solo se la tupla cancellata era l'\textbf{ultima} con quella chiave $K$.
+	
+	\item \textbf{Indice sparso} \\
+	Si elimina la coppia dall'indice se la tupla cancellata era la \textbf{prima del blocco} (cioè quella puntata dall'indice).
+	
+	In tal caso:
+	\begin{itemize}
+		\item si deve aggiornare l'indice inserendo una nuova coppia;
+		\item la nuova coppia punterà alla nuova prima tupla del blocco.
+	\end{itemize}
+\end{itemize}
+\subsubsection{Indici secondari}
+
+Gli \textbf{indici secondari} sono indici in cui la \textbf{chiave di ricerca è diversa dalla chiave di ordinamento} del file.
+
+In questo caso, le tuple con lo stesso valore di chiave di ricerca \textbf{non sono memorizzate in modo contiguo} nel file sequenziale.
+
+Per questo motivo, la struttura dell'indice è diversa rispetto agli indici primari.
+
+Ogni record dell'indice è una coppia:
+\[
+\langle V_i, P_i \rangle
+\]
+dove:
+\begin{itemize}
+	\item $V_i$ è un valore della chiave di ricerca;
+	\item $P_i$ è un puntatore a un \textbf{bucket} contenente più puntatori.
+\end{itemize}
+
+Il bucket contiene i puntatori a tutte le tuple del file sequenziale che hanno valore di chiave pari a $V_i$.
+
+\paragraph{Esempio}
+
+Consideriamo la tabella mostrata in figura~\ref{fig:image201}.
+
+Se utilizziamo come chiave di ricerca l'attributo \textit{cliente}, otteniamo valori come:
+\[
+\text{Rossi, Bianchi, Neri, Verdi}
+\]
+
+Per ciascun valore:
+
+\begin{itemize}
+	\item \textbf{Rossi} → il puntatore $P_i$ punta a un bucket contenente due puntatori, uno per ciascuna tupla con cliente = Rossi;
+	
+	\item \textbf{Bianchi} → il bucket contiene i puntatori a tutte le tuple con cliente = Bianchi;
+	
+	\item analogamente per \textbf{Neri} e \textbf{Verdi}.
+\end{itemize}
+
+La struttura è illustrata nella figura seguente.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image202}
+	\caption{Esempio di indice secondario con bucket di puntatori}
+	\label{fig:image202}
+\end{figure}
+\subsubsection{Operazioni sugli indici secondari}
+
+\paragraph{Ricerca}
+
+Data una chiave di ricerca $K$:
+
+\begin{itemize}
+	\item si effettua una \textbf{ricerca sequenziale sull'indice} per trovare $K$;
+	
+	\item poiché l'indice secondario è \textbf{denso}, se $K$ non è presente nell'indice allora non esistono tuple con chiave $K$;
+	
+	\item se $K$ è presente:
+	\begin{itemize}
+		\item si trova la coppia $\langle K, P_K \rangle$;
+		\item si accede al \textbf{bucket} $B$ puntato da $P_K$;
+		\item il bucket contiene puntatori a tutte le tuple con chiave $K$;
+		\item si accede al file dati seguendo i puntatori contenuti nel bucket.
+	\end{itemize}
+\end{itemize}
+
+Costo:
+\[
+1 \text{ accesso all'indice} + 1 \text{ accesso al bucket} + n \text{ accessi ai blocchi dati}
+\]
+dove $n$ è il numero di puntatori contenuti nel bucket $B$.
+
+\paragraph{Inserimento, cancellazione e modifica}
+
+Le operazioni di inserimento, cancellazione e modifica avvengono in modo analogo al caso degli \textbf{indici primari densi}, con la differenza che è necessario aggiornare anche il \textbf{bucket}.
+
+\begin{itemize}
+	\item \textbf{Inserimento}:
+	\begin{itemize}
+		\item si inserisce la tupla nel file dati;
+		\item si aggiorna l'indice:
+		\begin{itemize}
+			\item se la chiave $K$ è nuova → si crea una nuova coppia nell'indice con un nuovo bucket;
+			\item altrimenti → si aggiunge un puntatore nel bucket esistente.
+		\end{itemize}
+	\end{itemize}
+	
+	\item \textbf{Cancellazione}:
+	\begin{itemize}
+		\item si elimina la tupla dal file dati;
+		\item si rimuove il puntatore dal bucket;
+		\item se il bucket diventa vuoto → si elimina anche la coppia dall'indice.
+	\end{itemize}
+	
+	\item \textbf{Modifica}:
+	\begin{itemize}
+		\item se cambia la chiave di ricerca → si esegue una cancellazione seguita da un inserimento;
+		\item altrimenti → si aggiorna solo la tupla nel file dati.
+	\end{itemize}
+\end{itemize}
