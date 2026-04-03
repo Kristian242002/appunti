@@ -527,3 +527,541 @@ Le operazioni di inserimento, cancellazione e modifica avvengono in modo analogo
 		\item altrimenti → si aggiorna solo la tupla nel file dati.
 	\end{itemize}
 \end{itemize}
+\subsection{Strutture di accesso avanzate}
+
+Per migliorare le prestazioni di accesso agli indici, è possibile definire strutture dati più efficienti rispetto agli indici sequenziali. Le principali sono:
+
+\begin{itemize}
+	\item \textbf{Strutture ad albero}: indici B\textsuperscript{+}-tree;
+	\item \textbf{Strutture ad accesso calcolato}: strutture hash.
+\end{itemize}
+
+L'obiettivo comune è \textbf{minimizzare gli accessi alla memoria secondaria} necessari per accedere all'indice.
+
+\subsection{B\textsuperscript{+}-tree}
+
+Il \textbf{B\textsuperscript{+}-tree} è una struttura ad albero con le seguenti caratteristiche:
+
+\begin{itemize}
+	\item ogni nodo viene memorizzato in una \textbf{pagina} della memoria secondaria;
+	\item i legami tra i nodi sono \textbf{puntatori a pagina}, ovvero riferimenti a blocchi in memoria secondaria;
+	\item è caratterizzato da \textbf{pochi livelli} e \textbf{molti nodi foglia}: non si tratta di un albero binario, poiché la complessità delle operazioni dipende dall'altezza dell'albero, ed è quindi preferibile avere un albero largo piuttosto che profondo;
+	\item è un \textbf{albero bilanciato}: non esistono percorsi preferenziali, il che garantisce che inserimenti e cancellazioni non alterino le prestazioni di accesso ai dati.
+\end{itemize}
+
+\subsubsection{Struttura dei nodi}
+
+Distinguiamo due tipologie di nodi: i \textbf{nodi foglia} e i \textbf{nodi intermedi}. Introduciamo il parametro \textbf{fan-out}, indicato con $n$.
+
+\paragraph{Nodo foglia}
+
+Un nodo foglia con fan-out $n$:
+
+\begin{itemize}
+	\item può contenere fino a $n-1$ valori ordinati di chiavi di ricerca e fino a $n$ puntatori ai dati;
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image220}
+	\caption{Nodo Foglia}
+	\label{fig:image220}
+\end{figure}
+I nodi foglia rispettano un \textbf{vincolo di ordinamento}:
+\begin{itemize}
+	\item le chiavi \textbf{all'interno} di ogni nodo foglia sono ordinate;
+	\item i nodi foglia sono \textbf{ordinati tra loro}.
+\end{itemize}
+
+Formalmente, dati due nodi foglia $L_i$ e $L_j$ con $i < j$, per ogni chiave $K_t \in L_i$ e per ogni chiave $K_s \in L_j$:
+\[
+K_t < K_s
+\]
+\paragraph{Nodo intermedio}
+
+Un nodo intermedio con fan-out $n$ ha una struttura simile al nodo foglia, ma con un significato diverso:
+
+\[
+P_1 \;|\; K_1 \;|\; P_2 \;|\; \cdots \;|\; P_{m-1} \;|\; K_{m-1} \;|\; P_m
+\]
+
+I puntatori $P_i$ non puntano a dati, ma a \textbf{sottoalberi}, con il seguente significato:
+
+\begin{itemize}
+	\item $P_1$ punta al sottoalbero contenente le tuple con chiave $K < K_1$;
+	\item $P_i$ (per $1 < i < m$) punta al sottoalbero contenente le tuple con chiave $K_{i-1} \leq K < K_i$;
+	\item $P_m$ punta al sottoalbero contenente le tuple con chiave $K \geq K_{m-1}$.
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image221}
+	\caption{Nodo intermedio}
+	\label{fig:image221}
+\end{figure}
+\paragraph{Vincoli di riempimento}
+
+I nodi del B\textsuperscript{+}-tree devono rispettare dei \textbf{vincoli di riempimento}, che garantiscono che l'albero rimanga bilanciato e che lo spazio non venga sprecato.
+
+\begin{itemize}
+	\item \textbf{Nodo foglia} (fan-out $n$): il numero di valori chiave $\#\text{chiave}$ è vincolato come segue:
+	\[
+	\left\lceil \frac{n-1}{2} \right\rceil \leq \#\text{chiave} \leq n-1
+	\]
+	
+	\item \textbf{Nodo intermedio} (fan-out $n$): il numero di puntatori $\#\text{puntatori}$ è vincolato come segue:
+	\[
+	\left\lceil \frac{n}{2} \right\rceil \leq \#\text{puntatori} \leq n
+	\]
+\end{itemize}
+\subsubsection{Esempio B\textsuperscript{+}-tree}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image222}
+	\caption{Esempio 1 - Contenuto}
+	\label{fig:image222}
+\end{figure}
+Con fan-out $n = 4$, i vincoli di riempimento diventano:
+\begin{itemize}
+	\item \textbf{Nodo foglia}:
+	\[
+	\left\lceil \frac{4-1}{2} \right\rceil \leq \#\text{chiave} \leq 4-1 \quad \Rightarrow \quad 2 \leq \#\text{chiave} \leq 3
+	\]
+	
+	\item \textbf{Nodo intermedio}:
+	\[
+	\left\lceil \frac{4}{2} \right\rceil \leq \#\text{puntatori} \leq 4 \quad \Rightarrow \quad 2 \leq \#\text{puntatori} \leq 4
+	\]
+\end{itemize}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image223}
+	\caption{Esempio 2 : Creazione Albero}
+	\label{fig:image223}
+\end{figure}
+
+Il nodo radice è l'unico nodo per cui \textbf{non si applicano i vincoli di riempimento}.
+
+Valgono tuttavia le stesse regole dei nodi intermedi per quanto riguarda il significato dei puntatori: data una chiave $L$ nella radice:
+
+\begin{itemize}
+	\item il puntatore sinistro punta al sottoalbero contenente le tuple con chiave $K < L$;
+	\item il puntatore destro punta al sottoalbero contenente le tuple con chiave $K \geq L$.
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image224}
+	\caption{Esempio 3 : Albero con Riempimento minimo}
+	\label{fig:image224}
+\end{figure}
+
+I nodi foglia contengono le chiavi ordinate e i relativi puntatori ai dati: ad esempio, il nodo foglia contenente le chiavi A e B
+B ha i puntatori rossi che puntano alle tuple corrispondenti nel file dati. L'ultimo puntatore di ciascun nodo foglia (in blu) punta al nodo foglia successivo, realizzando una \textbf{lista concatenata} tra tutti i nodi foglia. Questo esempio rispetta il vincolo di riempimento minimo.
+
+
+
+\subsection*{Esempio con riempimento massimo}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image225}
+	\caption{Esempio 1 : Albero con Riempimento massimo}
+	\label{fig:image225}
+\end{figure}
+
+
+È possibile costruire un B\textsuperscript{+}-tree alternativo sugli stessi dati utilizzando un \textbf{riempimento massimo}. In questo caso i nodi foglia sono:
+
+\[
+[A,\ B,\ D] \quad [E,\ F,\ G] \quad [L,\ M] \quad [N,\ P]
+\]
+
+Tutti i nodi foglia rispettano i vincoli di riempimento. In questo caso non è necessario introdurre un livello intermedio: è sufficiente un \textbf{nodo radice} che punti direttamente ai quattro nodi foglia tramite 4 puntatori, il che è compatibile con il vincolo di riempimento dei nodi intermedi ($\#\text{puntatori} \leq 4$).
+
+\subsubsection{Ricerca con chiave K}
+La ricerca di un valore di chiave K nel B\textsuperscript{+}-tree avviene scendendo dall'albero verso le foglie, seguendo i puntatori appropriati, fino a raggiungere il nodo foglia che contiene il valore cercato.
+L'algoritmo è il seguente:
+\begin{enumerate}
+	\item \textbf{Cercare nel nodo corrente} il più piccolo valore di chiave maggiore di K:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\linewidth]{image226}
+		\caption{Ricerca nel nodo: $K = 15$, il più piccolo valore di chiave maggiore di $K$ è $K_i = 19$}
+		\label{fig:image226}
+	\end{figure}
+	
+	\item \textbf{Se tale valore $K_i$ esiste}, seguire il puntatore $P_i$, il quale punta al sottoalbero contenente i valori di chiave $K$ tali che:
+	\[
+	K_{i-1} \leq K < K_i
+	\]
+	Ad esempio, con $K = 15$ e $K_i = 19$: $15 \leq K < 19$.
+	
+	\textbf{Se tale valore non esiste}, seguire $P_m$, che punta al sottoalbero con valori di chiave $K \geq K_{m-1}$.
+	
+	\item \textbf{Se si raggiunge un nodo foglia}, cercare il valore $K$ al suo interno e seguire il corrispondente puntatore $P_i$:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\linewidth]{image227}
+		\caption{Nodo foglia: $P_i$ punta alle tuple (o al bucket di puntatori alle tuple) con valore di chiave $K = 15$}
+		\label{fig:image227}
+	\end{figure}
+	\textbf{Se non si è ancora raggiunto un nodo foglia}, ripetere dal passo 1 e 2.
+\end{enumerate}
+\subsubsection*{Costo della Ricerca}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\linewidth]{image228}
+	\caption{Esempio ricerca per K = 'G'}
+	\label{fig:image228}
+\end{figure}
+
+Consideriamo la ricerca di K=G nell'albero dell'esempio precedente.
+
+\begin{enumerate}
+	\item Nel nodo radice, il più piccolo valore di chiave maggiore di G è L: si segue quindi il puntatore al sottoalbero sinistro, contenente i valori con chiave K < L.
+	
+	\item Si raggiunge un nodo intermedio: poiché non si è ancora a una foglia, si ripete il passo 1.
+	
+	\item Si raggiunge il nodo foglia: il valore $G$ è presente; si segue il corrispondente puntatore verso le tuple con valore di chiave $K = G$.
+\end{enumerate}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\linewidth]{image229}
+	\caption{Ricerca su chiave G}
+	\label{fig:image229}
+\end{figure}
+\paragraph{Il Costo della Ricerca :} è misurato in termini di \textbf{accessi alla memoria secondaria}. Poiché ogni nodo occupa un blocco, il costo è pari alla \textbf{profondità dell'albero}.
+
+La profondità dipende dal numero di nodi foglia $NF$, che a sua volta dipende dal fan-out $n$ e dal numero di valori chiave da memorizzare.
+
+Nel \textbf{caso pessimo} (riempimento minimo), ogni foglia contiene $\left\lceil\frac{n-1}{2}\right\rceil$ valori chiave, quindi il numero massimo di foglie è:
+
+\[
+NF_{max} = \frac{\#\text{valori chiave}}{\left\lceil\dfrac{n-1}{2}\right\rceil}
+\]
+
+La profondità dell'albero è quindi:
+
+\[
+\text{profondità} \leq 1 + \log_{\left\lceil n/2 \right\rceil} NF_{max}
+\]
+
+dove il termine $1$ tiene conto della radice.
+
+\subsubsection{Inserimento}
+
+\textbf{Passo 1.} Ricerca del nodo foglia $NF$ in cui il valore $K$ deve essere inserito.
+
+\textbf{Passo 2.} Se $K$ è già presente in $NF$:
+\begin{itemize}
+	\item \textbf{Indice primario}: nessuna azione;
+	\item \textbf{Indice secondario}: aggiornare il bucket dei puntatori.
+\end{itemize}
+
+Altrimenti, inserire $K$ in $NF$ rispettando l'ordinamento:
+\begin{itemize}
+	\item \textbf{Indice primario}: inserire $K$ e il puntatore alla prima tupla;
+	\item \textbf{Indice secondario}: inserire $K$ e creare un nuovo bucket che sarà puntato dall'indice.
+\end{itemize}
+
+\textbf{Passo 3 (Split).} Se in $NF$ esistono già $n-1$ valori di chiave (violazione del vincolo di riempimento massimo):
+\begin{itemize}
+	\item creare due nodi foglia $NF_1$ e $NF_2$;
+	\item inserire i primi $\left\lceil\frac{n-1}{2}\right\rceil$ valori di chiave in $NF_1$;
+	\item inserire i rimanenti valori in $NF_2$;
+	\item aggiornare il nodo padre; se anche il padre viola il vincolo di riempimento massimo, propagare lo split verso l'alto, creando un nuovo livello (e quindi una nuova radice) se necessario.
+\end{itemize}
+\paragraph*{Esempio di inserimento con split}
+
+Consideriamo un B\textsuperscript{+}-tree con fan-out $n = 5$ e supponiamo di voler inserire $K = 15$.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image230}
+	\caption{Stato iniziale: fan-out $n = 5$, nodo foglia contenente i valori $3, 8, 12, 16$}
+	\label{fig:image230}
+\end{figure}
+
+Il valore $15$ dovrebbe essere inserito tra $12$ e $16$, ma il nodo foglia conterrebbe $5$ valori di chiave, violando il vincolo di riempimento massimo ($\leq n-1 = 4$). È necessario effettuare uno \textbf{split}.
+
+Si creano due nuovi nodi foglia $NF_1$ e $NF_2$:
+\[
+NF_1 = \left\lceil \frac{n-1}{2} \right\rceil = 2 \text{ valori di chiave}
+\]
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\linewidth]{image231}
+	\caption{Split: $NF_1$ contiene i valori $3, 8$; $NF_2$ contiene i valori $12, 15, 16$}
+	\label{fig:image231}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\linewidth]{image232}
+	\caption{I due nodi foglia sono collegati tramite il puntatore al nodo foglia successivo}
+	\label{fig:image232}
+\end{figure}
+
+Il nodo padre viene aggiornato: viene inserita la chiave $12$ nel padre, con il puntatore sinistro che punta al sottoalbero con valori $K < 12$ e il puntatore destro che punta al sottoalbero con valori $12 \leq K < 20$.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image233}
+	\caption{Aggiornamento del padre dopo lo split: inserimento della chiave $12$}
+	\label{fig:image233}
+\end{figure}
+\subsubsection{Cancellazione}
+
+\textbf{Passo 1.} Ricercare il nodo foglia $NF$ in cui si trova il valore di chiave $K$.
+
+\textbf{Passo 2.} Cancellare $K$ e il suo puntatore da $NF$.
+
+Se dopo la cancellazione si verifica:
+\[
+\#\text{chiave} < \left\lceil\frac{n-1}{2}\right\rceil
+\]
+si viola il vincolo di riempimento minimo. In tal caso è necessario eseguire un \textbf{merge} di $NF$ con un nodo fratello:
+
+\begin{itemize}
+	\item si individua il nodo fratello candidato;
+	\item si genera un unico nodo foglia; se non esiste un fratello che, unito a $NF$, rispetta il vincolo di riempimento massimo, si esegue prima il merge tra i due e poi uno split;
+	\item si aggiorna il nodo padre;
+	\item se anche il padre viola il vincolo di riempimento minimo, si propaga il merge verso l'alto.
+\end{itemize}
+
+
+\paragraph{Esempio di cancellazione con merge}
+
+Consideriamo il B\textsuperscript{+}-tree risultante dall'esempio precedente e supponiamo di voler eliminare $K = 3$.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{image230}
+	\caption{Stato iniziale: fan-out $n = 5$, nodo foglia contenente i valori $3, 8, 12, 16$}
+	\label{fig:image230}
+\end{figure}
+Dopo la cancellazione, $NF_1$ contiene un solo valore di chiave, violando il vincolo di riempimento minimo (con fan-out $n = 5$, si richiede $\#\text{chiave} \geq 2$).
+
+Si esegue quindi un \textbf{merge} di $NF_1$ con il fratello $NF_2$, ottenendo un unico nodo foglia contenente i valori $8, 12, 15, 16$:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{image234}
+	\caption{Risultato del merge: unico nodo foglia con valori $8, 12, 15, 16$; il padre viene aggiornato perdendo il puntatore a $NF_1$}
+	\label{fig:image234}
+\end{figure}
+
+\subsubsection*{Esercizio B\textsuperscript{+}-tree}
+
+\paragraph{Testo}
+Costruire un B\textsuperscript{+}-tree con fan-out $n = 5$ a partire dai seguenti nodi foglia:
+\[
+(A,B,C,D) \quad (F,G,M,N) \quad (O,P) \quad (S,T) \quad (W,Z)
+\]
+Successivamente, inserire il valore $H$.
+Infine, eliminare il valore $Z$
+
+\paragraph{Soluzione}
+
+\textbf{Vincoli di riempimento} con $n = 5$:
+\begin{itemize}
+	\item Nodo foglia (NF): $\left\lceil\frac{n-1}{2}\right\rceil \leq \#\text{chiave} \leq n-1 \;\Rightarrow\; 2 \leq \#\text{chiave} \leq 4$
+	\item Nodo intermedio (NI): $\left\lceil\frac{n}{2}\right\rceil \leq \#\text{puntatori} \leq n \;\Rightarrow\; 3 \leq \#\text{puntatori} \leq 5$
+\end{itemize}
+
+\textbf{Passo 1: costruzione dell'albero iniziale.}
+
+I nodi foglia sono collegati in lista concatenata:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{image235}
+	\caption{Nodi foglia collegati in lista concatenata}
+	\label{fig:image235}
+\end{figure}
+
+Abbiamo 5 nodi foglia, quindi servono 5 puntatori al livello superiore. Poiché $5 \leq n = 5$, è sufficiente un unico nodo radice con 4 chiavi e 5 puntatori.
+
+I valori di chiave nella radice sono:
+\[
+K_1 = F, \quad K_2 = O, \quad K_3 = S, \quad K_4 = W
+\]
+Ogni $K_i$ rappresenta il primo valore del nodo foglia corrispondente, in modo che il puntatore $P_i$ punti al sottoalbero con valori $K_{i-1} \leq K < K_i$.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{image236}
+	\caption{B\textsuperscript{+}-tree iniziale con unico nodo radice}
+	\label{fig:image236}
+\end{figure}
+
+\textbf{Passo 2: inserimento di $H$.}
+
+Partendo dalla radice, il più piccolo valore di chiave maggiore di $H$ è $O$: si segue il puntatore corrispondente e si raggiunge il nodo foglia $(F,G,M,N)$. Inserendo $H$ si otterrebbe $(F,G,H,M,N)$, che contiene 5 valori di chiave, violando il vincolo di riempimento massimo ($\leq 4$).
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{image237}
+	\caption{Il nodo foglia $(F,G,H,M,N)$ viola il vincolo di riempimento massimo}
+	\label{fig:image237}
+\end{figure}
+
+Si esegue uno \textbf{split}: si creano due nodi $NF_1$ e $NF_2$:
+\[
+NF_1 = (F, G) \qquad NF_2 = (H, M, N)
+\]
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{image238}
+	\caption{Risultato dello split: $NF_1 = (F,G)$, $NF_2 = (H,M,N)$}
+	\label{fig:image238}
+\end{figure}
+Ora abbiamo 6 nodi foglia, che richiedono 6 puntatori: la radice non può contenerne più di $n = 5$, quindi è necessario \textbf{propagare lo split} verso l'alto.
+
+Si creano due nodi intermedi:
+\begin{itemize}
+	\item il primo punta ai primi 3 nodi foglia, con chiavi $F$ e $H$;
+	\item il secondo punta agli ultimi 3 nodi foglia, con chiavi $S$ e $W$.
+\end{itemize}
+
+La nuova radice contiene un unico valore di chiave $O$, che è il minimo valore del sottoalbero destro:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{image239}
+	\caption{B\textsuperscript{+}-tree finale dopo l'inserimento di $H$ e la propagazione dello split}
+	\label{fig:image239}
+\end{figure}
+\textbf{Passo 3: eliminazione del valore $Z$}
+
+
+Consideriamo il B\textsuperscript{+}-tree risultante dall'esercizio precedente e supponiamo di voler eliminare $K = Z$.
+
+Partendo dalla radice, si scende verso destra fino a raggiungere il nodo foglia $(W, Z)$. Dopo la cancellazione di $Z$, il nodo foglia contiene un solo valore di chiave, violando il vincolo di riempimento minimo ($\#\text{chiave} \geq 2$).
+
+Si esegue un \textbf{merge} con il fratello $(S, T)$, ottenendo un unico nodo foglia $(S, T, W)$:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{iamge240}
+	\caption{Risultato del merge: nodo foglia $(S,T,W)$}
+	\label{fig:iamge240}
+\end{figure}
+
+Ora abbiamo 5 nodi foglia, che richiedono 5 puntatori: è sufficiente un unico nodo intermedio (nuova radice) con chiavi $F, H, O, S$:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{iamge241}
+	\caption{B\textsuperscript{+}-tree finale dopo la cancellazione di $Z$: unico nodo radice con chiavi $F, H, O, S$}
+	\label{fig:iamge241}
+\end{figure}
+
+\subsection{Strutture ad accesso calcolato (Hash)}
+
+Le \textbf{strutture ad accesso calcolato} (o strutture hash) sono strutture dati che permettono un \textbf{accesso associativo} alle tuple, in cui la localizzazione fisica dei dati dipende dal valore della chiave.
+
+Si utilizza una \textbf{funzione di hash} che mappa i valori della chiave in indirizzi di memoria:
+\[
+h : K \to B
+\]
+dove $K$ è il dominio delle chiavi e $B$ è il dominio degli indirizzi.
+
+Il \textbf{costo della ricerca} è idealmente pari a $1$ accesso alla memoria secondaria.
+
+\paragraph{Problema delle collisioni}
+
+Il principale problema delle funzioni di hash è quello delle \textbf{collisioni}: valori di chiave diversi possono produrre lo stesso indirizzo. Una funzione di hash è buona se \textbf{minimizza il numero di collisioni}.
+
+\paragraph{Dimensionamento della struttura}
+
+Viene definito un \textbf{fattore di riempimento} $f$, che indica la frazione di spazio fisico mediamente utilizzato in ciascun blocco.
+
+Per memorizzare un file con $T$ tuple, il numero di blocchi necessari è:
+\[
+\#B = \left\lceil \frac{T}{F \cdot f} \right\rceil
+\]
+dove:
+\begin{itemize}
+	\item $T$ = numero di tuple;
+	\item $F$ = fattore di blocco, ovvero il numero di tuple contenibili in un blocco;
+	\item $f$ = fattore di riempimento.
+\end{itemize}
+
+Il DBMS alloca quindi un numero di bucket pari a $\#B$.
+
+\paragraph{Funzione di hash}
+
+La funzione di hash si compone di due passi:
+
+\begin{enumerate}
+	\item Una \textbf{funzione di folding}:
+	\[
+	g : K \to \mathbb{Z}^+
+	\]
+	che trasforma i valori della chiave in interi positivi (necessaria poiché le chiavi non sono necessariamente interi).
+	
+	\item Una \textbf{funzione di hashing}:
+	\[
+	h : \mathbb{Z}^+ \to B
+	\]
+	che mappa gli interi positivi nell'insieme dei bucket $B$.
+\end{enumerate}
+
+La costruzione di una funzione hash performante non è banale e si basa su diverse euristiche. Un aspetto critico è che la funzione di hash è definita a priori in base alla dimensione $\#B$: modificarla in seguito richiederebbe una riorganizzazione completa del file.
+
+
+\paragraph{Esempio}
+
+Consideriamo un file con i seguenti parametri:
+\begin{itemize}
+	\item $T = 7$ tuple;
+	\item $F = 3$ tuple per blocco;
+	\item $f = 0.4$ (fattore di riempimento).
+\end{itemize}
+
+Il numero di bucket è:
+\[
+\#B = \left\lceil \frac{7}{3 \cdot 0.4} \right\rceil = 6
+\]
+
+Il DBMS alloca quindi 6 bucket $B_1, \ldots, B_6$.
+
+La funzione di hash produce i seguenti valori:
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+		\textbf{Chiave} & $h(g(k))$ \\
+		\hline
+		A & 2 \\
+		B & 3 \\
+		E & 5 \\
+		F & 3 \\
+		H & 2 \\
+		\hline
+	\end{tabular}
+	\caption{Valori della funzione di hash per ciascuna chiave. $F$ e $H$ collidono rispettivamente con $B$ e $A$.}
+	\label{tab:hash}
+\end{table}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{iamge243}
+	\caption{Mapping delle chiavi nei bucket tramite la funzione di hash}
+	\label{fig:iamge243}
+\end{figure}
+
+
+\paragraph{Gestione delle collisioni: bucket di overflow}
+
+Quando un bucket è saturo a causa di troppe collisioni, si utilizza un \textbf{bucket di overflow}: si crea un nuovo bucket collegato al precedente tramite un puntatore, formando una catena. Il costo di accesso aumenta proporzionalmente alla lunghezza della catena.
+
+\paragraph{Ricerca con chiave $K$}
+
+\begin{enumerate}
+	\item Calcolare $b = h(g(K))$: costo $0$ (operazione in memoria centrale);
+	\item Accedere al bucket $b$: costo $1$ accesso alla memoria secondaria;
+	\item Accedere alle tuple tramite i puntatori contenuti nel bucket: costo $m \leq n$ accessi, dove $m$ è il numero di pagine distinte da leggere.
+\end{enumerate}
+
+\subsubsection{Confronto tra B\textsuperscript{+}-tree e Hash}
+
+\begin{enumerate}
+	\item \textbf{Prestazioni}: il costo di ricerca del B\textsuperscript{+}-tree è $O(\log n)$, mentre quello della struttura hash è $O(1)$ (costante).
+	
+	\item \textbf{Applicabilità}:
+	\begin{itemize}
+		\item Per query di uguaglianza ($A = c$): entrambe le strutture funzionano, ma la hash è preferibile grazie al costo costante.
+		\item Per query di intervallo ($c_1 < A < c_2$): la struttura hash non è applicabile, poiché non mantiene un ordinamento tra le chiavi. In questo caso il B\textsuperscript{+}-tree è la scelta corretta.
+	\end{itemize}
+\end{enumerate}
