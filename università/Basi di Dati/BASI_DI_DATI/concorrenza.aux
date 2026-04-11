@@ -1,0 +1,51 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\@writefile{toc}{\contentsline {section}{\numberline {13}Gestione della concorrenza}{138}{section.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.1}Anomalie da esecuzione concorrente}{138}{subsection.13.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {13.1.1}Perdita di aggiornamento}{138}{subsubsection.13.1.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Esempio di perdita di aggiornamento: $t_2$ sovrascrive il valore scritto da $t_1$.}}{139}{table.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {13.1.2}Lettura inconsistente}{139}{subsubsection.13.1.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Esempio di lettura inconsistente: $t_1$ legge $x = 2$ la prima volta e $x = 3$ la seconda, pur non avendo mai modificato $x$.}}{139}{table.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {13.1.3}Lettura sporca}{140}{subsubsection.13.1.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Esempio di lettura sporca: $t_1$ legge il valore $x = 3$ scritto da $t_2$, che però esegue abort e ripristina $x = 2$.}}{140}{table.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {13.1.4}Aggiornamento fantasma}{140}{subsubsection.13.1.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Aggiornamento fantasma: $t_2$ non viola il vincolo, ma $t_1$ osserva uno stato intermedio in cui $x + y + z = 20 + 20 + 50 = 90 < 100$.}}{141}{table.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {13.1.5}Inserimento fantasma}{141}{subsubsection.13.1.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {13.2}Schedule}{141}{subsection.13.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {13.2.1}Ipotesi di commit-proiezione}{142}{subsubsection.13.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {13.2.2}View-Equivalenza}{142}{subsubsection.13.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Relazione legge-da.}{142}{paragraph*.51}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Relazione scritture finali.}{142}{paragraph*.52}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Definizione di view equivalenza.}{142}{paragraph*.53}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Esempio: perdita di aggiornamento.}{143}{paragraph*.54}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Esempio: lettura inconsistente.}{143}{paragraph*.55}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Esempio: verifica di view-serializzabilità.}{144}{paragraph*.56}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Esempio: schedule non view-serializzabile.}{145}{paragraph*.57}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Esempio: schedule con 5 transazioni.}{145}{paragraph*.58}\protected@file@percent }
+\@setckpt{concorrenza}{
+\setcounter{page}{147}
+\setcounter{equation}{0}
+\setcounter{enumi}{3}
+\setcounter{enumii}{0}
+\setcounter{enumiii}{0}
+\setcounter{enumiv}{0}
+\setcounter{footnote}{0}
+\setcounter{mpfootnote}{0}
+\setcounter{part}{0}
+\setcounter{section}{13}
+\setcounter{subsection}{2}
+\setcounter{subsubsection}{2}
+\setcounter{paragraph}{0}
+\setcounter{subparagraph}{0}
+\setcounter{figure}{132}
+\setcounter{table}{6}
+\setcounter{float@type}{8}
+\setcounter{parentequation}{0}
+\setcounter{tcbbreakpart}{1}
+\setcounter{tcblayer}{0}
+\setcounter{tcolorbox@number}{26}
+\setcounter{section@level}{0}
+\setcounter{Item}{53}
+\setcounter{Hfootnote}{0}
+\setcounter{bookmark@seq@number}{0}
+}

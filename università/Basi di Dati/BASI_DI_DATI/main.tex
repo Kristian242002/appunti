@@ -8,9 +8,9 @@
 \usepackage{lmodern}
 
 % --- Impaginazione e tipografia ---
-\usepackage[margin=2.5cm]{geometry}
-\usepackage{microtype}            % migliora la giustificazione
-\usepackage{parskip}              % spazio tra paragrafi, niente indentazione
+\usepackage[margin=2.5cm, top=3cm, bottom=3cm]{geometry}
+\usepackage{microtype}
+\usepackage{parskip}
 \setlength{\parskip}{6pt}
 
 % --- Grafica e tabelle ---
@@ -18,59 +18,155 @@
 \usepackage{amsmath, amssymb}
 \usepackage{tikz}
 \usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage[table]{xcolor}
+% --- Colori istituzionali UniVR ---
+\definecolor{univrblue}{RGB}{0, 68, 124}      % blu istituzionale
+\definecolor{univrlightblue}{RGB}{0, 120, 190} % blu chiaro accento
+\definecolor{univrgray}{RGB}{90, 90, 90}       % grigio testo secondario
 
 % --- Header/Footer eleganti ---
 \usepackage{fancyhdr}
 \pagestyle{fancy}
-\setlength{\headheight}{14pt} % FIX warning headheight
-\fancyhf{} % pulisci
-\lhead{\textit{Basi di Dati}}
-\rhead{\textit{Kristian Xhani}}
-\cfoot{\thepage}
-\renewcommand{\headrulewidth}{0.4pt}
+\setlength{\headheight}{28pt}
+\fancyhf{}
+\lhead{%
+	\textcolor{univrblue}{\rule[-2pt]{2pt}{12pt}}\hspace{6pt}%
+	\textcolor{univrblue}{\small\textbf{Università degli Studi di Verona}}%
+	\hspace{4pt}\textcolor{univrgray}{\small\textit{— Basi di Dati}}%
+}
+\rhead{\textcolor{univrgray}{\small\textit{Kristian Xhani}}}
+\cfoot{\textcolor{univrgray}{\small\thepage}}
+\renewcommand{\headrulewidth}{0.6pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{univrblue}\leaders\hrule height \headrulewidth\hfill}}
 \renewcommand{\footrulewidth}{0pt}
 
-% --- Sezioni un filo più eleganti ---
+% --- Sezioni eleganti con colore ---
 \usepackage{titlesec}
-\titleformat{\section}{\Large\bfseries}{\thesection}{0.6em}{}
-\titleformat{\subsection}{\large\bfseries}{\thesubsection}{0.6em}{}
-\titleformat{\subsubsection}{\bfseries}{\thesubsubsection}{0.6em}{}
+\titleformat{\section}
+{\Large\bfseries\color{univrblue}}
+{\textcolor{univrblue}{\thesection}}{0.6em}{}[{\color{univrlightblue}\titlerule[0.5pt]}]
 
-% --- Collegamenti cliccabili + segnalibri PDF ---
+\titleformat{\subsection}
+{\large\bfseries\color{univrblue!80!black}}
+{\thesubsection}{0.6em}{}
+
+\titleformat{\subsubsection}
+{\bfseries\color{univrblue!60!black}}
+{\thesubsubsection}{0.6em}{}
+
+% --- tcolorbox style ---
+\tcbuselibrary{skins, breakable}
+\tcbset{
+	defbox/.style={
+		enhanced, breakable,
+		colback=univrblue!5!white,
+		colframe=univrblue,
+		fonttitle=\bfseries\color{white},
+		coltitle=white,
+		attach boxed title to top left={yshift=-2mm, xshift=4mm},
+		boxed title style={colback=univrblue, rounded corners},
+		rounded corners,
+		left=6pt, right=6pt, top=8pt, bottom=6pt,
+	}
+}
+
+% --- Collegamenti cliccabili ---
 \usepackage{hyperref}
 \usepackage{bookmark}
 \hypersetup{
-	pdftitle={Basi di Dati},
+	pdftitle={Basi di Dati — Università di Verona},
 	pdfauthor={Kristian Xhani},
 	colorlinks=true,
-	linkcolor=blue!50!black,
-	urlcolor=blue!50!black,
-	citecolor=blue!50!black
+	linkcolor=univrblue,
+	urlcolor=univrlightblue,
+	citecolor=univrblue
 }
 
-% --- Profondità e nome dell'indice ---
-\setcounter{tocdepth}{3}  
+% --- Indice ---
+\setcounter{tocdepth}{3}
 \renewcommand{\contentsname}{Indice}
 
-% --- Metadati frontespizio ---
-\title{\textbf{BASI DI DATI}}
-\author{Kristian Xhani}
-\date{Ottobre 2025}
+% ============================================================
+%   FRONTESPIZIO PERSONALIZZATO
+% ============================================================
+\newcommand{\makefrontespizio}{%
+	\begin{titlepage}
+		\newgeometry{margin=0pt}
+		\begin{tikzpicture}[remember picture, overlay]
+			% Banda superiore blu
+			\fill[univrblue] (current page.north west)
+			rectangle ([yshift=-5cm]current page.north east);
+			% Sottile banda accent
+			\fill[univrlightblue] ([yshift=-5cm]current page.north west)
+			rectangle ([yshift=-5.4cm]current page.north east);
+			% Banda inferiore
+			\fill[univrblue] (current page.south west)
+			rectangle ([yshift=2.5cm]current page.south east);
+			\fill[univrlightblue] ([yshift=2.5cm]current page.south west)
+			rectangle ([yshift=2.9cm]current page.south east);
+		\end{tikzpicture}
+		
+		% --- Contenuto superiore (su sfondo blu) ---
+		\vspace*{1.2cm}
+		\begin{center}
+			{\color{white}\fontsize{13}{16}\selectfont
+				\textbf{UNIVERSITÀ DEGLI STUDI DI VERONA}}\\[4pt]
+			{\color{white!80!univrblue}\fontsize{11}{14}\selectfont
+				Dipartimento di Informatica}\\[2pt]
+			{\color{white!80!univrblue}\fontsize{10}{13}\selectfont
+				Corso di Laurea in Informatica}
+		\end{center}
+		
+		\vspace{3cm}
+		
+		% --- Titolo centrale ---
+		\begin{center}
+			{\color{univrblue}\fontsize{38}{44}\selectfont\textbf{BASI DI DATI}}\\[10pt]
+			{\color{univrgray}\fontsize{14}{18}\selectfont\textit{Appunti del corso — A.A. 2025/2026}}
+		\end{center}
+		
+		\vspace{1.2cm}
+		\begin{center}
+			\begin{tikzpicture}
+				\draw[univrlightblue, line width=1.2pt] (0,0) -- (10,0);
+				\fill[univrblue] (5,0) circle (3pt);
+			\end{tikzpicture}
+		\end{center}
+		
+		\vfill
+		
+		% --- Dati autore (su sfondo bianco) ---
+		\begin{center}
+			\begin{tabular}{rl}
+				\textcolor{univrgray}{\small\textit{Studente:}} &
+				\textcolor{univrblue}{\large\textbf{Kristian Xhani}} \\[6pt]
+				\textcolor{univrgray}{\small\textit{Anno accademico:}} &
+				\textcolor{univrblue}{\normalsize 2025 / 2026} \\
+			\end{tabular}
+		\end{center}
+		
+		\vspace{3.5cm}
+		% Spazio per la banda inferiore
+	\end{titlepage}
+	\restoregeometry
+}
 
+% ============================================================
 \begin{document}
 	
-	\maketitle
+	\makefrontespizio
 	
-	% Indice cliccabile + segnalibro in testa
+	% Indice
 	\pdfbookmark[section]{Indice}{indice}
 	\tableofcontents
 	\clearpage
 	
-	% --- Contenuti (nomi file SENZA spazi) ---
+	% --- Contenuti ---
 	\include{introduzione}
 	\include{Progettazione}
 	\include{ModellloEr}
-	\include{vincoli di cardinalita}   % rinominato!
+	\include{vincolidiCardinalita}   % NB: nessuno spazio nel nome file!
 	\include{Strategie}
 	\include{ModelloRelazionale}
 	\include{documentBased}
@@ -80,5 +176,7 @@
 	\include{transazioni}
 	\include{gestione}
 	\include{accesso}
+	\include{concorrenza}
 	\include{Sql}
+	
 \end{document}
