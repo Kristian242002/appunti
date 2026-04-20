@@ -1,0 +1,195 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[italian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usepackage{colortbl}
+\usepackage{hyperref}
+
+\definecolor{cesareblu}{RGB}{30, 90, 160}
+\definecolor{cesaregrigio}{RGB}{240, 240, 240}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Informatica --- Classe Prima/Seconda}
+\lhead{Il Cifrario di Cesare}
+\cfoot{\thepage}
+
+\title{
+  {\large Modulo: Introduzione alla Crittografia}\\[0.5em]
+  {\LARGE \textbf{Il Cifrario di Cesare}}\\[0.5em]
+  {\large Messaggi segreti dai Romani a oggi}
+}
+\author{Dispensa per gli studenti}
+\date{}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+% -------------------------------------------
+\section*{Perché la crittografia?}
+
+Nel film \textit{The Imitation Game}, i nazisti usavano una macchina
+chiamata \textbf{Enigma} per cifrare i messaggi militari. Alan Turing
+doveva capire il codice senza conoscerlo.
+
+La domanda che ci facciamo oggi è più semplice, ma stessa idea:
+
+\begin{center}
+  \large\textbf{Come mando un messaggio segreto che solo il mio amico
+  può leggere?}
+\end{center}
+
+% -------------------------------------------
+\section{Il Cifrario di Cesare}
+
+Giulio Cesare mandava ordini segreti ai suoi generali usando un
+trucco semplicissimo: \textbf{spostare le lettere dell'alfabeto}.
+
+\subsection{La tabella di cifratura (chiave = 3)}
+
+Per cifrare un messaggio con chiave 3, scrivi l'alfabeto normale
+nella riga in alto. Sotto, scrivi lo stesso alfabeto ma partendo
+dalla lettera D (spostato di 3):
+
+\vspace{0.5em}
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\rowcolor{cesareblu!80}
+\color{white}\textbf{Normale} &
+\color{white}A & \color{white}B & \color{white}C &
+\color{white}D & \color{white}E & \color{white}F &
+\color{white}G & \color{white}H & \color{white}I &
+\color{white}L & \color{white}M & \color{white}N &
+\color{white}O \\
+\hline
+\rowcolor{cesaregrigio}
+\textbf{Cifrato} &
+D & E & F & G & H & I & L & M & N & O & P & Q & R \\
+\hline
+\end{tabular}
+
+\vspace{0.3em}
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\rowcolor{cesareblu!80}
+\color{white}\textbf{Normale} &
+\color{white}P & \color{white}Q & \color{white}R &
+\color{white}S & \color{white}T & \color{white}U &
+\color{white}V & \color{white}Z & \color{white}A &
+\color{white}B & \color{white}C & \color{white}D\\
+\hline
+\rowcolor{cesaregrigio}
+\textbf{Cifrato} &
+S & T & U & V & Z & A & B & C & D & E & F & G \\
+\hline
+\end{tabular}
+\end{center}
+\vspace{0.5em}
+
+\textbf{Per cifrare:} guarda la lettera nella riga normale $\rightarrow$
+scrivi quella nella riga cifrata.\\
+\textbf{Per decifrare:} guarda la lettera nella riga cifrata $\rightarrow$
+risali a quella nella riga normale.
+
+\subsection{Esempio pratico}
+
+\vspace{0.5em}
+\begin{center}
+\renewcommand{\arraystretch}{1.6}
+\begin{tabular}{lccccccc}
+\toprule
+\textbf{Testo normale} & C & I & A & O & \quad & M & O \\
+\textbf{Testo cifrato} & F & L & D & R & \quad & P & R \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{0.5em}
+
+Il messaggio \texttt{CIAO MO} diventa \texttt{FLDR PR}.
+Chi non conosce la chiave non capisce niente!
+
+% -------------------------------------------
+\section{Perché è facile da rompere?}
+
+La chiave è solo un numero da 1 a 25. Un attaccante può
+semplicemente provarle tutte, una per una, finché il messaggio
+non torna a avere senso. Questo si chiama \textbf{attacco a forza bruta}.
+
+Con carta e penna ci vogliono pochi minuti. Con un computer, meno
+di un secondo. Ecco perché oggi usiamo sistemi molto più complicati!
+
+% -------------------------------------------
+\section{Attività: Agenti Segreti}
+
+\subsection*{Materiale}
+\begin{itemize}
+  \item Un messaggio cifrato per ogni squadra (stesso per tutti)
+  \item Un foglio con la tabella alfabeto vuota (da compilare)
+  \item Una busta chiusa con la chiave segreta
+\end{itemize}
+
+\subsection*{Regole}
+\begin{enumerate}
+  \item Il professore sceglie una chiave e la chiude in una busta.
+  \item La classe si divide in squadre da 3--4 studenti.
+  \item Ogni squadra prova le chiavi una alla volta, compilando
+        la tabella ogni volta.
+  \item La prima squadra che decifra il messaggio e indovina
+        la chiave vince.
+  \item Si apre la busta per confermare.
+\end{enumerate}
+
+\subsection*{Trucco}
+Se il testo decifrato ha senso in italiano, hai trovato la chiave!
+
+\vspace{1em}
+\begin{center}
+\renewcommand{\arraystretch}{1.8}
+\begin{tabular}{|c|*{14}{c|}}
+\hline
+\textbf{Normale} &
+A&B&C&D&E&F&G&H&I&L&M&N&O\\
+\hline
+\textbf{Cifrato} &
+\phantom{A}&\phantom{A}&\phantom{A}&\phantom{A}&\phantom{A}&
+\phantom{A}&\phantom{A}&\phantom{A}&\phantom{A}&\phantom{A}&
+\phantom{A}&\phantom{A}&\phantom{A}\\
+\hline
+\end{tabular}
+
+\vspace{0.4em}
+
+\begin{tabular}{|c|*{13}{c|}}
+\hline
+\textbf{Normale} &
+P&Q&R&S&T&U&V&Z&A&B&C&D\\
+\hline
+\textbf{Cifrato} &
+\phantom{A}&\phantom{A}&\phantom{A}&\phantom{A}&\phantom{A}&
+\phantom{A}&\phantom{A}&\phantom{A}&\phantom{A}&\phantom{A}&
+\phantom{A}&\phantom{A}\\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{1em}
+\noindent\textbf{Messaggio da decifrare:}
+\vspace{0.5em}
+
+\begin{center}
+\large\texttt{\_\_\_\_ \_\_\_\_ \_\_\_\_ \_\_\_\_ \_\_\_\_}
+\end{center}
+\textit{(il professore inserisce qui il messaggio cifrato)}
+
+\end{document}

@@ -452,3 +452,395 @@ t_2 < t_1
 \]
 
 \textbf{Contraddizione:} i vincoli ricavati impongono simultaneamente $t_2 < t_3$, $t_2 < t_1$ e $t_1 < t_5$, ma dall'insieme legge-da avevamo già ricavato $t_2 < t_3$ con $t_1 < t_2$ implicato dalla struttura dello schedule — il che genera un ciclo $t_2 < t_1 < t_2$. Non esiste quindi alcuno schedule seriale che soddisfi tutti i vincoli contemporaneamente, e concludiamo che $\mathbf{S_3}$ \textbf{non è view-serializzabile}.
+\subsection{Conflict equivalenza}
+
+\paragraph{Conflitto.}
+Dato uno schedule $S$, si dice che una coppia di operazioni $(a_i, a_j)$ rappresenta un \textbf{conflitto} se:
+\begin{itemize}
+	\item $i \neq j$, ovvero le operazioni appartengono a transazioni diverse;
+	\item entrambe operano sulla stessa risorsa;
+	\item almeno una delle due è un'operazione di scrittura;
+	\item $a_i$ compare prima di $a_j$ in $S$.
+\end{itemize}
+
+\paragraph{Conflict equivalenza.}
+Due schedule $S_1$ e $S_2$ sono \textbf{conflict-equivalenti} ($S_1 \approx_C S_2$) se e solo se possiedono lo stesso insieme di conflitti.
+\paragraph{Conflict-serializzabilità.}
+
+Uno schedule $S$ è \textbf{conflict-serializzabile} (CSR) se esiste uno schedule seriale $S_r$ tale che $S \approx_C S_r$. Il vantaggio rispetto alla view-serializzabilità è che l'algoritmo per il test della conflict-serializzabilità ha complessità \textbf{lineare}.
+
+\paragraph{Algoritmo CSR.}
+
+Dato uno schedule $S$, l'algoritmo procede come segue:
+\begin{enumerate}
+	\item Costruire l'insieme dei conflitti di $S$.
+	\item Costruire il \textbf{grafo dei conflitti} $G(N, A)$, dove:
+	\begin{itemize}
+		\item $N$ è l'insieme dei nodi, uno per ciascuna transazione di $S$;
+		\item $A$ contiene un arco $(t_i, t_j)$ se esiste un conflitto $(a_i, a_j) \in S$.
+	\end{itemize}
+	\item Se il grafo dei conflitti è \textbf{aciclico}, allora $S$ è conflict-serializzabile; altrimenti non lo è.
+\end{enumerate}
+
+\paragraph{Dimostrazione di correttezza.}
+
+\textbf{($\Rightarrow$) Se $S$ è CSR allora il suo grafo è aciclico.}
+Sia $S_r$ lo schedule seriale conflict-equivalente a $S$, con le transazioni ordinate $t_1, t_2, \ldots, t_n$. Poiché $S \approx_C S_r$, i due schedule hanno esattamente gli stessi conflitti nello stesso ordine. Nel grafo dei conflitti di $S_r$ possono quindi comparire solo archi $(t_i, t_j)$ con $i < j$: un ciclo richiederebbe un arco $(t_j, t_i)$ con $j > i$, che implicherebbe l'esistenza di un conflitto in ordine inverso — impossibile in uno schedule seriale. Poiché $S$ e $S_r$ hanno lo stesso grafo, anche il grafo di $S$ è aciclico.
+
+\textbf{($\Leftarrow$) Se il grafo di $S$ è aciclico allora $S$ è CSR.}
+Se il grafo è aciclico, esiste un \textbf{ordinamento topologico}, ovvero una numerazione dei nodi tale che il grafo contenga solo archi $(t_i, t_j)$ con $i < j$. Utilizzando questo ordinamento topologico possiamo definire un ordine delle transazioni che produce lo stesso grafo dei conflitti di $S$: otteniamo così uno schedule seriale $S_r$ conflict-equivalente a $S$, quindi $S$ è CSR.
+
+\paragraph{Esempio CSR: perdita di aggiornamento.}
+
+Consideriamo lo schedule $S_{pa}$ già visto in precedenza:
+\[
+S_{pa} : r_1(x),\ r_2(x),\ w_2(x),\ w_1(x)
+\]
+
+Costruiamo l'insieme dei conflitti:
+\[
+\text{CONFLITTI}(S_{pa}) = \{(r_1(x),\ w_2(x)),\ (r_2(x),\ w_1(x)),\ (w_2(x),\ w_1(x))\}
+\]
+\begin{itemize}
+	\item $(r_1(x),\ w_2(x))$: $r_1$ e $w_2$ operano sulla stessa risorsa $x$, appartengono a transazioni diverse, e $w_2$ è una scrittura;
+	\item $(r_2(x),\ w_1(x))$: analogo, con $w_1$ scrittura;
+	\item $(w_2(x),\ w_1(x))$: entrambe scritture sulla stessa risorsa $x$, transazioni diverse.
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{image240}
+	\label{fig:image240}
+\end{figure}
+Dal primo conflitto otteniamo un arco $t_1 \to t_2$; dal secondo e dal terzo un arco $t_2 \to t_1$. Il grafo dei conflitti contiene quindi un ciclo $t_1 \to t_2 \to t_1$, pertanto $\mathbf{S_{pa}}$ \textbf{non è CSR}.
+\paragraph{Esempio CSR: lettura inconsistente.}
+
+Consideriamo le transazioni:
+\begin{align*}
+	t_1 &: r_1(x),\ r_1'(x) \\
+	t_2 &: r_2(x),\ w_2(x)
+\end{align*}
+
+Lo schedule è:
+\[
+S_{li} : r_1(x),\ r_2(x),\ w_2(x),\ r_1'(x)
+\]
+
+Costruiamo l'insieme dei conflitti:
+\[
+\text{CONFLITTI}(S_{li}) = \{(r_1(x),\ w_2(x)),\ (w_2(x),\ r_1'(x))\}
+\]
+\begin{itemize}
+	\item $(r_1(x),\ w_2(x))$: $r_1$ precede $w_2$, stessa risorsa $x$, transazioni diverse, $w_2$ è scrittura $\Rightarrow$ arco $t_1 \to t_2$;
+	\item $(w_2(x),\ r_1'(x))$: $w_2$ precede $r_1'$, stessa risorsa $x$, transazioni diverse, $w_2$ è scrittura $\Rightarrow$ arco $t_2 \to t_1$.
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image241}
+	\label{fig:image241}
+\end{figure}
+Il grafo dei conflitti contiene un ciclo $t_1 \to t_2 \to t_1$, pertanto $\mathbf{S_{li}}$ \textbf{non è CSR}.
+\subsection{Relazione tra CSR e VSR}
+
+La conflict-serializzabilità è una condizione \textbf{sufficiente ma non necessaria} per la view-serializzabilità. In altri termini:
+
+\begin{itemize}
+	\item $S \in \text{CSR} \Rightarrow S \in \text{VSR}$: se uno schedule è conflict-serializzabile, allora è anche view-serializzabile.
+	\item $S \notin \text{CSR} \not\Rightarrow S \notin \text{VSR}$: se uno schedule non è conflict-serializzabile, non possiamo concludere nulla sulla sua view-serializzabilità.
+	\item $S \notin \text{VSR} \Rightarrow S \notin \text{CSR}$: se uno schedule non è view-serializzabile, allora non è nemmeno conflict-serializzabile.
+\end{itemize}
+
+Quindi l'insieme CSR è un sottoinsieme proprio di VSR: esistono schedule view-serializzabili che non sono conflict-serializzabili, ma non viceversa.
+
+\paragraph{Strategia per gli esercizi.}
+Data uno schedule $S$, la procedura da seguire è:
+\begin{enumerate}
+	\item Applicare il \textbf{test CSR}: costruire il grafo dei conflitti e verificare se è aciclico.
+	\begin{itemize}
+		\item Se $S$ è CSR $\Rightarrow$ $S$ è anche VSR. Non è necessario proseguire.
+		\item Se $S$ non è CSR $\Rightarrow$ applicare il \textbf{test VSR} per determinare se $S$ è comunque view-serializzabile.
+	\end{itemize}
+\end{enumerate}
+\paragraph{Esempio CSR: schedule $S_1$.}
+
+Riprendiamo lo schedule già analizzato in precedenza:
+\[
+S_1 : r_1(x),\ w_1(x),\ r_2(z),\ r_1(y),\ w_1(y),\ r_2(x),\ w_2(x),\ w_2(z)
+\]
+
+Costruiamo l'insieme dei conflitti:
+\[
+\text{CONFLITTI}(S_1) = \{(r_1(x),\ w_2(x)),\ (w_1(x),\ r_2(x)),\ (w_1(x),\ w_2(x))\}
+\]
+\begin{itemize}
+	\item $(r_1(x),\ w_2(x))$: $r_1$ precede $w_2$, stessa risorsa $x$, transazioni diverse, $w_2$ è scrittura $\Rightarrow$ arco $t_1 \to t_2$;
+	\item $(w_1(x),\ r_2(x))$: $w_1$ precede $r_2$, stessa risorsa $x$, transazioni diverse, $w_1$ è scrittura $\Rightarrow$ arco $t_1 \to t_2$;
+	\item $(w_1(x),\ w_2(x))$: entrambe scritture su $x$, transazioni diverse, $w_1$ precede $w_2$ $\Rightarrow$ arco $t_1 \to t_2$.
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image242}
+	\label{fig:image242}
+\end{figure}
+Tutti e tre i conflitti generano archi nella stessa direzione $t_1 \to t_2$. Il grafo dei conflitti è quindi aciclico, pertanto $S_1$ è CSR. Poiché $\text{CSR} \subseteq \text{VSR}$, concludiamo che $\mathbf{S_1}$ \textbf{è sia CSR che VSR}.
+
+\paragraph{Esempio CSR: schedule $S_2$.}
+
+Riprendiamo lo schedule $S_2$ già analizzato in precedenza:
+\[
+S_2 : r_1(x),\ w_1(x),\ w_3(x),\ r_2(y),\ r_3(y),\ w_3(y),\ w_1(y),\ r_2(x)
+\]
+
+Costruiamo l'insieme dei conflitti:
+\[
+\text{CONFLITTI}(S_2) = \{
+(r_1(x),\ w_3(x)),\
+(w_1(x),\ w_3(x)),\
+(w_1(x),\ r_2(x)),\
+(w_3(x),\ r_2(x)),\
+(r_2(y),\ w_3(y)),\
+(r_2(y),\ w_1(y)),\
+(r_3(y),\ w_1(y)),\
+(w_3(y),\ w_1(y))
+\}
+\]
+
+Ricaviamo gli archi del grafo dei conflitti:
+\begin{itemize}
+	\item $(r_1(x),\ w_3(x))$, $(w_1(x),\ w_3(x))$ $\Rightarrow$ arco $t_1 \to t_3$;
+	\item $(w_1(x),\ r_2(x))$ $\Rightarrow$ arco $t_1 \to t_2$;
+	\item $(w_3(x),\ r_2(x))$ $\Rightarrow$ arco $t_3 \to t_2$;
+	\item $(r_2(y),\ w_3(y))$ $\Rightarrow$ arco $t_2 \to t_3$;
+	\item $(r_2(y),\ w_1(y))$ $\Rightarrow$ arco $t_2 \to t_1$;
+	\item $(r_3(y),\ w_1(y))$, $(w_3(y),\ w_1(y))$ $\Rightarrow$ arco $t_3 \to t_1$.
+\end{itemize}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image243}
+	\label{fig:image243}
+\end{figure}
+Il grafo dei conflitti contiene cicli: $t_2 \to t_3 \to t_2$ e $t_1 \to t_3 \to t_1$. Il grafo è quindi ciclico, pertanto $S_2$ non è CSR. Poiché $\text{CSR} \subseteq \text{VSR}$ e avevamo già dimostrato che $S_2$ non è VSR, possiamo concludere che $\mathbf{S_2}$ \textbf{non è né CSR né VSR}.
+\paragraph{Esempio CSR: schedule $S_3$.}
+
+Riprendiamo lo schedule $S_3$ già analizzato in precedenza:
+\[
+S_3 : r_1(x),\ r_2(x),\ w_2(x),\ r_3(x),\ r_4(z),\ w_1(x),\ w_3(y),\ w_3(x),\ w_1(y),\ w_5(x),\ w_1(z),\ w_5(y),\ r_5(z)
+\]
+
+Costruiamo l'insieme dei conflitti:
+\begin{align*}
+	\text{CONFLITTI}(S_3) = \{
+	&(r_1(x),\ w_2(x)),\ (r_1(x),\ w_3(x)),\ (r_1(x),\ w_5(x)), \\
+	&(r_2(x),\ w_1(x)),\ (r_2(x),\ w_3(x)),\ (r_2(x),\ w_5(x)), \\
+	&(w_2(x),\ r_3(x)),\ (w_2(x),\ w_1(x)),\ (w_2(x),\ w_3(x)),\ (w_2(x),\ w_5(x)), \\
+	&(r_3(x),\ w_1(x)),\ (r_3(x),\ w_5(x)), \\
+	&(r_4(z),\ w_1(z)), \\
+	&(w_1(x),\ w_3(x)),\ (w_1(x),\ w_5(x)), \\
+	&(w_1(y),\ w_5(y)), \\
+	&(w_3(y),\ w_1(y)),\ (w_3(y),\ w_5(y)), \\
+	&(w_3(x),\ w_5(x))
+	\}
+\end{align*}
+
+Ricaviamo gli archi del grafo dei conflitti:
+\begin{itemize}
+	\item $(r_1(x),\ w_2(x))$ $\Rightarrow$ arco $t_1 \to t_2$;
+	\item $(r_1(x),\ w_3(x))$, $(r_1(x),\ w_5(x))$ $\Rightarrow$ archi $t_1 \to t_3$, $t_1 \to t_5$;
+	\item $(r_2(x),\ w_1(x))$ $\Rightarrow$ arco $t_2 \to t_1$;
+	\item $(r_2(x),\ w_3(x))$, $(r_2(x),\ w_5(x))$ $\Rightarrow$ archi $t_2 \to t_3$, $t_2 \to t_5$;
+	\item $(w_2(x),\ r_3(x))$, $(w_2(x),\ w_1(x))$, $(w_2(x),\ w_3(x))$, $(w_2(x),\ w_5(x))$ $\Rightarrow$ archi $t_2 \to t_3$, $t_2 \to t_1$, $t_2 \to t_3$, $t_2 \to t_5$;
+	\item $(r_3(x),\ w_1(x))$, $(r_3(x),\ w_5(x))$ $\Rightarrow$ archi $t_3 \to t_1$, $t_3 \to t_5$;
+	\item $(r_4(z),\ w_1(z))$ $\Rightarrow$ arco $t_4 \to t_1$;
+	\item $(w_1(x),\ w_3(x))$, $(w_1(x),\ w_5(x))$ $\Rightarrow$ archi $t_1 \to t_3$, $t_1 \to t_5$;
+	\item $(w_3(y),\ w_1(y))$ $\Rightarrow$ arco $t_3 \to t_1$;
+	\item $(w_3(y),\ w_5(y))$, $(w_3(x),\ w_5(x))$ $\Rightarrow$ archi $t_3 \to t_5$;
+	\item $(w_1(y),\ w_5(y))$ $\Rightarrow$ arco $t_1 \to t_5$.
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{image244}
+	\label{fig:image244}
+\end{figure}
+Il grafo contiene cicli, ad esempio $t_1 \to t_2 \to t_1$ (dagli archi $t_1 \to t_2$ e $t_2 \to t_1$) e $t_2 \to t_3 \to t_1 \to t_2$. Il grafo è quindi ciclico, pertanto $S_3$ non è CSR. Poiché avevamo già dimostrato che $S_3$ non è VSR, concludiamo che $\mathbf{S_3}$ \textbf{non è né CSR né VSR}.
+\paragraph{Esempio CSR: schedule $S_4$.}
+
+Consideriamo lo schedule:
+\[
+S_4 : r_1(x),\ r_3(y),\ w_1(y),\ w_4(x),\ w_1(t),\ w_5(x),\ r_2(z),\ r_3(z),\ w_2(z),\ w_5(z),\ r_4(t),\ r_5(t)
+\]
+
+Costruiamo l'insieme dei conflitti:
+\begin{align*}
+	\text{CONFLITTI}(S_4) = \{
+	&(r_1(x),\ w_4(x)),\ (r_1(x),\ w_5(x)), \\
+	&(r_3(y),\ w_1(y)), \\
+	&(w_4(x),\ w_5(x)), \\
+	&(w_1(t),\ r_4(t)),\ (w_1(t),\ r_5(t)), \\
+	&(r_2(z),\ w_5(z)), \\
+	&(r_3(z),\ w_2(z)),\ (r_3(z),\ w_5(z)), \\
+	&(w_2(z),\ w_5(z))
+	\}
+\end{align*}
+
+Ricaviamo gli archi del grafo dei conflitti:
+\begin{itemize}
+	\item $(r_1(x),\ w_4(x))$, $(r_1(x),\ w_5(x))$ $\Rightarrow$ archi $t_1 \to t_4$, $t_1 \to t_5$;
+	\item $(r_3(y),\ w_1(y))$ $\Rightarrow$ arco $t_3 \to t_1$;
+	\item $(w_4(x),\ w_5(x))$ $\Rightarrow$ arco $t_4 \to t_5$;
+	\item $(w_1(t),\ r_4(t))$, $(w_1(t),\ r_5(t))$ $\Rightarrow$ archi $t_1 \to t_4$, $t_1 \to t_5$;
+	\item $(r_2(z),\ w_5(z))$ $\Rightarrow$ arco $t_2 \to t_5$;
+	\item $(r_3(z),\ w_2(z))$, $(r_3(z),\ w_5(z))$ $\Rightarrow$ archi $t_3 \to t_2$, $t_3 \to t_5$;
+	\item $(w_2(z),\ w_5(z))$ $\Rightarrow$ arco $t_2 \to t_5$.
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{image245}
+	\caption{}
+	\label{fig:image245}
+\end{figure}
+Il grafo dei conflitti ha quindi archi: $t_3 \to t_1 \to t_4 \to t_5$, $t_3 \to t_2 \to t_5$, $t_1 \to t_5$, $t_3 \to t_5$. Il grafo è \textbf{aciclico}, pertanto $S_4$ è CSR. Poiché $\text{CSR} \subseteq \text{VSR}$, concludiamo che $\mathbf{S_4}$ \textbf{è sia CSR che VSR}.
+\paragraph{Ordinamenti topologici di $S_4$.}
+
+Poiché il grafo dei conflitti di $S_4$ è aciclico, possiamo ricavare gli schedule seriali conflict-equivalenti tramite l'ordinamento topologico. Il nodo di partenza è $t_3$, l'unico senza archi entranti. I possibili ordinamenti topologici sono:
+
+\begin{align*}
+	S_{r1} &: t_3,\ t_1,\ t_5,\ t_2,\ t_4 \\
+	S_{r2} &: t_3,\ t_1,\ t_5,\ t_4,\ t_2 \\
+	S_{r3} &: t_3,\ t_2,\ t_1,\ t_4,\ t_5
+\end{align*}
+
+Tutti e tre gli schedule seriali sono conflict-equivalenti e view-equivalenti a $S_4$.
+\subsection{Locking a due fasi stretto (2PL stretto)}
+
+Il locking a due fasi stretto è il meccanismo principale per la gestione della concorrenza nei DBMS. I suoi vantaggi rispetto alla view-serializzabilità sono:
+\begin{itemize}
+	\item non richiede di conoscere in anticipo l'esito delle transazioni;
+	\item fornisce un meccanismo base per la gestione dei lock;
+	\item definisce una politica di concessione dei lock;
+	\item garantisce la serializzabilità tramite una regola precisa.
+\end{itemize}
+
+\subsubsection{Meccanismo di base}
+
+Per bloccare le risorse su cui si vuole operare si introducono le seguenti primitive di lock:
+\begin{itemize}
+	\item \textbf{R\_LOCK$_i(x)$}: la transazione $t_i$ richiede un lock condiviso in lettura sulla risorsa $x$;
+	\item \textbf{W\_LOCK$_i(x)$}: la transazione $t_i$ richiede un lock esclusivo in scrittura sulla risorsa $x$;
+	\item \textbf{UNLOCK$_i(x)$}: la transazione $t_i$ rilascia la risorsa $x$ da un precedente lock.
+\end{itemize}
+
+\paragraph{Regole d'uso delle primitive.}
+\begin{itemize}
+	\item Ogni operazione di \textbf{lettura} deve essere preceduta da una R\_LOCK e seguita da una UNLOCK. Sono ammessi più R\_LOCK contemporanei sulla stessa risorsa, poiché il lock in lettura è \textbf{condiviso}.
+	\item Ogni operazione di \textbf{scrittura} deve essere preceduta da una W\_LOCK e seguita da una UNLOCK. Non sono ammessi più W\_LOCK contemporanei sulla stessa risorsa, poiché il lock in scrittura è \textbf{esclusivo}.
+\end{itemize}
+
+Una transazione che rispetta queste regole si dice \textbf{ben formata}.
+
+\subsubsection{Politica di concessione dei lock}
+
+Il gestore della concorrenza del DBMS mantiene per ogni risorsa $x$ le seguenti informazioni:
+\begin{itemize}
+	\item $\text{stato}(x) \in \{\text{libero},\ \text{r\_lock},\ \text{w\_lock}\}$: lo stato corrente della risorsa;
+	\item $C(x) = \{t_1, \ldots, t_n\}$: l'insieme delle transazioni che detengono un R\_LOCK su $x$ (rilevante solo quando $\text{stato}(x) = \text{r\_lock}$).
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image246}
+	\caption{Tabella di concessione dei lock}
+	\label{fig:image246}
+\end{figure}
+\subsection{Regola per la serializzabilità}
+
+La regola da cui si ottiene la serializzabilità, e da cui deriva il nome \textit{2PL}, stabilisce che \textbf{una transazione, dopo aver rilasciato un lock, non può acquisirne altri}.
+
+Il ciclo di vita di una transazione è suddiviso in due fasi distinte:
+
+\begin{enumerate}
+	\item \textbf{Fase di acquisizione (Growing Phase):} il numero di lock acquisiti cresce monotonicamente.
+	\item \textbf{Fase di rilascio (Shrinking Phase):} il numero di lock decresce monotonicamente; non è più possibile acquisire nuovi lock.
+\end{enumerate}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image247}
+	\caption{ciclo vita lock}
+	\label{fig:image247}
+\end{figure}
+
+\paragraph{Esempio: perdita di aggiornamento con 2PL stretto.}
+
+Consideriamo le transazioni:
+\begin{align*}
+	t_1 &: \text{R\_LOCK}_1(x),\ r_1(x),\ \text{W\_LOCK}_1(x),\ w_1(x),\ \text{UNLOCK}_1(x) \\
+	t_2 &: \text{R\_LOCK}_2(x),\ r_2(x),\ \text{W\_LOCK}_2(x),\ w_2(x),\ \text{UNLOCK}_2(x)
+\end{align*}
+
+Lo schedule con perdita di aggiornamento era:
+\[
+S_{pa} : r_1(x),\ r_2(x),\ w_2(x),\ w_1(x)
+\]
+
+Con il 2PL stretto, introduciamo esplicitamente le operazioni di lock:
+\[
+S_{pa}^{2PL} : \text{R\_LOCK}_1(x),\ r_1(x),\ \text{R\_LOCK}_2(x),\ r_2(x),\ \text{W\_LOCK}_2(x)\ [\text{?}],\ \ldots
+\]
+
+Quando $t_2$ tenta di acquisire W\_LOCK$_2(x)$, lo stato della risorsa è:
+\[
+\text{stato}(x) = \texttt{r\_lock}, \quad C(x) = \{t_1,\ t_2\}
+\]
+
+Dalla tabella di concessione, W\_LOCK$_2(x)$ è concedibile solo se $C(x) = \{t_2\}$, ovvero se $t_1$ ha già rilasciato il proprio R\_LOCK$_1(x)$. Tuttavia:
+
+\begin{itemize}
+	\item Se $t_1$ rilascia R\_LOCK$_1(x)$, entra nella \textbf{fase discendente} del 2PL.
+	\item Nella fase discendente, $t_1$ non può più acquisire nuovi lock.
+	\item Ma $t_1$ deve ancora eseguire $w_1(x)$, che richiede W\_LOCK$_1(x)$: \textbf{impossibile}.
+\end{itemize}
+
+Il 2PL stretto impedisce quindi strutturalmente lo schedule $S_{pa}$: non esiste alcun modo di ordinare le operazioni di lock e unlock che rispetti contemporaneamente la regola del 2PL e consenta l'esecuzione di entrambe le scritture. La perdita di aggiornamento viene così \textbf{prevenuta}.
+\subsubsection{2PL stretto}
+
+Il \textbf{2PL stretto} aggiunge un vincolo ulteriore rispetto al 2PL base: una transazione può rilasciare i propri lock \textbf{esclusivamente dopo aver eseguito un commit o un rollback}. Il momento in cui inizia la fase discendente coincide quindi con il commit o l'abort della transazione.
+
+Questo vincolo aggiuntivo permette di \textbf{eliminare l'ipotesi di commit-proiezione}: il 2PL stretto garantisce la serializzabilità anche in presenza di transazioni che terminano con un abort, senza dover assumere a priori l'esito delle transazioni.
+
+\subsubsection{Relazione tra 2PL stretto, CSR e VSR}
+
+I tre insiemi di schedule sono in relazione di inclusione stretta:
+\[
+\text{2PL stretto} \subsetneq \text{CSR} \subsetneq \text{VSR}
+\]
+
+\begin{itemize}
+	\item Ogni schedule prodotto dal 2PL stretto è conflict-serializzabile, ma non tutti gli schedule CSR sono producibili dal 2PL stretto.
+	\item Ogni schedule CSR è view-serializzabile, ma non tutti gli schedule VSR sono conflict-serializzabili.
+\end{itemize}
+
+Il 2PL stretto è quindi la condizione più restrittiva: sacrifica parte della concorrenza ammessa da CSR e VSR, ma in cambio offre un meccanismo \textbf{pratico, efficiente e privo di ipotesi sull'esito delle transazioni}.
+\subsection{Blocco critico (Deadlock)}
+
+Il \textbf{blocco critico} (o \textit{deadlock}) si verifica durante l'esecuzione concorrente di due o più transazioni quando si crea una situazione di attesa circolare:
+\begin{itemize}
+	\item $t_1$ detiene una risorsa di cui $t_2$ ha bisogno, ed è in attesa di una risorsa detenuta da $t_2$;
+	\item $t_2$ detiene una risorsa di cui $t_1$ ha bisogno, ed è in attesa di una risorsa detenuta da $t_1$.
+\end{itemize}
+Nessuna delle due transazioni può proseguire.
+
+\paragraph{Frequenza del deadlock.}
+Assumendo una granularità del lock a livello di tupla e indicando con $N$ il numero medio di tuple per tabella, la probabilità di deadlock di lunghezza due è:
+\[
+P(\text{deadlock}) = \frac{1}{N^2}
+\]
+All'aumentare del numero di tuple la probabilità decresce: con granularità fine il deadlock è un evento raro.
+
+\paragraph{Tecniche di gestione.}
+
+\begin{enumerate}
+	\item \textbf{Timeout}: una transazione in attesa di una risorsa viene abortita allo scadere di un intervallo di tempo prefissato. È la tecnica più semplice da implementare, ma può abortire transazioni che non sono effettivamente in deadlock.
+	
+	\item \textbf{Prevenzione}: ogni transazione acquisisce \textbf{tutte} le risorse di cui necessita in lettura e scrittura in un'unica soluzione, secondo una politica del tutto-o-niente. Elimina il deadlock alla radice, ma è molto costosa in termini di concorrenza, poiché le risorse vengono bloccate anche quando non sono ancora necessarie.
+	
+	\item \textbf{Rilevamento}: è la tecnica adottata nella maggior parte dei sistemi reali. Periodicamente il sistema analizza la tabella dei lock alla ricerca di cicli di attesa; se viene rilevato un deadlock, una delle transazioni coinvolte viene abortita per spezzare il ciclo. Lo svantaggio è il rischio di \textbf{starvation}: la stessa transazione potrebbe essere ripetutamente scelta come vittima e non riuscire mai a completare.
+\end{enumerate}

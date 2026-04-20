@@ -202,55 +202,81 @@
 \contentsline {paragraph}{Esempio: verifica di view-serializzabilità.}{144}{paragraph*.56}%
 \contentsline {paragraph}{Esempio: schedule non view-serializzabile.}{145}{paragraph*.57}%
 \contentsline {paragraph}{Esempio: schedule con 5 transazioni.}{145}{paragraph*.58}%
-\contentsline {section}{\numberline {14}Laboratorio}{147}{section.14}%
-\contentsline {subsection}{\numberline {14.1}PostgreSQL}{147}{subsection.14.1}%
-\contentsline {subsection}{\numberline {14.2}SQL comandi base}{148}{subsection.14.2}%
-\contentsline {subsubsection}{\numberline {14.2.1}Creazione Tabella}{148}{subsubsection.14.2.1}%
-\contentsline {subsubsection}{\numberline {14.2.2}Concetti fondamentali del DDL}{149}{subsubsection.14.2.2}%
-\contentsline {paragraph}{Valori interi}{150}{paragraph*.59}%
-\contentsline {paragraph}{Valori decimali}{150}{paragraph*.60}%
-\contentsline {subsection}{\numberline {14.3}Vincoli intrarelazionali}{153}{subsection.14.3}%
-\contentsline {subsection}{\numberline {14.4}Vincoli interrelazionali}{154}{subsection.14.4}%
-\contentsline {subsection}{\numberline {14.5}Modifica ed eliminazione delle strutture}{157}{subsection.14.5}%
-\contentsline {subsection}{\numberline {14.6}Cancellazione dei dati}{158}{subsection.14.6}%
-\contentsline {subsubsection}{\numberline {14.6.1}Eliminazione di una tabella}{158}{subsubsection.14.6.1}%
-\contentsline {subsection}{\numberline {14.7}Linguaggio di Interrogazione SQL}{159}{subsection.14.7}%
-\contentsline {subsection}{\numberline {14.8}Clausola SELECT}{160}{subsection.14.8}%
-\contentsline {subsection}{\numberline {14.9}Clausola FROM}{162}{subsection.14.9}%
-\contentsline {subsection}{\numberline {14.10}Clausola WHERE}{163}{subsection.14.10}%
-\contentsline {subsubsection}{\numberline {14.10.1}Operatore LIKE}{165}{subsubsection.14.10.1}%
-\contentsline {subsubsection}{\numberline {14.10.2}Operatore SIMILAR TO}{166}{subsubsection.14.10.2}%
-\contentsline {subsubsection}{\numberline {14.10.3}Operatore BETWEEN}{167}{subsubsection.14.10.3}%
-\contentsline {subsubsection}{\numberline {14.10.4}Operatore IN}{168}{subsubsection.14.10.4}%
-\contentsline {subsubsection}{\numberline {14.10.5}Operatore IS NULL}{169}{subsubsection.14.10.5}%
-\contentsline {subsection}{\numberline {14.11}SQL e Algebra Relazionale}{169}{subsection.14.11}%
-\contentsline {subsection}{\numberline {14.12}SELECT}{170}{subsection.14.12}%
-\contentsline {subsubsection}{\numberline {14.12.1}SELECT : alias di tabella o di attributo}{171}{subsubsection.14.12.1}%
-\contentsline {subsubsection}{\numberline {14.12.2}SELECT: senza proiezione}{171}{subsubsection.14.12.2}%
-\contentsline {subsubsection}{\numberline {14.12.3}Proiezione:gestione dei duplicati in SQL}{171}{subsubsection.14.12.3}%
-\contentsline {subsubsection}{\numberline {14.12.4}SELECT: Selezione,Proiezione,Join}{173}{subsubsection.14.12.4}%
-\contentsline {subsection}{\numberline {14.13}Interrogazioni con JOIN}{173}{subsection.14.13}%
-\contentsline {subsubsection}{\numberline {14.13.1}INNER JOIN}{174}{subsubsection.14.13.1}%
-\contentsline {subsubsection}{\numberline {14.13.2}LEFT OUTER JOIN}{175}{subsubsection.14.13.2}%
-\contentsline {subsubsection}{\numberline {14.13.3}RIGHT OUTER JOIN}{176}{subsubsection.14.13.3}%
-\contentsline {subsubsection}{\numberline {14.13.4}FULL OUTER JOIN}{177}{subsubsection.14.13.4}%
-\contentsline {subsection}{\numberline {14.14}Uso di variabili (alias)}{178}{subsection.14.14}%
-\contentsline {subsection}{\numberline {14.15}Ordinamento del risultato}{178}{subsection.14.15}%
-\contentsline {subsubsection}{\numberline {14.15.1}Operazioni Insiemistiche}{180}{subsubsection.14.15.1}%
-\contentsline {subsubsection}{\numberline {14.15.2}Unione}{180}{subsubsection.14.15.2}%
-\contentsline {subsubsection}{\numberline {14.15.3}Intersezione}{181}{subsubsection.14.15.3}%
-\contentsline {subsubsection}{\numberline {14.15.4}Differenza}{182}{subsubsection.14.15.4}%
-\contentsline {subsection}{\numberline {14.16}Operatori aggregati}{182}{subsection.14.16}%
-\contentsline {subsubsection}{\numberline {14.16.1}COUNT}{182}{subsubsection.14.16.1}%
-\contentsline {subsubsection}{\numberline {14.16.2}Operatori aggregati: SUM.MAX,MIN,AVG}{183}{subsubsection.14.16.2}%
-\contentsline {subsection}{\numberline {14.17}Interrogazioni con raggruppamento}{185}{subsection.14.17}%
-\contentsline {subsubsection}{\numberline {14.17.1}HAVING}{188}{subsubsection.14.17.1}%
-\contentsline {subsection}{\numberline {14.18}Interrogazioni nidificate}{189}{subsection.14.18}%
-\contentsline {paragraph}{Clausola FROM : }{189}{paragraph*.61}%
-\contentsline {paragraph}{Clausola WHERE :}{189}{paragraph*.62}%
-\contentsline {paragraph}{Operatore ANY/SOME}{189}{paragraph*.63}%
-\contentsline {paragraph}{Operatore ALL}{190}{paragraph*.64}%
-\contentsline {paragraph}{Operatore IN:}{191}{paragraph*.65}%
-\contentsline {paragraph}{Operatore EXISTS:}{191}{paragraph*.66}%
-\contentsline {subsubsection}{\numberline {14.18.1}Interrogazioni di tipo insiemistico}{193}{subsubsection.14.18.1}%
-\contentsline {subsubsection}{\numberline {14.18.2}Le VISTE}{194}{subsubsection.14.18.2}%
+\contentsline {subsection}{\numberline {13.3}Conflict equivalenza}{146}{subsection.13.3}%
+\contentsline {paragraph}{Conflitto.}{146}{paragraph*.59}%
+\contentsline {paragraph}{Conflict equivalenza.}{146}{paragraph*.60}%
+\contentsline {paragraph}{Conflict-serializzabilità.}{146}{paragraph*.61}%
+\contentsline {paragraph}{Algoritmo CSR.}{146}{paragraph*.62}%
+\contentsline {paragraph}{Dimostrazione di correttezza.}{146}{paragraph*.63}%
+\contentsline {paragraph}{Esempio CSR: perdita di aggiornamento.}{147}{paragraph*.64}%
+\contentsline {paragraph}{Esempio CSR: lettura inconsistente.}{147}{paragraph*.65}%
+\contentsline {subsection}{\numberline {13.4}Relazione tra CSR e VSR}{148}{subsection.13.4}%
+\contentsline {paragraph}{Strategia per gli esercizi.}{148}{paragraph*.66}%
+\contentsline {paragraph}{Esempio CSR: schedule $S_1$.}{148}{paragraph*.67}%
+\contentsline {paragraph}{Esempio CSR: schedule $S_2$.}{149}{paragraph*.68}%
+\contentsline {paragraph}{Esempio CSR: schedule $S_3$.}{150}{paragraph*.69}%
+\contentsline {paragraph}{Esempio CSR: schedule $S_4$.}{151}{paragraph*.70}%
+\contentsline {paragraph}{Ordinamenti topologici di $S_4$.}{151}{paragraph*.71}%
+\contentsline {subsection}{\numberline {13.5}Locking a due fasi stretto (2PL stretto)}{152}{subsection.13.5}%
+\contentsline {subsubsection}{\numberline {13.5.1}Meccanismo di base}{152}{subsubsection.13.5.1}%
+\contentsline {paragraph}{Regole d'uso delle primitive.}{152}{paragraph*.72}%
+\contentsline {subsubsection}{\numberline {13.5.2}Politica di concessione dei lock}{152}{subsubsection.13.5.2}%
+\contentsline {subsection}{\numberline {13.6}Regola per la serializzabilità}{153}{subsection.13.6}%
+\contentsline {paragraph}{Esempio: perdita di aggiornamento con 2PL stretto.}{154}{paragraph*.73}%
+\contentsline {subsubsection}{\numberline {13.6.1}2PL stretto}{154}{subsubsection.13.6.1}%
+\contentsline {subsubsection}{\numberline {13.6.2}Relazione tra 2PL stretto, CSR e VSR}{155}{subsubsection.13.6.2}%
+\contentsline {subsection}{\numberline {13.7}Blocco critico (Deadlock)}{155}{subsection.13.7}%
+\contentsline {paragraph}{Frequenza del deadlock.}{155}{paragraph*.74}%
+\contentsline {paragraph}{Tecniche di gestione.}{155}{paragraph*.75}%
+\contentsline {section}{\numberline {14}Laboratorio}{156}{section.14}%
+\contentsline {subsection}{\numberline {14.1}PostgreSQL}{156}{subsection.14.1}%
+\contentsline {subsection}{\numberline {14.2}SQL comandi base}{157}{subsection.14.2}%
+\contentsline {subsubsection}{\numberline {14.2.1}Creazione Tabella}{157}{subsubsection.14.2.1}%
+\contentsline {subsubsection}{\numberline {14.2.2}Concetti fondamentali del DDL}{158}{subsubsection.14.2.2}%
+\contentsline {paragraph}{Valori interi}{159}{paragraph*.76}%
+\contentsline {paragraph}{Valori decimali}{159}{paragraph*.77}%
+\contentsline {subsection}{\numberline {14.3}Vincoli intrarelazionali}{162}{subsection.14.3}%
+\contentsline {subsection}{\numberline {14.4}Vincoli interrelazionali}{163}{subsection.14.4}%
+\contentsline {subsection}{\numberline {14.5}Modifica ed eliminazione delle strutture}{166}{subsection.14.5}%
+\contentsline {subsection}{\numberline {14.6}Cancellazione dei dati}{167}{subsection.14.6}%
+\contentsline {subsubsection}{\numberline {14.6.1}Eliminazione di una tabella}{167}{subsubsection.14.6.1}%
+\contentsline {subsection}{\numberline {14.7}Linguaggio di Interrogazione SQL}{168}{subsection.14.7}%
+\contentsline {subsection}{\numberline {14.8}Clausola SELECT}{169}{subsection.14.8}%
+\contentsline {subsection}{\numberline {14.9}Clausola FROM}{171}{subsection.14.9}%
+\contentsline {subsection}{\numberline {14.10}Clausola WHERE}{172}{subsection.14.10}%
+\contentsline {subsubsection}{\numberline {14.10.1}Operatore LIKE}{174}{subsubsection.14.10.1}%
+\contentsline {subsubsection}{\numberline {14.10.2}Operatore SIMILAR TO}{175}{subsubsection.14.10.2}%
+\contentsline {subsubsection}{\numberline {14.10.3}Operatore BETWEEN}{176}{subsubsection.14.10.3}%
+\contentsline {subsubsection}{\numberline {14.10.4}Operatore IN}{177}{subsubsection.14.10.4}%
+\contentsline {subsubsection}{\numberline {14.10.5}Operatore IS NULL}{178}{subsubsection.14.10.5}%
+\contentsline {subsection}{\numberline {14.11}SQL e Algebra Relazionale}{178}{subsection.14.11}%
+\contentsline {subsection}{\numberline {14.12}SELECT}{179}{subsection.14.12}%
+\contentsline {subsubsection}{\numberline {14.12.1}SELECT : alias di tabella o di attributo}{180}{subsubsection.14.12.1}%
+\contentsline {subsubsection}{\numberline {14.12.2}SELECT: senza proiezione}{180}{subsubsection.14.12.2}%
+\contentsline {subsubsection}{\numberline {14.12.3}Proiezione:gestione dei duplicati in SQL}{180}{subsubsection.14.12.3}%
+\contentsline {subsubsection}{\numberline {14.12.4}SELECT: Selezione,Proiezione,Join}{182}{subsubsection.14.12.4}%
+\contentsline {subsection}{\numberline {14.13}Interrogazioni con JOIN}{182}{subsection.14.13}%
+\contentsline {subsubsection}{\numberline {14.13.1}INNER JOIN}{183}{subsubsection.14.13.1}%
+\contentsline {subsubsection}{\numberline {14.13.2}LEFT OUTER JOIN}{184}{subsubsection.14.13.2}%
+\contentsline {subsubsection}{\numberline {14.13.3}RIGHT OUTER JOIN}{185}{subsubsection.14.13.3}%
+\contentsline {subsubsection}{\numberline {14.13.4}FULL OUTER JOIN}{186}{subsubsection.14.13.4}%
+\contentsline {subsection}{\numberline {14.14}Uso di variabili (alias)}{187}{subsection.14.14}%
+\contentsline {subsection}{\numberline {14.15}Ordinamento del risultato}{187}{subsection.14.15}%
+\contentsline {subsubsection}{\numberline {14.15.1}Operazioni Insiemistiche}{189}{subsubsection.14.15.1}%
+\contentsline {subsubsection}{\numberline {14.15.2}Unione}{189}{subsubsection.14.15.2}%
+\contentsline {subsubsection}{\numberline {14.15.3}Intersezione}{190}{subsubsection.14.15.3}%
+\contentsline {subsubsection}{\numberline {14.15.4}Differenza}{191}{subsubsection.14.15.4}%
+\contentsline {subsection}{\numberline {14.16}Operatori aggregati}{191}{subsection.14.16}%
+\contentsline {subsubsection}{\numberline {14.16.1}COUNT}{191}{subsubsection.14.16.1}%
+\contentsline {subsubsection}{\numberline {14.16.2}Operatori aggregati: SUM.MAX,MIN,AVG}{192}{subsubsection.14.16.2}%
+\contentsline {subsection}{\numberline {14.17}Interrogazioni con raggruppamento}{194}{subsection.14.17}%
+\contentsline {subsubsection}{\numberline {14.17.1}HAVING}{197}{subsubsection.14.17.1}%
+\contentsline {subsection}{\numberline {14.18}Interrogazioni nidificate}{198}{subsection.14.18}%
+\contentsline {paragraph}{Clausola FROM : }{198}{paragraph*.78}%
+\contentsline {paragraph}{Clausola WHERE :}{198}{paragraph*.79}%
+\contentsline {paragraph}{Operatore ANY/SOME}{198}{paragraph*.80}%
+\contentsline {paragraph}{Operatore ALL}{199}{paragraph*.81}%
+\contentsline {paragraph}{Operatore IN:}{200}{paragraph*.82}%
+\contentsline {paragraph}{Operatore EXISTS:}{200}{paragraph*.83}%
+\contentsline {subsubsection}{\numberline {14.18.1}Interrogazioni di tipo insiemistico}{202}{subsubsection.14.18.1}%
+\contentsline {subsubsection}{\numberline {14.18.2}Le VISTE}{203}{subsubsection.14.18.2}%
