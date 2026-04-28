@@ -1,0 +1,359 @@
+\section{Gestore delle ottimizzazioni}
+
+Il componente \textbf{gestore delle ottimizzazioni} riceve le richieste tramite \textbf{SQL}, che è un linguaggio \textit{dichiarativo}. Questo componente trasforma la richiesta in un \textbf{piano di esecuzione}, rappresentato tramite un linguaggio \textit{procedurale}.
+
+Come linguaggio dichiarativo abbiamo visto \textbf{SQL} e il \textbf{calcolo relazionale}; come linguaggio procedurale abbiamo visto l'\textbf{algebra relazionale}.
+
+In questo caso il DBMS determina il miglior piano di esecuzione, ottimizzando rispetto alle \textit{caratteristiche fisiche} del database.
+
+\[
+\text{Query}
+\;\Rightarrow\;
+\text{Analisi lessicale e sintattica}
+\;\Rightarrow\;
+\text{Ottimizzazione algebrica}
+\]
+
+Le ottimizzazioni algebriche comprendono:
+\begin{itemize}
+	\item \textbf{Anticipo delle selezioni}
+	\item \textbf{Anticipo delle proiezioni}
+\end{itemize}
+
+Questa fase è \textit{indipendente} dal contenuto della base di dati.
+
+Il gestore delle ottimizzazioni esegue anche un'ottimizzazione che dipende dai \textbf{metodi di accesso}, ovvero dalle strutture fisiche e dalle \textbf{statistiche} (ad esempio, quante righe sono presenti in ogni tabella). Questa fase deve interagire con la parte del DBMS che contiene i \textbf{profili delle tabelle}. Solo dopo aver completato questa ottimizzazione è possibile generare il \textbf{piano di esecuzione}.
+
+\bigskip
+\noindent Le operazioni tipiche di accesso supportate dai DBMS sono:
+\begin{itemize}
+	\item Scansione sequenziale delle tuple di una tabella
+	\item Ordinamento delle tuple
+	\item Accesso diretto tramite indice
+\end{itemize}
+
+\subsection{Scansione sequenziale delle tuple di una tabella}
+
+È la prima operazione che viene eseguita e spesso viene effettuata contestualmente ad altre operazioni:
+
+\begin{itemize}
+	\item \textbf{Scan + proiezione} senza eliminazione dei duplicati
+	\item \textbf{Scan + selezione} rispetto a un predicato semplice
+\end{itemize}
+
+Il costo della scansione sequenziale è definito come:
+\[
+\text{Costo} = NP(R)
+\]
+dove:
+\begin{itemize}
+	\item $NP$ = numero di pagine/blocchi
+	\item $NP(R)$ = numero di pagine della relazione/tabella $R$
+\end{itemize}
+
+\subsection{Operazione di ordinamento}
+
+L'ordinamento viene utilizzato nei seguenti contesti SQL:
+
+\begin{itemize}
+	\item \texttt{ORDER BY} — ordinare il risultato di un'interrogazione
+	\item \texttt{DISTINCT} — eliminare i duplicati
+	\item \texttt{GROUP BY} — raggruppare le tuple
+\end{itemize}
+
+L'ordinamento viene eseguito in memoria secondaria tramite l'algoritmo \textbf{Sort-Merge}, composto da 2 fasi:
+
+\begin{enumerate}
+	\item \textbf{Sort interno:} si legge \textit{una pagina alla volta}, caricando un blocco di memoria centrale alla volta. Tutte le tuple della pagina vengono ordinate tramite \textbf{QuickSort} o un algoritmo equivalente. La pagina ordinata risultante viene chiamata \textbf{RUN} e viene salvata in un file temporaneo in memoria secondaria.
+	
+	\item \textbf{Merge:} si applicano uno o più passi di \textbf{fusione} con cui le RUN vengono unite progressivamente fino a produrre un'\textit{unica RUN ordinata}.
+\end{enumerate}
+
+\subsubsection{Esempio di Sort-Merge a 2 vie ($z = 2$)}
+
+\textbf{Parametri:}
+\begin{itemize}
+	\item $NP = 4$ — numero di pagine della tabella da ordinare
+	\item $NB = 3$ — numero di buffer di memoria centrale disponibili
+	\item Sort-Merge a \textbf{2 vie} ($z = 2$): ad ogni passo di fusione si uniscono \textbf{2 RUN} alla volta
+\end{itemize}
+
+\bigskip
+\noindent La tabella da ordinare rispetto alla \textit{prima colonna} è la seguente:
+
+\[
+\begin{array}{|c|c|}
+	\hline
+	g & 24 \\
+	a & 19 \\
+	d & 21 \\
+	\hline
+	c & 23 \\
+	b & 14 \\
+	e & 16 \\
+	\hline
+	r & 16 \\
+	d & 31 \\
+	m & 3  \\
+	\hline
+	p & 2  \\
+	d & 17 \\
+	a & 14 \\
+	\hline
+\end{array}
+\]
+
+\bigskip
+\noindent\textbf{Fase 1 — Sort interno:} si carica e ordina una pagina alla volta. Ogni pagina ordinata costituisce una \textbf{RUN}, salvata in memoria secondaria.
+
+\begin{itemize}
+	\item \textbf{RUN 1:} $a:19,\; d:21,\; g:24$
+	\item \textbf{RUN 2:} $b:14,\; c:23,\; e:16$
+	\item \textbf{RUN 3:} $d:31,\; m:3,\; r:16$
+	\item \textbf{RUN 4:} $a:14,\; d:17,\; p:2$
+\end{itemize}
+
+\bigskip
+\noindent\textbf{Fase 2 — Merge:} si applicano passi di fusione a 2 vie fino a ottenere un'unica RUN ordinata. Il buffer di output ha capacità di una pagina (3 tuple): quando si riempie viene \textbf{scaricato in memoria secondaria} e svuotato.
+
+\bigskip
+\noindent\textbf{Passo 1 — fusione a coppie:}
+\begin{itemize}
+	\item \textbf{RUN 1 + RUN 2} $\longrightarrow$
+	$\underbrace{a:19,\; b:14,\; c:23}_{P_2},\;
+	\underbrace{d:21,\; e:16,\; g:24}_{P_3}$
+	
+	\item \textbf{RUN 3 + RUN 4} $\longrightarrow$
+	$\underbrace{a:14,\; d:17,\; d:31}_{P_2'},\;
+	\underbrace{m:3,\; p:2,\; r:16}_{P_3'}$
+\end{itemize}
+
+\bigskip
+\noindent\textbf{Passo 2 — fusione finale:}
+\begin{itemize}
+	\item \textbf{(RUN 1+2) + (RUN 3+4)} $\longrightarrow$
+	$a:14,\; a:19,\; b:14,\; c:23,\; d:17,\; d:21,\; d:31,\; e:16,\; g:24,\; m:3,\; p:2,\; r:16$
+\end{itemize}
+
+\subsubsection{Costo del $z$-way Sort-Merge}
+
+Il costo è misurato in termini di \textbf{accessi alla memoria secondaria} (letture e scritture). Consideriamo il caso $z = 2$, $NB = 3$.
+
+\bigskip
+\noindent Gli accessi possono essere in \textbf{lettura} o \textbf{scrittura}.
+
+\begin{itemize}
+	\item \textbf{Fase di sort interno:} si leggono $NP(R)$ pagine e si riscrivono $NP(R)$ pagine ordinate in memoria secondaria.
+	
+	\item \textbf{Fase di merge:} ad ogni passo si leggono le $NP(R)$ pagine e si riscrivono ordinate. Il numero di passi di merge necessari è:
+	\[
+	\lceil \log_2 NP(R) \rceil
+	\]
+	poiché ad ogni passo il numero di RUN da unire si \textbf{dimezza} (nel caso $z = 2$).
+\end{itemize}
+
+\bigskip
+\noindent Il \textbf{costo complessivo} del $2$-way Sort-Merge è quindi:
+
+\[
+\text{Costo} = 2 \cdot NP(R) \cdot (\lceil \log_2 NP(R) \rceil + 1)
+\]
+
+dove:
+\begin{itemize}
+	\item il fattore $2$ tiene conto di lettura \textbf{e} scrittura
+	\item $\lceil \log_2 NP(R) \rceil$ è il numero di passi di merge
+	\item $+1$ rappresenta la fase di sort interno
+\end{itemize}
+
+\subsection{Accesso diretto tramite indice}
+
+\begin{itemize}
+	\item \textbf{Condizione atomica di uguaglianza} $A = v$: richiede la presenza di un \textbf{B+Tree} o \textbf{Hash}. Il costo dipende dal tipo di indice utilizzato.
+	
+	\item \textbf{Selezione con condizione di range} $A \geq v_1 \;\texttt{AND}\; A \leq v_2$: si utilizza un \textbf{B+Tree}.
+	
+	\item \textbf{Selezione con congiunzione (\texttt{AND}) di condizioni di uguaglianza} $A = v_1 \;\texttt{AND}\; B = v_2$: viene scelto l'indice in base alla \textbf{condizione più selettiva}. Il DBMS determina autonomamente se utilizzare l'indice su $A$ o su $B$ a seconda di quale condizione riduce maggiormente il numero di tuple restituite.
+	
+	\item \textbf{Selezione con disgiunzione (\texttt{OR}) di condizioni di uguaglianza} $A = v_1 \;\texttt{OR}\; B = v_2$: si possono utilizzare \textbf{più indici in parallelo}, eseguendo successivamente il \textbf{merge dei risultati}.
+\end{itemize}
+\subsection{Calcolo del costo di un Join}
+
+Il Join è l'operazione più gravosa da eseguire per un DBMS. Gli algoritmi disponibili sono:
+
+\begin{itemize}
+	\item \textbf{Nested Loop Join}
+	\item \textbf{Merge Scan Join}
+	\item \textbf{Hash Based Join}
+\end{itemize}
+
+\bigskip
+\noindent\textbf{Osservazione:} dal punto di vista \textit{logico} il Join è \textbf{commutativo}, ma dal punto di vista \textit{fisico} il Join \textbf{non è commutativo}: invertire l'ordine degli operandi non cambia il risultato, ma può cambiare significativamente i \textbf{costi di esecuzione}.
+
+\subsubsection{Nested Loop Join}
+
+Date due relazioni $R$ e $S$ su cui è definito il predicato di Join $PJ$, si distinguono:
+\begin{itemize}
+	\item $R$ — \textbf{relazione esterna}
+	\item $S$ — \textbf{relazione interna}
+\end{itemize}
+
+\bigskip
+\noindent L'algoritmo è il seguente:
+
+\begin{verbatim}
+	per ogni tupla t_R di R {
+		per ogni tupla t_S di S {
+			if (t_R, t_S) soddisfa PJ {
+				aggiungi (t_R, t_S) al risultato
+			}
+		}
+	}
+\end{verbatim}
+
+\bigskip
+\noindent\textbf{Esempio:} siano date le seguenti relazioni con predicato di Join $PJ: R.A = S.A$.
+
+\[
+R:
+\begin{array}{|c|c|}
+	\hline
+	A & B \\
+	\hline
+	22 & a \\
+	87 & s \\
+	\hline
+	45 & h \\
+	32 & b \\
+	\hline
+\end{array}
+\qquad\qquad
+S:
+\begin{array}{|c|c|c|}
+	\hline
+	A & C & D \\
+	\hline
+	22 & z & 8 \\
+	45 & k & 4 \\
+	\hline
+	22 & s & 7 \\
+	87 & s & 9 \\
+	\hline
+	32 & c & 3 \\
+	45 & h & 5 \\
+	\hline
+	32 & g & 6 \\
+	\hline
+\end{array}
+\]
+
+\noindent dove $R$ è composta da 2 pagine ($P_1, P_2$) e $S$ da 4 pagine ($P_1, P_2, P_3, P_4$).
+
+\bigskip
+\noindent L'algoritmo carica la prima tupla di $R$ e scansiona \textit{per intero} $S$ verificando il predicato; poi passa alla tupla successiva di $R$ e ripete la scansione completa di $S$, e così via. Il risultato è:
+
+\[
+\begin{array}{|c|c|c|c|}
+	\hline
+	A & B & C & D \\
+	\hline
+	22 & a & z & 8 \\
+	22 & a & s & 7 \\
+	\hline
+\end{array}
+\]
+E poi cosi via per ogni elemento
+\paragraph{Costo del Nested Loop Join}
+
+Per calcolare il costo è necessario conoscere la \textbf{dimensione del buffer} disponibile.
+
+\bigskip
+\noindent\textbf{Ipotesi semplificativa:} 1 pagina per caricare $R$ e 1 pagina per caricare $S$.
+
+\bigskip
+\noindent Il costo si compone di due termini:
+\begin{itemize}
+	\item Si legge $R$ completamente \textbf{una volta}: costo $NP(R)$
+	\item Per ogni riga di $R$ si legge $S$ completamente: costo $NR(R) \cdot NP(S)$
+\end{itemize}
+
+dove $NR(R)$ indica il numero di righe di $R$.
+
+\bigskip
+\noindent Il \textbf{costo complessivo} è quindi:
+
+\[
+\text{Costo} = NP(R) + NR(R) \cdot NP(S)
+\]
+\paragraph{Nested Loop Join con Indice}
+
+Se è disponibile un \textbf{indice} costruito sugli attributi di Join di $S$, la scansione completa di $S$ può essere sostituita da un \textbf{accesso tramite indice}.
+
+\bigskip
+\noindent Per ogni tupla di $R$, invece di scansionare interamente $S$, si accede all'indice su $S.A$ per recuperare \textit{solo i blocchi di $S$ che contengono tuple con $S.A = R.A$}.
+
+\bigskip
+\noindent\textbf{Costo del Nested Loop Join con indice B+Tree su $S.A$:}
+
+\[
+\text{Costo} = NP(R) + NR(R) \cdot \left(\text{Prof\_Indice} + \frac{NR(S)}{VAL(A,S)}\right)
+\]
+
+dove:
+\begin{itemize}
+	\item $NP(R)$ — costo invariato: $R$ deve essere caricata completamente
+	\item $NR(R)$ — invariato: numero di volte in cui si esegue il ciclo esterno
+	\item $\text{Prof\_Indice}$ — profondità del B+Tree: costo di navigazione dell'indice per ogni tupla di $R$
+	\item $\dfrac{NR(S)}{VAL(A,S)}$ — \textbf{selettività} dell'attributo $A$ in $S$: stima del numero di pagine di $S$ da caricare per ogni tupla di $R$
+\end{itemize}
+
+\bigskip
+\noindent La \textbf{selettività} dell'attributo $A$ nella relazione $S$ è definita come:
+\[
+\text{Selettività}(A, S) = \frac{NR(S)}{VAL(A,S)}
+\]
+dove $VAL(A,S)$ è il numero di \textbf{valori distinti} di $A$ che compaiono in $S$.
+\bigskip
+\noindent\textbf{Esempio:} sia $A = \text{NomeRegione}$, con:
+\begin{itemize}
+	\item $VAL(A,S) = 21$ — numero di regioni italiane (valori distinti di $A$)
+	\item $NR(S) = 21.000$ — numero di righe della relazione $S$
+\end{itemize}
+
+\noindent La selettività risulta:
+\[
+\frac{NR(S)}{VAL(A,S)} = \frac{21.000}{21} = 1.000 \text{ tuple per ogni valore di } A
+\]
+
+\noindent Assumendo una \textbf{distribuzione uniforme} dei dati e nel \textbf{caso pessimo} (1 tupla per pagina), si devono caricare \textbf{1.000 pagine} di $S$ per ogni tupla di $R$.
+\bigskip
+\noindent\textbf{Esempio:} siano date le relazioni:
+\begin{itemize}
+	\item \texttt{RICETTA} — $NP = 12$, $NR = 260$
+	\item \texttt{COMPOSIZIONE} — $NP = 200$, $NR = 13.000$
+\end{itemize}
+
+\noindent con predicato di Join $PJ: \texttt{RICETTA.CODICE} = \texttt{COMPOSIZIONE.RICETTA}$.
+
+\bigskip
+\noindent\textbf{Metodo 1 — Nested Loop Join senza indice}\\
+(\texttt{RICETTA} = relazione esterna, \texttt{COMPOSIZIONE} = relazione interna):
+\[
+NP(\text{Ricetta}) + NR(\text{Ricetta}) \times NP(\text{Composizione})
+= 12 + 260 \times 200 = \mathbf{52.012}
+\]
+
+\bigskip
+\noindent\textbf{Metodo 2 — Nested Loop Join con indice B+Tree su \texttt{Composizione.Ricetta}}\\
+(profondità indice $= 2$, $VAL(\text{Ricetta}, \text{Composizione}) = 260$):
+\[
+NP(\text{Ricetta}) + NR(\text{Ricetta}) \times \left(\text{Prof\_Indice} +
+\frac{NR(\text{Composizione})}{VAL(\text{Ricetta},\text{Composizione})}\right)
+\]
+\[
+= 12 + 260 \times \left(2 + \frac{13.000}{260}\right)
+= 12 + 260 \times 52 = \mathbf{13.532}
+\]
+
+\bigskip
+\noindent\textbf{Conclusione:} in questo caso conviene il \textbf{Metodo 2} (Nested Loop Join con indice B+Tree), poiché $13.532 < 52.012$: l'utilizzo dell'indice riduce significativamente il numero di accessi in memoria secondaria.

@@ -844,3 +844,30 @@ All'aumentare del numero di tuple la probabilità decresce: con granularità fin
 	
 	\item \textbf{Rilevamento}: è la tecnica adottata nella maggior parte dei sistemi reali. Periodicamente il sistema analizza la tabella dei lock alla ricerca di cicli di attesa; se viene rilevato un deadlock, una delle transazioni coinvolte viene abortita per spezzare il ciclo. Lo svantaggio è il rischio di \textbf{starvation}: la stessa transazione potrebbe essere ripetutamente scelta come vittima e non riuscire mai a completare.
 \end{enumerate}
+\subsection{Livelli di isolamento}
+
+Esiste un compromesso fondamentale tra il grado di isolamento dalle anomalie e le prestazioni del sistema (misurate in TPS): maggiore è il controllo della concorrenza, minore è il parallelismo ammesso e quindi le prestazioni. I DBMS consentono di rinunciare, in tutto o in parte, al controllo della concorrenza, specificando quali anomalie si è disposti a tollerare tramite i \textbf{livelli di isolamento}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{image248}
+	\caption{Anomalie evitate (\checkmark) per ciascun livello di isolamento}
+	\label{fig:image248}
+\end{figure}
+
+\noindent$^*$ \textit{PostgreSQL} adotta un'implementazione più stringente del livello Repeatable Read, che permette di evitare anche l'inserimento fantasma.
+
+Al livello più alto (\textbf{Serializable}) tutte le anomalie sono prevenute; scendendo di livello si tollerano anomalie via via più gravi, guadagnando in concorrenza e prestazioni.
+\subsubsection{Implementazione dei livelli di isolamento}
+
+Tutti i livelli di isolamento richiedono il \textbf{2PL stretto per le scritture}: i lock in scrittura vengono sempre rilasciati solo dopo il commit o il rollback. I livelli si differenziano invece nella gestione dei lock in lettura.
+
+\begin{itemize}
+	\item \textbf{Serializable}: applica il 2PL stretto anche per le letture e acquisisce lock a livello di \textbf{tabella}, prevenendo così l'anomalia di inserimento fantasma.
+	
+	\item \textbf{Repeatable Read}: applica il 2PL stretto anche per le letture, ma acquisisce lock a livello di \textbf{tupla} anziché di tabella. Previene la lettura inconsistente e l'aggiornamento fantasma, ma ammette l'anomalia di inserimento fantasma.
+	
+	\item \textbf{Read Committed}: acquisisce lock condivisi in lettura, ma \textbf{non} segue la regola del 2PL stretto per essi: i lock in lettura vengono rilasciati non appena l'operazione di lettura è completata, senza attendere il commit. Previene la lettura sporca, ma ammette la lettura inconsistente.
+	
+	\item \textbf{Read Uncommitted}: non acquisisce alcun lock in lettura. È il livello con la massima concorrenza, ma ammette tutte le anomalie di lettura, compresa la lettura sporca.
+\end{itemize}
