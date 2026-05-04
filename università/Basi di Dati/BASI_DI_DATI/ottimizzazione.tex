@@ -357,3 +357,419 @@ NP(\text{Ricetta}) + NR(\text{Ricetta}) \times \left(\text{Prof\_Indice} +
 
 \bigskip
 \noindent\textbf{Conclusione:} in questo caso conviene il \textbf{Metodo 2} (Nested Loop Join con indice B+Tree), poiché $13.532 < 52.012$: l'utilizzo dell'indice riduce significativamente il numero di accessi in memoria secondaria.
+\subsubsection{Block Nested Loop Join}
+
+Il \textbf{Block Nested Loop Join} è una variante del Nested Loop Join in cui l'obiettivo è \textbf{ridurre il numero di letture di $S$}. In questa variante, ciascuna pagina di $S$ (relazione interna) viene letta \textit{per ogni pagina di $R$} (relazione esterna), invece che per ogni singola riga di $R$.
+
+\bigskip
+\noindent L'algoritmo è il seguente:
+
+\begin{verbatim}
+	per ogni pagina P_R di R {
+		per ogni pagina P_S di S {
+			per ogni tupla t_R di P_R {
+				per ogni tupla t_S di P_S {
+					if (t_R, t_S) soddisfa PJ {
+						aggiungi (t_R, t_S) al risultato
+					}
+				}
+			}
+		}
+	}
+\end{verbatim}
+
+\bigskip
+\noindent\textbf{Costo del Block Nested Loop Join:}
+
+\bigskip
+\noindent Assumendo 1 pagina nel buffer per $R$ e 1 pagina nel buffer per $S$:
+\begin{itemize}
+	\item $R$ viene letta completamente \textbf{una volta}: costo $NP(R)$
+	\item Per ogni pagina di $R$ si leggono tutte le pagine di $S$: costo $NP(R) \times NP(S)$
+\end{itemize}
+
+\[
+\text{Costo} = NP(R) + NP(R) \times NP(S)
+\]
+
+\bigskip
+\noindent\textbf{Confronto con il Nested Loop Join classico:}
+
+\[
+\underbrace{NP(R) + NR(R) \cdot NP(S)}_{\text{Nested Loop Join}}
+\qquad \text{vs} \qquad
+\underbrace{NP(R) + NP(R) \cdot NP(S)}_{\text{Block Nested Loop Join}}
+\]
+
+\noindent Poiché $NP(R) \ll NR(R)$, il Block Nested Loop Join risulta \textbf{significativamente meno costoso}.
+\subsubsection{Merge Scan Join}
+
+Il \textbf{Merge Scan Join} è applicabile quando:
+\begin{itemize}
+	\item entrambe le relazioni sono \textbf{ordinate} rispetto agli attributi di Join
+	\item la condizione di Join è un \textbf{equi-join}
+\end{itemize}
+
+\noindent Le condizioni si verificano quando si dispone di:
+\begin{itemize}
+	\item un file sequenziale ordinato con chiave di ordinamento uguale all'attributo di Join, oppure
+	\item un indice sugli attributi di Join
+\end{itemize}
+
+\bigskip
+\noindent L'algoritmo sfrutta il fatto che entrambi gli input sono ordinati, accedendo \textbf{sequenzialmente} alle due relazioni: si legge la prima riga di $R$ e si scorre $S$ finché non si trova un valore maggiore di quello contenuto nella riga corrente di $R$; si procede poi con la riga successiva di $R$, e così via.
+
+\bigskip
+\noindent\textbf{Costo del Merge Scan Join} (file ordinati):
+
+\[
+\text{Costo} = NP(R) + NP(S)
+\]
+
+\noindent Ogni relazione viene caricata in memoria centrale \textbf{una sola volta}.
+
+\bigskip
+\noindent\textbf{Merge Scan Join con indice B+Tree:}
+
+\noindent Se il file non è ordinato ma si dispone di un indice B+Tree, è possibile accedere alle tuple in modo ordinato. Nel \textbf{caso pessimo}, ogni tupla si trova in un blocco diverso, quindi per ogni riga occorre caricare un blocco distinto. Il costo diventa:
+
+\[
+\text{Costo} = NR(R) + NR(S)
+\]
+\subsubsection{Hash Based Join}
+
+L'\textbf{Hash Based Join} si applica esclusivamente in presenza di \textbf{equi-join}, ma \textbf{non richiede} la presenza di indici né di file sequenziali ordinati.
+
+\bigskip
+\noindent Sia $h$ una funzione di hash. L'idea è che, prima di eseguire il Join, $h$ viene calcolata sugli attributi di Join. Vale la seguente proprietà:
+
+\[
+t_R.A = t_S.A \;\Rightarrow\; h(t_R.A) = h(t_S.A)
+\]
+\[
+t_R.A \neq t_S.A \;\Rightarrow\; h(t_R.A) \neq h(t_S.A)
+\]
+
+\noindent Effettuando un controllo sugli hash si ottiene quindi un \textbf{sovrainsieme} del risultato. È necessario ripetere la condizione di Join sulle tuple selezionate per \textbf{finalizzare il risultato}.
+
+\bigskip
+\noindent\textbf{Costo dell'Hash Based Join:}
+
+\begin{itemize}
+	\item \textbf{Fase $a$ — calcolo dell'hash:}
+	\[
+	NP(R) + NP(S)
+	\]
+	\item \textbf{Fase $b$ — accesso alle matching tuples:} nel caso pessimo
+	\[
+	NR(R) \cdot NP(S)
+	\]
+\end{itemize}
+\subsection{Scelta del piano di esecuzione}
+
+Il DBMS segue i seguenti passi per scegliere il piano di esecuzione ottimale:
+
+\begin{enumerate}
+	\item Parte da un'\textbf{espressione in algebra relazionale ottimizzata}
+	\item Genera tutti i \textbf{possibili piani di esecuzione} (alberi). Le alternative dipendono da:
+	\begin{itemize}
+		\item \textbf{Operatori di accesso ai dati} — si può scegliere tra scansione sequenziale o accesso tramite indice
+		\item \textbf{Operatori alternativi per le operazioni} — per il Join si può scegliere tra Nested Loop Join, Hash Based Join, Merge Scan Join, ecc.
+		\item \textbf{Ordine delle operazioni} — sfruttando le proprietà di associatività
+	\end{itemize}
+	\item \textbf{Valuta il costo} dei vari piani tramite formule approssimate, espresse in numero di accessi alla memoria secondaria
+	\item Sceglie l'\textbf{albero di costo minimo}
+\end{enumerate}
+
+\bigskip
+\noindent\textbf{Profilo delle relazioni:}
+
+\noindent Il DBMS mantiene le seguenti \textbf{statistiche} sulle relazioni:
+
+\begin{itemize}
+	\item Stima della \textbf{cardinalità} — numero di tuple nella relazione
+	\item Stima della \textbf{dimensione di ciascuna tupla} — $\text{size}(t)$
+	\item Stima della \textbf{dimensione di ciascun attributo} — $\text{size}(A)$
+	\item $VAL(A, R)$ — stima del numero di \textbf{valori distinti} dell'attributo $A$ in $R$
+	\item Stima del \textbf{valore massimo e minimo} di $A$ in $R$
+\end{itemize}
+\subsection{Riepilogo delle operazioni tipiche supportate dai DBMS}
+
+\subsubsection*{1. Scansione delle tuple di una relazione}
+Lettura sequenziale di tutte le tuple di una relazione. Può essere combinata con:
+\begin{itemize}
+	\item \textbf{Scan sequenziale per selezione} — filtra le tuple in base a un predicato
+	\item \textbf{Scan sequenziale per proiezione} — estrae solo gli attributi richiesti
+\end{itemize}
+\[
+\text{Costo} = NP(R)
+\]
+
+\subsubsection*{2. Ordinamento di un insieme di tuple}
+Utilizzato per \texttt{ORDER BY}, \texttt{DISTINCT}, \texttt{GROUP BY}. Si esegue tramite il $z$-way Sort-Merge, composto da una fase di sort interno e una o più fasi di merge.
+\[
+\text{Costo} = \underbrace{2 \cdot NP(R)}_{\text{sort interno}} + 2 \cdot NP(R) \cdot \lceil \log_2 NP(R) \rceil
+\]
+
+\subsubsection*{3. Accesso diretto tramite indice}
+Permette di recuperare solo le tuple che soddisfano una condizione, evitando la scansione completa. Si articola in due fasi: caricamento dell'indice e accesso diretto alle tuple.
+\begin{itemize}
+	\item \textbf{Hash} — costo costante $\approx 1$; il costo complessivo dipende dai blocchi in cui si trovano le tuple
+	\item \textbf{B+Tree} — costo dipende dall'altezza $h$ dell'albero:
+	\[
+	\text{Prof\_Indice} \leq 1 + \left\lceil \log_{\lceil m/2 \rceil}
+	\left( \frac{\#\text{val. chiave}}{\lceil (m-1)/2 \rceil} \right) \right\rceil
+	\]
+\end{itemize}
+
+\subsubsection*{4. Join}
+
+\noindent\textbf{Nested Loop Join} — per ogni tupla di $R$ (relazione esterna) si scansiona interamente $S$ (relazione interna):
+\begin{itemize}
+	\item Senza indice:
+	\[
+	NP(R) + NR(R) \cdot NP(S)
+	\]
+	\item Con indice B+Tree su $S.A$:
+	\[
+	NP(R) + NR(R) \cdot \left(\text{Prof\_Indice} + \frac{NR(S)}{VAL(A,S)}\right)
+	\]
+\end{itemize}
+
+\bigskip
+\noindent\textbf{Merge Scan Join} — applicabile solo con equi-join; sfrutta il fatto che entrambe le relazioni sono ordinate sugli attributi di Join, accedendovi sequenzialmente:
+\begin{itemize}
+	\item Con file ordinato (seq. ordinata):
+	\[
+	NP(R) + NP(S)
+	\]
+	\item Con indice (caso pessimo: ogni tupla in un blocco diverso):
+	\[
+	NR(R) + NR(S)
+	\]
+\end{itemize}
+
+\bigskip
+\noindent\textbf{Hash Based Join} — applicabile solo con equi-join; non richiede indici né file ordinati. Si calcola una funzione hash sugli attributi di Join per individuare le tuple candidate, poi si verifica la condizione di Join:
+\[
+\underbrace{NP(R) + NP(S)}_{\text{per costruire hash}} + \underbrace{NP(R) \cdot NP(S)}_{\text{per match, caso pessimo}}
+\]
+\subsection*{Esercizio — Calcolo del costo di una interrogazione}
+
+\noindent\textbf{Schema della base di dati:}
+\begin{itemize}
+	\item \texttt{INGREDIENTE(\underline{Codice}, Nome, Calorie)}
+	\item \texttt{COMPOSIZIONE(\underline{Ricetta, Ingrediente}, Quantità)}
+	\item \texttt{RICETTA(\underline{CodiceRicetta}, Nome, Regione, TempoPreparazione)}
+\end{itemize}
+
+\noindent con vincoli di integrità referenziale:
+\[
+\texttt{COMPOSIZIONE.Ricetta} \rightarrow \texttt{RICETTA}
+\qquad
+\texttt{COMPOSIZIONE.Ingrediente} \rightarrow \texttt{INGREDIENTE}
+\]
+
+\bigskip
+\noindent\textbf{Interrogazione:}
+\begin{verbatim}
+	SELECT R.CodiceRicetta, I.Nome, I.Calorie
+	FROM   RICETTA R JOIN COMPOSIZIONE C ON (R.CodiceRicetta = C.Ricetta)
+	JOIN INGREDIENTE I  ON (C.Ingrediente = I.Codice)
+	WHERE  R.Regione = 'Veneto'
+\end{verbatim}
+
+\bigskip
+\noindent\textbf{Statistiche:}
+
+\[
+\begin{array}{|l|c|c|c|c|}
+	\hline
+	\textbf{Tabella} & NP & NR & VAL(\text{Regione}) & VAL(\text{Ricetta}) \\
+	\hline
+	\texttt{RICETTA}      & 12  & 260   & 20 & —   \\
+	\texttt{INGREDIENTE}  & 40  & 1200  & —  & —   \\
+	\texttt{COMPOSIZIONE} & 200 & 13000 & —  & 260 \\
+	\hline
+\end{array}
+\]
+
+\bigskip
+\noindent\textbf{Ipotesi:}
+\begin{itemize}
+	\item La selezione su \texttt{RICETTA} richiede una scansione sequenziale; il risultato rimane nel buffer (costo di scrittura $= 0$)
+	\item Ordine di esecuzione del Join: $(\texttt{RICETTA} \bowtie \texttt{COMPOSIZIONE}) \bowtie \texttt{INGREDIENTE}$
+	\item Le operazioni di Join vengono eseguite con \textbf{Nested Loop Join} con 1 pagina di buffer per ogni tabella
+	\item Il risultato del primo Join viene mantenuto internamente nel buffer
+\end{itemize}
+
+\bigskip
+\noindent\textbf{Calcolo del costo:}
+
+\bigskip
+\noindent\textbf{Costo 1 — Selezione} $\sigma_{\texttt{Regione}=\text{'Veneto'}}(\texttt{RICETTA})$:
+
+\noindent Richiede una scansione sequenziale dell'intera tabella \texttt{RICETTA}. Il risultato rimane nel buffer, quindi il costo di scrittura è $0$:
+\[
+\text{Costo}_1 = NP(\texttt{RICETTA}) = 12
+\]
+
+\bigskip
+\noindent\textbf{Costo 2 — Primo Join:} $\sigma_{\texttt{Veneto}}(\texttt{RICETTA}) \bowtie \texttt{COMPOSIZIONE}$
+
+\noindent Il risultato della selezione è già nel buffer, quindi $NP(R) = 0$. Si applica il Nested Loop Join con:
+\begin{itemize}
+	\item $R = \sigma_{\texttt{Veneto}}(\texttt{RICETTA})$ — già nel buffer
+	\item $S = \texttt{COMPOSIZIONE}$
+	\item $NR(R) = \dfrac{NR(\texttt{RICETTA})}{VAL(\texttt{Regione}, \texttt{RICETTA})} = \dfrac{260}{20} = 13$ — ricette del Veneto
+\end{itemize}
+
+\[
+\text{Costo}_2 = 0 + NR(R) \cdot NP(\texttt{COMPOSIZIONE}) = 13 \times 200 = 2600
+\]
+
+\bigskip
+\noindent\textbf{Costo 3 — Secondo Join:} $(\sigma_{\texttt{Veneto}}(\texttt{RICETTA}) \bowtie \texttt{COMPOSIZIONE}) \bowtie \texttt{INGREDIENTE}$
+
+\noindent Il risultato del primo Join è già nel buffer, quindi $NP(R) = 0$. Si applica il Nested Loop Join con:
+\begin{itemize}
+	\item $R = $ risultato del primo Join — già nel buffer
+	\item $S = \texttt{INGREDIENTE}$
+	\item $NR(R) = \dfrac{NR(\texttt{COMPOSIZIONE})}{VAL(\texttt{Ricetta}, \texttt{COMPOSIZIONE})} \times \dfrac{NR(\texttt{RICETTA})}{VAL(\texttt{Regione}, \texttt{RICETTA})} = \dfrac{13000}{260} \times \dfrac{260}{20} = 50 \times 13 = 650$
+\end{itemize}
+
+\[
+\text{Costo}_3 = 0 + NR(R) \cdot NP(\texttt{INGREDIENTE}) = 650 \times 40 = 26000
+\]
+
+\bigskip
+\noindent\textbf{Costo totale:}
+\[
+\text{Costo}_{\text{tot}} = \text{Costo}_1 + \text{Costo}_2 + \text{Costo}_3 = 12 + 2600 + 26000 = \mathbf{28612}
+\]
+\bigskip
+\noindent\textbf{Variante: indice B+Tree su \texttt{INGREDIENTE.Codice} (profondità $= 2$)}
+
+\bigskip
+\noindent I costi 1 e 2 rimangono invariati. Il \textbf{Costo 3} cambia come segue.
+
+\noindent Poiché \texttt{Codice} è \textbf{chiave primaria} di \texttt{INGREDIENTE}:
+\[
+VAL(\texttt{Codice}, \texttt{INGREDIENTE}) = NR(\texttt{INGREDIENTE}) = 1200
+\]
+
+\[
+\text{Costo}_3 = 0 + NR(R) \cdot \left(\text{Prof\_Indice} +
+\frac{NR(\texttt{INGREDIENTE})}{VAL(\texttt{Codice}, \texttt{INGREDIENTE})}\right)
+\]
+\[
+= 650 \times \left(2 + \frac{1200}{1200}\right)
+= 650 \times (2 + 1)
+= 650 \times 3 = \mathbf{1950}
+\]
+
+\bigskip
+\noindent\textbf{Nuovo costo totale:}
+\[
+\text{Costo}_{\text{tot}} = \text{Costo}_1 + \text{Costo}_2 + \text{Costo}_3
+= 12 + 2600 + 1950 = \mathbf{4562}
+\]
+
+\noindent L'utilizzo dell'indice B+Tree su \texttt{INGREDIENTE.Codice} riduce significativamente il costo
+dell'interrogazione ($28612 \rightarrow 4562$).
+\bigskip
+\subsection*{Nuovo esercizio — Query con un solo Join e due selezioni}
+
+\bigskip
+\noindent\textbf{Interrogazione:}
+\begin{verbatim}
+	SELECT   C.Ingrediente, C.Quantita, C.Ricetta, R.Regione
+	FROM     COMPOSIZIONE C JOIN RICETTA R ON (C.Ricetta = R.Codice)
+	WHERE    R.Regione = 'Veneto' AND C.Quantita = 4
+\end{verbatim}
+
+\bigskip
+\noindent\textbf{Statistiche:}
+\[
+\begin{array}{|l|c|c|c|c|c|}
+	\hline
+	\textbf{Tabella} & NP & NR & VAL(\text{Regione}) & VAL(\text{Ricetta}) & VAL(\text{Qta}) \\
+	\hline
+	\texttt{INGREDIENTE}  & 30  & 270   & —  & 90 & 50 \\
+	\texttt{COMPOSIZIONE} & 780 & 19800 & —  & —  & —  \\
+	\texttt{RICETTA}      & 150 & 900   & 18 & —  & —  \\
+	\hline
+\end{array}
+\]
+
+\bigskip
+\noindent\textbf{Ipotesi:}
+\begin{itemize}
+	\item La selezione su \texttt{COMPOSIZIONE} viene eseguita con scansione sequenziale; il risultato viene salvato in memoria secondaria occupando \textbf{180 pagine}
+	\item La selezione su \texttt{RICETTA} viene eseguita con scansione sequenziale; il risultato viene mantenuto nel buffer (costo di scrittura $= 0$)
+	\item Il Join viene eseguito con \textbf{Nested Loop Join}: $R = \sigma_{\texttt{Veneto}}(\texttt{RICETTA})$, $S = \sigma_{\texttt{Qta}=4}(\texttt{COMPOSIZIONE})$
+\end{itemize}
+
+\bigskip
+\noindent\textbf{Calcolo del costo:}
+
+\bigskip
+\noindent\textbf{Costo 1 — Selezione su \texttt{COMPOSIZIONE}:}
+\[
+\text{Costo}_1 = NP(\texttt{COMPOSIZIONE}) + 180 = 780 + 180 = 960
+\]
+
+\noindent (lettura dell'intera tabella + scrittura del risultato in memoria secondaria)
+
+\bigskip
+\noindent\textbf{Costo 2 — Selezione su \texttt{RICETTA}:}
+\[
+\text{Costo}_2 = NP(\texttt{RICETTA}) + 0 = 150
+\]
+
+\noindent (lettura dell'intera tabella; il risultato rimane nel buffer)
+
+\bigskip
+\noindent\textbf{Costo 3 — Join:} $\sigma_{\texttt{Veneto}}(\texttt{RICETTA}) \bowtie \sigma_{\texttt{Qta}=4}(\texttt{COMPOSIZIONE})$
+\[
+\text{Costo}_3 = NP(R) + NR(R) \cdot NP(S)
+= 0 + \frac{NR(\texttt{RICETTA})}{VAL(\texttt{Regione},\texttt{RICETTA})} \times 180
+= \frac{900}{18} \times 180 = 50 \times 180 = 9000
+\]
+
+\bigskip
+\noindent\textbf{Costo totale senza indice:}
+\[
+\text{Costo}_{\text{tot}} = 960 + 150 + 9000 = \mathbf{10110}
+\]
+
+\bigskip
+\noindent\textbf{Variante: indice B+Tree di profondità 2 sull'attributo \texttt{Ricetta} di \texttt{COMPOSIZIONE}}
+
+\noindent I costi 1 e 2 rimangono invariati. Il \textbf{Costo 3} cambia come segue:
+
+\[
+NR(\sigma_{\texttt{Qta}=4}(\texttt{COMPOSIZIONE}))
+= \frac{NR(\texttt{COMPOSIZIONE})}{VAL(\texttt{Qta}, \texttt{COMPOSIZIONE})}
+= \frac{19800}{50} = 396
+\]
+
+\[
+\text{Costo}_3 = 0 + NR(R) \cdot \left(\text{Prof\_Indice} +
+\frac{NR(\sigma_{\texttt{Qta}=4}(\texttt{COMPOSIZIONE}))}{VAL(\texttt{Ricetta},
+	\texttt{COMPOSIZIONE})}\right)
+\]
+\[
+= 50 \times \left(2 + \frac{396}{90}\right)
+= 50 \times (2 + \lceil 4.4 \rceil)
+= 50 \times 7 = 350
+\]
+
+\bigskip
+\noindent\textbf{Costo totale con indice:}
+\[
+\text{Costo}_{\text{tot}} = 960 + 150 + 350 = \mathbf{1460}
+\]
+
+\noindent L'utilizzo dell'indice B+Tree su \texttt{COMPOSIZIONE.Ricetta} riduce significativamente
+il costo dell'interrogazione ($10110 \rightarrow 1460$).
