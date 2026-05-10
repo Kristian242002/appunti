@@ -1,0 +1,97 @@
+\section{Esercizi in preparazione all'esame}
+\subsection{Esercizi SQL}
+Si consideri la seguente base di dati:
+
+\begin{itemize}
+	\item \textbf{AUTO}(\underline{targa}, num\_telaio, modello, colore, km, cilindrata, posti, proprietario)
+	\item \textbf{PRENOTAZIONE}(\underline{codice}, parcheggio, posto, auto, data\_prenotazione, data\_ora\_inizio, data\_ora\_fine, tipo, pagato)
+	\item \textbf{PARCHEGGIO}(\underline{nome}, comune, indirizzo, coperto)
+\end{itemize}
+
+con i seguenti vincoli di integrità:
+
+\begin{itemize}
+	\item \texttt{PRENOTAZIONE.auto} $\rightarrow$ \texttt{AUTO}
+	\item \texttt{PRENOTAZIONE.parcheggio} $\rightarrow$ \texttt{PARCHEGGIO}
+\end{itemize}
+
+\subsection{Esercizio 1}
+
+Trovare tutti i parcheggi in cui vengono effettuate più prenotazioni di tipo online che prenotazioni fisiche.
+
+\begin{verbatim}
+	-- Numero di prenotazioni online
+	SELECT P.nome
+	FROM parcheggio P
+	JOIN prenotazione R ON P.nome = R.parcheggio
+	WHERE tipo = 'online'
+	GROUP BY P.nome
+	HAVING COUNT(*) > -- num prenotazioni online di un parcheggio
+	(
+	-- Numero di prenotazioni fisiche
+	SELECT COUNT(*)
+	FROM prenotazione R1
+	WHERE R1.tipo = 'fisica'
+	AND R1.nome = P.nome
+	)
+\end{verbatim}
+
+La query esterna viene eseguita per ogni riga della query esterna. Usando il data
+binding non si ha bisogno del \texttt{GROUP BY} perché si stanno selezionando le righe di uno
+specifico parcheggio e quindi si vogliono contare tutte.
+
+\subsection{Esercizio 2}
+
+Trovare tutti i parcheggi in cui non sono mai state fatte prenotazioni fisiche nel 2024.
+
+\subsubsection*{Soluzione 1 — EXCEPT}
+
+\begin{verbatim}
+	SELECT P.NOME
+	FROM PARCHEGGIO P
+	
+	EXCEPT
+	
+	SELECT R.PARCHEGGIO
+	FROM PRENOTAZIONE R
+	WHERE R.DATA_PRENOTAZIONE >= '01/01/2024'
+	AND R.DATA_PRENOTAZIONE <= '31/12/2024'
+	AND R.TIPO = 'FISICA';
+\end{verbatim}
+
+\subsubsection*{Soluzione 2 --- NOT IN}
+
+\begin{verbatim}
+	SELECT P.NOME
+	FROM PARCHEGGIO P
+	WHERE P.NOME NOT IN (
+	SELECT R.PARCHEGGIO
+	FROM PRENOTAZIONE R
+	WHERE EXTRACT(YEAR FROM R.DATA_PRENOTAZIONE) = 2024
+	AND R.TIPO = 'FISICA'
+	AND R.PARCHEGGIO IS NOT NULL
+	);
+\end{verbatim}
+\subsection{Esercizio 3}
+
+Trovare quanti parcheggi del comune di Verona hanno avuto un numero medio di prenotazioni complessive nel 2024 superiore al numero medio di prenotazioni dei parcheggi del comune di Padova.
+
+\begin{verbatim}
+	CREATE TEMP VIEW nprenotazioni AS (
+	SELECT P.nome, P.comune, COUNT(*) AS num
+	FROM parcheggio P
+	JOIN prenotazioni R ON P.nome = R.parcheggio
+	WHERE R.data_prenotazione >= '01/01/2024'
+	AND R.data_prenotazione <= '31/12/2024'
+	GROUP BY P.nome, P.comune
+	);
+	
+	SELECT COUNT(*)
+	FROM nprenotazioni N
+	WHERE N.comune = 'Verona'
+	AND N.num > (
+	SELECT AVG(N1.num)
+	FROM nprenotazioni N1
+	WHERE N1.comune = 'Padova'
+	);
+\end{verbatim}

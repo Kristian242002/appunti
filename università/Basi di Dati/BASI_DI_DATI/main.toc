@@ -245,55 +245,65 @@
 \contentsline {subsubsection}{\numberline {14.4.4}Hash Based Join}{165}{subsubsection.14.4.4}%
 \contentsline {subsection}{\numberline {14.5}Scelta del piano di esecuzione}{165}{subsection.14.5}%
 \contentsline {subsection}{\numberline {14.6}Riepilogo delle operazioni tipiche supportate dai DBMS}{166}{subsection.14.6}%
-\contentsline {section}{\numberline {15}Laboratorio}{171}{section.15}%
-\contentsline {subsection}{\numberline {15.1}PostgreSQL}{171}{subsection.15.1}%
-\contentsline {subsection}{\numberline {15.2}SQL comandi base}{172}{subsection.15.2}%
-\contentsline {subsubsection}{\numberline {15.2.1}Creazione Tabella}{172}{subsubsection.15.2.1}%
-\contentsline {subsubsection}{\numberline {15.2.2}Concetti fondamentali del DDL}{173}{subsubsection.15.2.2}%
-\contentsline {paragraph}{Valori interi}{174}{paragraph*.78}%
-\contentsline {paragraph}{Valori decimali}{174}{paragraph*.79}%
-\contentsline {subsection}{\numberline {15.3}Vincoli intrarelazionali}{177}{subsection.15.3}%
-\contentsline {subsection}{\numberline {15.4}Vincoli interrelazionali}{178}{subsection.15.4}%
-\contentsline {subsection}{\numberline {15.5}Modifica ed eliminazione delle strutture}{181}{subsection.15.5}%
-\contentsline {subsection}{\numberline {15.6}Cancellazione dei dati}{182}{subsection.15.6}%
-\contentsline {subsubsection}{\numberline {15.6.1}Eliminazione di una tabella}{182}{subsubsection.15.6.1}%
-\contentsline {subsection}{\numberline {15.7}Linguaggio di Interrogazione SQL}{183}{subsection.15.7}%
-\contentsline {subsection}{\numberline {15.8}Clausola SELECT}{184}{subsection.15.8}%
-\contentsline {subsection}{\numberline {15.9}Clausola FROM}{186}{subsection.15.9}%
-\contentsline {subsection}{\numberline {15.10}Clausola WHERE}{187}{subsection.15.10}%
-\contentsline {subsubsection}{\numberline {15.10.1}Operatore LIKE}{189}{subsubsection.15.10.1}%
-\contentsline {subsubsection}{\numberline {15.10.2}Operatore SIMILAR TO}{190}{subsubsection.15.10.2}%
-\contentsline {subsubsection}{\numberline {15.10.3}Operatore BETWEEN}{191}{subsubsection.15.10.3}%
-\contentsline {subsubsection}{\numberline {15.10.4}Operatore IN}{192}{subsubsection.15.10.4}%
-\contentsline {subsubsection}{\numberline {15.10.5}Operatore IS NULL}{193}{subsubsection.15.10.5}%
-\contentsline {subsection}{\numberline {15.11}SQL e Algebra Relazionale}{193}{subsection.15.11}%
-\contentsline {subsection}{\numberline {15.12}SELECT}{194}{subsection.15.12}%
-\contentsline {subsubsection}{\numberline {15.12.1}SELECT : alias di tabella o di attributo}{195}{subsubsection.15.12.1}%
-\contentsline {subsubsection}{\numberline {15.12.2}SELECT: senza proiezione}{195}{subsubsection.15.12.2}%
-\contentsline {subsubsection}{\numberline {15.12.3}Proiezione:gestione dei duplicati in SQL}{195}{subsubsection.15.12.3}%
-\contentsline {subsubsection}{\numberline {15.12.4}SELECT: Selezione,Proiezione,Join}{197}{subsubsection.15.12.4}%
-\contentsline {subsection}{\numberline {15.13}Interrogazioni con JOIN}{197}{subsection.15.13}%
-\contentsline {subsubsection}{\numberline {15.13.1}INNER JOIN}{198}{subsubsection.15.13.1}%
-\contentsline {subsubsection}{\numberline {15.13.2}LEFT OUTER JOIN}{199}{subsubsection.15.13.2}%
-\contentsline {subsubsection}{\numberline {15.13.3}RIGHT OUTER JOIN}{200}{subsubsection.15.13.3}%
-\contentsline {subsubsection}{\numberline {15.13.4}FULL OUTER JOIN}{201}{subsubsection.15.13.4}%
-\contentsline {subsection}{\numberline {15.14}Uso di variabili (alias)}{202}{subsection.15.14}%
-\contentsline {subsection}{\numberline {15.15}Ordinamento del risultato}{202}{subsection.15.15}%
-\contentsline {subsubsection}{\numberline {15.15.1}Operazioni Insiemistiche}{204}{subsubsection.15.15.1}%
-\contentsline {subsubsection}{\numberline {15.15.2}Unione}{204}{subsubsection.15.15.2}%
-\contentsline {subsubsection}{\numberline {15.15.3}Intersezione}{205}{subsubsection.15.15.3}%
-\contentsline {subsubsection}{\numberline {15.15.4}Differenza}{206}{subsubsection.15.15.4}%
-\contentsline {subsection}{\numberline {15.16}Operatori aggregati}{206}{subsection.15.16}%
-\contentsline {subsubsection}{\numberline {15.16.1}COUNT}{206}{subsubsection.15.16.1}%
-\contentsline {subsubsection}{\numberline {15.16.2}Operatori aggregati: SUM.MAX,MIN,AVG}{207}{subsubsection.15.16.2}%
-\contentsline {subsection}{\numberline {15.17}Interrogazioni con raggruppamento}{209}{subsection.15.17}%
-\contentsline {subsubsection}{\numberline {15.17.1}HAVING}{212}{subsubsection.15.17.1}%
-\contentsline {subsection}{\numberline {15.18}Interrogazioni nidificate}{213}{subsection.15.18}%
-\contentsline {paragraph}{Clausola FROM : }{213}{paragraph*.80}%
-\contentsline {paragraph}{Clausola WHERE :}{213}{paragraph*.81}%
-\contentsline {paragraph}{Operatore ANY/SOME}{213}{paragraph*.82}%
-\contentsline {paragraph}{Operatore ALL}{214}{paragraph*.83}%
-\contentsline {paragraph}{Operatore IN:}{215}{paragraph*.84}%
-\contentsline {paragraph}{Operatore EXISTS:}{215}{paragraph*.85}%
-\contentsline {subsubsection}{\numberline {15.18.1}Interrogazioni di tipo insiemistico}{217}{subsubsection.15.18.1}%
-\contentsline {subsubsection}{\numberline {15.18.2}Le VISTE}{218}{subsubsection.15.18.2}%
+\contentsline {section}{\numberline {15}Architettura MongoDB}{171}{section.15}%
+\contentsline {subsection}{\numberline {15.1}Architettura del Replica Set}{172}{subsection.15.1}%
+\contentsline {subsection}{\numberline {15.2}Replica Set: Gestione delle Scritture e Letture}{173}{subsection.15.2}%
+\contentsline {subsection}{\numberline {15.3}Sharding}{174}{subsection.15.3}%
+\contentsline {subsection}{\numberline {15.4}Proprietà ACID in MongoDB}{175}{subsection.15.4}%
+\contentsline {section}{\numberline {16}Esercizi in preparazione all'esame}{177}{section.16}%
+\contentsline {subsection}{\numberline {16.1}Esercizi SQL}{177}{subsection.16.1}%
+\contentsline {subsection}{\numberline {16.2}Esercizio 1}{177}{subsection.16.2}%
+\contentsline {subsection}{\numberline {16.3}Esercizio 2}{177}{subsection.16.3}%
+\contentsline {subsection}{\numberline {16.4}Esercizio 3}{178}{subsection.16.4}%
+\contentsline {section}{\numberline {17}Laboratorio}{179}{section.17}%
+\contentsline {subsection}{\numberline {17.1}PostgreSQL}{179}{subsection.17.1}%
+\contentsline {subsection}{\numberline {17.2}SQL comandi base}{180}{subsection.17.2}%
+\contentsline {subsubsection}{\numberline {17.2.1}Creazione Tabella}{180}{subsubsection.17.2.1}%
+\contentsline {subsubsection}{\numberline {17.2.2}Concetti fondamentali del DDL}{181}{subsubsection.17.2.2}%
+\contentsline {paragraph}{Valori interi}{182}{paragraph*.78}%
+\contentsline {paragraph}{Valori decimali}{182}{paragraph*.79}%
+\contentsline {subsection}{\numberline {17.3}Vincoli intrarelazionali}{185}{subsection.17.3}%
+\contentsline {subsection}{\numberline {17.4}Vincoli interrelazionali}{186}{subsection.17.4}%
+\contentsline {subsection}{\numberline {17.5}Modifica ed eliminazione delle strutture}{189}{subsection.17.5}%
+\contentsline {subsection}{\numberline {17.6}Cancellazione dei dati}{190}{subsection.17.6}%
+\contentsline {subsubsection}{\numberline {17.6.1}Eliminazione di una tabella}{190}{subsubsection.17.6.1}%
+\contentsline {subsection}{\numberline {17.7}Linguaggio di Interrogazione SQL}{191}{subsection.17.7}%
+\contentsline {subsection}{\numberline {17.8}Clausola SELECT}{192}{subsection.17.8}%
+\contentsline {subsection}{\numberline {17.9}Clausola FROM}{194}{subsection.17.9}%
+\contentsline {subsection}{\numberline {17.10}Clausola WHERE}{195}{subsection.17.10}%
+\contentsline {subsubsection}{\numberline {17.10.1}Operatore LIKE}{197}{subsubsection.17.10.1}%
+\contentsline {subsubsection}{\numberline {17.10.2}Operatore SIMILAR TO}{198}{subsubsection.17.10.2}%
+\contentsline {subsubsection}{\numberline {17.10.3}Operatore BETWEEN}{199}{subsubsection.17.10.3}%
+\contentsline {subsubsection}{\numberline {17.10.4}Operatore IN}{200}{subsubsection.17.10.4}%
+\contentsline {subsubsection}{\numberline {17.10.5}Operatore IS NULL}{201}{subsubsection.17.10.5}%
+\contentsline {subsection}{\numberline {17.11}SQL e Algebra Relazionale}{201}{subsection.17.11}%
+\contentsline {subsection}{\numberline {17.12}SELECT}{202}{subsection.17.12}%
+\contentsline {subsubsection}{\numberline {17.12.1}SELECT : alias di tabella o di attributo}{203}{subsubsection.17.12.1}%
+\contentsline {subsubsection}{\numberline {17.12.2}SELECT: senza proiezione}{203}{subsubsection.17.12.2}%
+\contentsline {subsubsection}{\numberline {17.12.3}Proiezione:gestione dei duplicati in SQL}{203}{subsubsection.17.12.3}%
+\contentsline {subsubsection}{\numberline {17.12.4}SELECT: Selezione,Proiezione,Join}{205}{subsubsection.17.12.4}%
+\contentsline {subsection}{\numberline {17.13}Interrogazioni con JOIN}{205}{subsection.17.13}%
+\contentsline {subsubsection}{\numberline {17.13.1}INNER JOIN}{206}{subsubsection.17.13.1}%
+\contentsline {subsubsection}{\numberline {17.13.2}LEFT OUTER JOIN}{207}{subsubsection.17.13.2}%
+\contentsline {subsubsection}{\numberline {17.13.3}RIGHT OUTER JOIN}{208}{subsubsection.17.13.3}%
+\contentsline {subsubsection}{\numberline {17.13.4}FULL OUTER JOIN}{209}{subsubsection.17.13.4}%
+\contentsline {subsection}{\numberline {17.14}Uso di variabili (alias)}{210}{subsection.17.14}%
+\contentsline {subsection}{\numberline {17.15}Ordinamento del risultato}{210}{subsection.17.15}%
+\contentsline {subsubsection}{\numberline {17.15.1}Operazioni Insiemistiche}{212}{subsubsection.17.15.1}%
+\contentsline {subsubsection}{\numberline {17.15.2}Unione}{212}{subsubsection.17.15.2}%
+\contentsline {subsubsection}{\numberline {17.15.3}Intersezione}{213}{subsubsection.17.15.3}%
+\contentsline {subsubsection}{\numberline {17.15.4}Differenza}{214}{subsubsection.17.15.4}%
+\contentsline {subsection}{\numberline {17.16}Operatori aggregati}{214}{subsection.17.16}%
+\contentsline {subsubsection}{\numberline {17.16.1}COUNT}{214}{subsubsection.17.16.1}%
+\contentsline {subsubsection}{\numberline {17.16.2}Operatori aggregati: SUM.MAX,MIN,AVG}{215}{subsubsection.17.16.2}%
+\contentsline {subsection}{\numberline {17.17}Interrogazioni con raggruppamento}{217}{subsection.17.17}%
+\contentsline {subsubsection}{\numberline {17.17.1}HAVING}{220}{subsubsection.17.17.1}%
+\contentsline {subsection}{\numberline {17.18}Interrogazioni nidificate}{221}{subsection.17.18}%
+\contentsline {paragraph}{Clausola FROM : }{221}{paragraph*.80}%
+\contentsline {paragraph}{Clausola WHERE :}{221}{paragraph*.81}%
+\contentsline {paragraph}{Operatore ANY/SOME}{221}{paragraph*.82}%
+\contentsline {paragraph}{Operatore ALL}{222}{paragraph*.83}%
+\contentsline {paragraph}{Operatore IN:}{223}{paragraph*.84}%
+\contentsline {paragraph}{Operatore EXISTS:}{223}{paragraph*.85}%
+\contentsline {subsubsection}{\numberline {17.18.1}Interrogazioni di tipo insiemistico}{225}{subsubsection.17.18.1}%
+\contentsline {subsubsection}{\numberline {17.18.2}Le VISTE}{226}{subsubsection.17.18.2}%
