@@ -1,0 +1,16 @@
+1.È Ethernet II. Wireshark lo capisce perché il frame arriva da un'interfaccia Ethernet cablata
+2.
+MAC destinazione:ff:ff:ff:ff:ff:ff
+MAC sorgente:00:e0:81:24:dd:64
+Ether type: IPV4
+3.MAC sorgente:00:e0:81:24:dd:64 => unicast
+4.ff:ff:ff:ff:ff:ff => broadcast
+5.IPV4 che si deduce dal campo ether type
+6.20byte
+7.Source: 157.27.252.223
+  Destinaiton : 157.27.252.255
+8.UDP; Wireshark lo capisce dal campo Protocol nell'header IP.
+9.SCR Port: 631 Dst Port : 631
+11.63.3%
+13.0.4% (un solo pacchetto)
+15.83.8% perché con l'indirizzo MAC ff:ff:ff:ff:ff:ff viene consegnato il messaggio a tutte le schede di rete
