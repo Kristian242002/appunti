@@ -1,0 +1,1 @@
+Ogni pacchetto è indipendente dagli altri, non c'è numero di sequenza, non c'è meccanismo di riscontro (ACK) né di ritrasmissione automatica. Se un pacchetto si perde per qualunque motivo (cavo staccato, congestione di rete, buffer pieno), il mittente non lo sa mai e il ricevente non ha modo di accorgersi che manca qualcosa.

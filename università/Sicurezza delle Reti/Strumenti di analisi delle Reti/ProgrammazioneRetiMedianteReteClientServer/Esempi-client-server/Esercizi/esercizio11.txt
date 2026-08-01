@@ -1,0 +1,1 @@
+No. Solo uno dei due (tipicamente l'ultimo lanciato) riceve effettivamente il traffico sulla porta 35000 la porta è "posseduta" da un solo processo alla volta, l'altro server resta bloccato in `TCPReceive`/accept senza mai ricevere nulla. Stesso comportamento già osservato con UDP nell'esercizio 6, qui applicato a TCP.

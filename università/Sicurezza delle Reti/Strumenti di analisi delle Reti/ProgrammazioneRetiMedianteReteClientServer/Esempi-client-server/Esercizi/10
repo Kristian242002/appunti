@@ -1,0 +1,1 @@
+Sì. Con una singola variabile somma condivisa nel server, i pacchetti di A e B si mescolano sulla stessa porta 35000 e finiscono nella stessa somma. Ogni client riceve un risultato "inquinato" dai valori dell'altro, diverso da quello che si aspetterebbe lavorando da solo.

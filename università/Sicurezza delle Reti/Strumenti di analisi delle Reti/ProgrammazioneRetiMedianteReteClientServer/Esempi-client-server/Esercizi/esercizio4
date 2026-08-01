@@ -1,0 +1,1 @@
+Con "localhost" nessuna differenza rispetto a prima invece con "pippo" il client chiama UDPSend(socket, request, strlen(request), "pippo", 100), la funzione internamente deve tradurre "pippo" in un indirizzo IP prima di poter spedire il pacchetto ma non potendolo attribuire a nessun indirizzo ip fallisce

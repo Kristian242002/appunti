@@ -1,0 +1,7 @@
+1.
+---
+Primo caso : Prima server poi client
+Il server si mette in ascolto tramite UDPReceive e resta bloccato in attesa di un messaggio. Quando lancio il client, esso crea la propria interfaccia socket e invia subito via UDP il messaggio "Ciao sono il client!" verso 127.0.0.1:35000. Il server, essendo già in ascolto, riceve il messaggio non appena arriva e risponde immediatamente con "Sono il server: ho ricevuto correttamente il tuo messaggio!". Il client riceve la risposta e termina.
+Secondo caso : Prima client poi server
+
+Se lancio prima il client, esso crea la sua interfaccia socket e invia subito il messaggio verso la porta 35000 ma in quel momento il server non è ancora in ascolto. Poiché UDP è un protocollo connectionless (non c'è handshake né conferma di consegna), il pacchetto viene semplicemente scartato dal sistema operativo dell'host destinatario: nessuno lo riceve e va perso senza che nessuno se ne accorga. Il client si blocca nella UDPReceive in attesa di una risposta che non arriverà mai, perché il server non ha mai ricevuto la richiesta originale.

@@ -1,0 +1,3 @@
+3.
+Impostando il server in ascolto sulla porta 100 ma lasciando il client invariato (che continua a inviare verso la porta 10000), il server resta bloccato in UDPReceive senza ricevere nulla, anche dopo l'avvio del client. Questo conferma che UDP non ha alcun meccanismo di scoperta automatica il client invia semplicemente verso la porta specificata nel codice (10000), che ora non ha più nessun processo in ascolto, quindi il pacchetto viene scartato dal sistema operativo senza notifiche né errori visibili. Il client, dal canto suo, si blocca a sua volta nella UDPReceive in attesa di una risposta che non arriverà mai, dato che il server non ha mai ricevuto la richiesta.
+Bisognerebbe cambiare lo script del client e inserendo la porta 100 anche in esso

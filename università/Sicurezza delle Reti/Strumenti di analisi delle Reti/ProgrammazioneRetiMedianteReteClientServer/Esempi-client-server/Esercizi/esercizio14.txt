@@ -1,0 +1,1 @@
+n UDP il pacchetto perso spariva silenziosamente e la somma finale era sbagliata senza che nessuno se ne accorgesse. In TCP il pacchetto non si perde mai (finché la connessione resta valida) al massimo arriva più tardi, ma la correttezza del risultato finale è garantita.
