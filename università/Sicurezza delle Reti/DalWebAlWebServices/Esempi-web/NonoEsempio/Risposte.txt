@@ -1,0 +1,23 @@
+1.Non funziona perchè con il primo terminale ho occupato la porta 8080
+2. Vedo la pagina html_: Hello World, this is a very simple HTML document. 
+   Invece nel terminale vedo :
+./serverHTTP 
+GET / HTTP/1.1
+Host: 127.0.0.1:8000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:150.0) Gecko/20100101 Firefox/150.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: it-IT,it;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Priority: u=0, i
+
+
+
+[SERVER] sessione HTTP completata
+ (Che e la risposta HTTP)
+ 3. Vedo lo stesso risultato perche localhost == 127.0.0.1

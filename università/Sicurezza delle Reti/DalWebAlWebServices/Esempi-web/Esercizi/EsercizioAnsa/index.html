@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <iframe id="area" height="2000" width="1000"></iframe>
+<script>
+  setInterval(refresh,1000);
+  function refresh(){
+    document.getElementById("area").src = "https://www.ansa.it/sito/notizie/topnews/index.shtml?=_"+Date.now();
+  }
+</script> 
+</body>
+</html>

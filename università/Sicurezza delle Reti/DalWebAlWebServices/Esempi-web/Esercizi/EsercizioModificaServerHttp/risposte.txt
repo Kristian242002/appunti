@@ -1,0 +1,2 @@
+Aprire form-get.html e form-post.html funziona normalmente, perché il server li trova e li serve come normali file statici.
+Il problema emerge cliccando Submit: il form manda una richiesta a /action (GET o POST), ma il server cerca un file chiamato action sul disco, che non esiste → risponde 404 Not Found. Il server sa solo restituire file statici esistenti, non sa gestire endpoint applicativi come /action
