@@ -1,0 +1,13 @@
+time java ClientREST numeri-primi 1 1000000
+URL aperto: http://127.0.0.1:8000/numeri-primi?min=1&max=1000000
+Lettura dei dati...
+{
+    "numeriPrimi":78498
+}
+Numeri primi trovati: 78498
+
+real	0m5,135s
+user	0m0,073s
+sys	0m0,051s
+---------------------------
+No per il motivo che ho gia definito nel ex 2

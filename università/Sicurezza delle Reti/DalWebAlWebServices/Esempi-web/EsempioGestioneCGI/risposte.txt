@@ -1,0 +1,2 @@
+- si puo notare che si usa un get e i risultati sono presenti nel url
+- Però notanto il file del server si puo dire che :il secondo parametro (FILE *out) corrisponde alla connessione TCP col client (connfd), cioè lo stream su cui la funzione CGI scrive direttamente la risposta HTTP, invece di restituirla come valore di ritorno. Questo permette al "programma CGI" (la funzione sommatrice) di comunicare autonomamente col browser, esattamente come farebbe il server per una pagina statica.

@@ -1,0 +1,282 @@
+=================================================================
+SPIEGAZIONE RIGA PER RIGA
+serverHTTP.c modificato per gestire l'upload di file (Esercizio pag. 37)
+=================================================================
+
+CONTESTO GENERALE
+------------------
+Il server HTTP di base (serverHTTP.c) sa solo rispondere sempre con
+la stessa paginetta statica "Hello World". In questo esercizio lo
+estendiamo per accettare, tramite il metodo POST, un file inviato
+da un form HTML con enctype="multipart/form-data" (vedi form-file.html)
+e salvarlo su disco.
+
+Un upload multipart, catturato con Wireshark, ha questa struttura:
+
+    POST /action HTTP/1.1
+    Content-Type: multipart/form-data; boundary=----XXXX
+    Content-Length: 254996
+
+    ------XXXX
+    Content-Disposition: form-data; name="myfile"; filename="documento.pdf"
+    Content-Type: application/pdf
+
+    <contenuto binario del file>
+    ------XXXX--
+
+Il nostro obiettivo e' estrarre:
+1) il NOME del file (dentro filename="...")
+2) il CONTENUTO del file (tra la riga vuota dopo gli header della
+   parte, e il boundary di chiusura)
+
+
+=================================================================
+DICHIARAZIONI INIZIALI
+=================================================================
+
+socketif_t sockfd;
+FILE* connfd;
+-----------------------------------------------------------------
+Come nel serverHTTP.c originale:
+- sockfd  = il socket del server, resta sempre aperto in ascolto
+- connfd  = la connessione con il client specifico, gestita come
+            stream (FILE*) cosi' possiamo usare fgets/fread/fwrite
+
+
+int i;
+long length=0;
+-----------------------------------------------------------------
+"length" conterra' il valore dell'header Content-Length della
+richiesta HTTP, cioe' quanti byte totali ci sono nel body
+(tutto il multipart, non solo il file).
+
+
+char request[MTU], method[10], path[100];
+-----------------------------------------------------------------
+Uguale all'originale: buffer per leggere riga per riga la
+richiesta, il metodo (GET/POST) e il path richiesto (es. "/action").
+
+
+char filename[200] = "";
+char *p, *start;
+-----------------------------------------------------------------
+"filename" conterra' il nome del file estratto da Content-Disposition.
+"p" e "start" sono puntatori di appoggio usati per navigare dentro
+la stringa quando cerchiamo il nome del file.
+
+
+FILE *outfile;
+-----------------------------------------------------------------
+Il file che creeremo su disco per salvare l'upload ricevuto.
+
+
+=================================================================
+SETUP DEL SERVER (identico all'originale)
+=================================================================
+
+sockfd = createTCPServer(8000);
+if (sockfd < 0){ ... }
+
+while(true) {
+    connfd = acceptConnectionFD(sockfd);
+-----------------------------------------------------------------
+Stesso schema di sempre: il server si mette in ascolto sulla porta
+8000 e, dentro un ciclo infinito, accetta una connessione alla volta.
+
+
+=================================================================
+LETTURA DELLA PRIMA RIGA E DEGLI HEADER HTTP
+=================================================================
+
+fgets(request, sizeof(request), connfd);
+strcpy(method, strtok(request, " "));
+strcpy(path, strtok(NULL, " "));
+-----------------------------------------------------------------
+Leggo la prima riga della richiesta (es. "POST /action HTTP/1.1").
+strtok(request, " ") spezza la stringa al primo spazio e restituisce
+il primo pezzo -> lo copio in "method" (es. "POST").
+strtok(NULL, " ") continua a spezzare la STESSA stringa da dove si
+era fermato prima -> restituisce il secondo pezzo, il path
+(es. "/action"), che copio in "path".
+
+
+while(request[0]!='\r') {
+    fgets(request, sizeof(request), connfd);
+    printf("%s", request);
+    if(strstr(request, "Content-Length:")!=NULL)
+        length = atol(request+15);
+}
+-----------------------------------------------------------------
+Ciclo identico all'originale: leggo tutti gli header HTTP uno per
+uno finche' non trovo la RIGA VUOTA (quella fatta solo da "\r\n",
+cioe' quando request[0] e' il carattere '\r').
+
+Nel frattempo, se una riga contiene "Content-Length:", ne estraggo
+il valore numerico con atol(). Il "+15" salta i primi 15 caratteri
+della riga, cioe' la lunghezza esatta della stringa "Content-Length:",
+per arrivare dritti al numero che segue.
+
+A questo punto abbiamo finito di leggere gli HEADER HTTP GENERALI.
+Ma attenzione: nel multipart, dopo la riga vuota, NON inizia subito
+il file -> inizia il BOUNDARY e gli HEADER DELLA PARTE
+(Content-Disposition, Content-Type), che sono ancora testo, non
+ancora il contenuto binario vero e proprio.
+
+
+=================================================================
+RICERCA DEL NOME DEL FILE DENTRO IL BODY MULTIPART
+=================================================================
+
+if(strcmp(method, "POST")==0)  {
+    long bytesRead = 0;
+    do {
+        fgets(request, sizeof(request), connfd);
+        bytesRead += strlen(request);
+        if(strstr(request, "filename=") != NULL) {
+            start = strstr(request, "filename=\"") + 10;
+            p = strchr(start, '"');
+            strncpy(filename, start, p - start);
+            filename[p - start] = '\0';
+        }
+    } while(request[0] != '\r' && bytesRead < length);
+-----------------------------------------------------------------
+Continuo a leggere riga per riga (ora dentro il BODY, non piu'
+header HTTP generali) cercando la riga che contiene "filename=".
+
+Quando la trovo, estraggo il nome vero e proprio:
+
+  - strstr(request, "filename=\"")
+      cerca la posizione della sotto-stringa  filename="  dentro
+      la riga corrente
+
+  - + 10
+      salta esattamente 10 caratteri: f-i-l-e-n-a-m-e-=-"
+      per posizionarmi SUBITO DOPO le virgolette di apertura,
+      cioe' proprio all'inizio del vero nome del file
+
+  - strchr(start, '"')
+      trova la PROSSIMA virgoletta doppia, cioe' quella di
+      chiusura del nome file
+
+  - strncpy(filename, start, p - start)
+      copia solo i caratteri COMPRESI TRA le due virgolette;
+      "p - start" e' la differenza tra i due indirizzi di memoria,
+      cioe' esattamente quanti caratteri copiare
+
+  - filename[p - start] = '\0'
+      chiudo manualmente la stringa con il terminatore, perche'
+      strncpy() non lo aggiunge automaticamente
+
+Il ciclo do-while si ferma quando trovo la riga vuota
+(request[0]=='\r', che segna la fine degli header della parte
+multipart) oppure quando ho gia' letto tutto il body dichiarato
+(bytesRead < length e' una sicurezza per non restare bloccati
+in un ciclo infinito in caso di errori).
+
+
+    fgets(request, sizeof(request), connfd);
+    bytesRead += strlen(request);
+-----------------------------------------------------------------
+Questa riga extra "consuma" la riga vuota stessa (quella appena
+trovata dal ciclo do-while sopra), cosi' la prossima lettura con
+fread() partira' esattamente dall'inizio del contenuto binario
+del file, senza sporcarlo con residui di testo.
+
+
+=================================================================
+SALVATAGGIO DEL CONTENUTO DEL FILE SU DISCO
+=================================================================
+
+    outfile = fopen(filename, "wb");
+-----------------------------------------------------------------
+Apro un nuovo file sul disco in modalita' BINARIA DI SCRITTURA
+("wb"). La "b" e' fondamentale: senza, su alcuni sistemi operativi
+i byte \r\n contenuti dentro il file (es. un PDF) potrebbero venire
+alterati durante la scrittura, corrompendo il file.
+
+
+    long remaining = length - bytesRead;
+-----------------------------------------------------------------
+Calcolo quanti byte restano ancora da leggere dalla connessione:
+il totale dichiarato in Content-Length MENO tutto quello che ho
+gia' consumato leggendo riga per riga gli header del multipart.
+
+
+    char *buffer = malloc(remaining);
+    fread(buffer, 1, remaining, connfd);
+-----------------------------------------------------------------
+Alloco dinamicamente un blocco di memoria grande esattamente
+"remaining" byte, e ci leggo dentro TUTTO il resto della
+connessione in un colpo solo.
+
+Questo e' molto piu' efficiente e affidabile rispetto a leggere
+byte per byte con fgetc() (come faceva il server originale per il
+body del POST), soprattutto perche' stiamo trattando dati BINARI
+che possono contenere qualsiasi valore di byte, incluso 0x00.
+
+
+    char *boundaryEnd = strstr(buffer, "\r\n------");
+    long fileSize = boundaryEnd ? (boundaryEnd - buffer) : remaining;
+-----------------------------------------------------------------
+Dentro "buffer" ho sia il contenuto vero del file SIA il boundary
+di chiusura finale (tipo "\r\n------geckoformboundary...--") che
+NON fa parte del file e va scartato.
+
+Cerco dove inizia quel boundary con strstr(). Tutto cio' che viene
+PRIMA di quella posizione e' il vero contenuto del file, tutto cio'
+che viene DOPO va scartato.
+
+L'operatore ternario (condizione ? valoreA : valoreB) significa:
+"se boundaryEnd e' stato trovato (non NULL), usa la differenza tra
+gli indirizzi come dimensione del file; altrimenti usa tutto il
+buffer come dimensione".
+
+NOTA IMPORTANTE: cercare il boundary con strstr() su dati binari e'
+un'operazione un po' rischiosa, perche' in teoria potrebbe comparire
+per puro caso una sequenza di byte identica dentro il contenuto
+del file stesso. Un approccio piu' robusto e preciso sarebbe
+calcolare esattamente Content-Length meno la lunghezza di tutti
+gli header gia' letti PIU' la lunghezza nota del boundary finale,
+senza doverlo cercare a tentoni dentro i dati.
+
+
+    fwrite(buffer, 1, fileSize, outfile);
+    fclose(outfile);
+    free(buffer);
+-----------------------------------------------------------------
+Scrivo su disco solo i primi "fileSize" byte del buffer (cioe' il
+file senza il boundary di chiusura), chiudo il file appena creato
+e libero la memoria che avevo allocato con malloc(), per evitare
+memory leak.
+
+
+=================================================================
+RISPOSTA AL CLIENT
+=================================================================
+
+    char *resp = "HTTP/1.1 200 OK\r\n\r\n<html><body>Upload completato</body></html>\r\n";
+    fputs(resp, connfd);
+    fclose(connfd);
+-----------------------------------------------------------------
+Come sempre: rispondo al browser con una paginetta di conferma
+statica, poi chiudo la connessione TCP con QUEL client (non il
+socket del server, che invece resta aperto e in ascolto per la
+prossima richiesta, grazie al while(true) esterno).
+
+
+=================================================================
+RIEPILOGO DEL FLUSSO COMPLETO
+=================================================================
+
+1. Il server accetta una connessione
+2. Legge la riga iniziale (metodo + path)
+3. Legge gli header HTTP fino alla riga vuota, salvando Content-Length
+4. Se e' un POST, legge riga per riga gli header della PARTE
+   multipart, cercando ed estraendo il nome del file da filename="..."
+5. Consuma la riga vuota che precede il contenuto vero
+6. Calcola quanti byte restano da leggere (remaining)
+7. Legge tutto il resto in un buffer con fread()
+8. Trova dove finisce il vero contenuto del file (prima del boundary
+   di chiusura) e scrive solo quella porzione su disco
+9. Risponde al client con una pagina di conferma
+10. Torna in cima al ciclo, pronto per la prossima connessione

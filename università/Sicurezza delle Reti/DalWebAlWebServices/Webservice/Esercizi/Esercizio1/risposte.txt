@@ -1,0 +1,17 @@
+1. in linea di commando devo passarli tipofunzione op1 e op2
+	tipo funzione analizzando il codice del server risulta essere calcola-somma
+2.
+GET /calcola-somma?param1=-2.000000&param2=-2.000000 HTTP/1.1
+HTTP/1.1 200 OK
+
+{
+    "somma":-4.000000
+}
+
+- la risposta a differenza degli altri esercizi e in JSON
+3.
+server : float calcolaSomma(float val1, float val2)
+cliente : float calcolaSomma(float val1, float val2)
+Ha senso che siano uguali perché è esattamente il concetto di stub/skeleton
+- Sul client, calcolaSomma() è lo stub: da fuori sembra una normale funzione locale che il programma chiama, ma in realtà non calcola nulla lei stessa — serializza i parametri in una URL, fa la chiamata HTTP (doGET), e deserializza il risultato dal JSON ricevuto
+- Sul server, calcolaSomma() è la business logic vera: qui il calcolo (val1 + val2) viene effettivamente eseguito
