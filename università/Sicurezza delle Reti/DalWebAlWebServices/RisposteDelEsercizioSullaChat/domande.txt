@@ -1,0 +1,2 @@
+2.Le porte sotto il 1024 sono "privilegiate" quindi solo root può fare il bind NB usare sudo env "PATH=$PATH" npx nodemon server.js
+6.i socket raw ti danno controllo ed efficienza al costo della complessità (protocollo e concorrenza gestiti a mano), i WebSocket ti danno produttività e compatibilità di rete al costo di un livello di astrazione in più e di dipendenza dal browser/JS.
