@@ -1,0 +1,24 @@
+1.
+Il messaggio va perso. Il broker MQTT non conserva la cronologia dei messaggi per default: se un subscriber non è ancora connesso e sottoscritto al topic nel momento in cui avviene la PUBLISH, non riceverà quel messaggio, nemmeno se si sottoscrive subito dopo.
+Con --retain il broker salva il messaggio come "retained message" per quel topic. Ogni nuovo subscriber che si sottoscrive successivamente riceve immediatamente l'ultimo messaggio retained, anche se pubblicato molto prima della sua connessione. Il broker conserva un solo retained message per topic (quello più recente sovrascrive il precedente).
+=> mosquitto_pub -h e0d996a0720a4a25ae1a34becc9e8a90.s1.eu.hivemq.cloud -p 8883 -u univr-studenti -P MQTT-esercitazione2026 -t temperatura -m "24" --retain
+2.Servono 4 finestre di terminale: 2 publisher, ciascuno che pubblica sul proprio topic specifico per la stanza (temperatura/cucina e temperatura/soggiorno), e 2 subscriber separati, ciascuno sottoscritto al topic della propria stanza. Ogni subscriber riceve solo i dati relativi al topic a cui è iscritto.
+finestra 1:mosquitto_sub -h e0d996a0720a4a25ae1a34becc9e8a90.s1.eu.hivemq.cloud -p 8883 -u univr-studenti -P MQTT-esercitazione2026 -t temperatura/cucina
+finestra2:mosquitto_sub -h e0d996a0720a4a25ae1a34becc9e8a90.s1.eu.hivemq.cloud -p 8883 -u univr-studenti -P MQTT-esercitazione2026 -t temperatura/soggiorno
+finestra3:mosquitto_pub -h e0d996a0720a4a25ae1a34becc9e8a90.s1.eu.hivemq.cloud -p 8883 -u univr-studenti -P MQTT-esercitazione2026 -t temperatura/cucina -m "22"
+finestra4:mosquitto_pub -h e0d996a0720a4a25ae1a34becc9e8a90.s1.eu.hivemq.cloud -p 8883 -u univr-studenti -P MQTT-esercitazione2026 -t temperatura/soggiorno -m "19"
+3.Si usa un'unica sottoscrizione con wildcard: temperatura/+ (o temperatura/#), che permette di ricevere su un solo subscriber tutti i messaggi pubblicati sui topic figli, senza doversi iscrivere singolarmente a ciascuno.
+finestra1:mosquitto_sub -h e0d996a0720a4a25ae1a34becc9e8a90.s1.eu.hivemq.cloud -p 8883 -u univr-studenti -P MQTT-esercitazione2026 -t temperatura/+
+finestrra2:mosquitto_pub -h e0d996a0720a4a25ae1a34becc9e8a90.s1.eu.hivemq.cloud -p 8883 -u univr-studenti -P MQTT-esercitazione2026 -t temperatura/cucina -m "22"
+finestra3:mosquitto_pub -h e0d996a0720a4a25ae1a34becc9e8a90.s1.eu.hivemq.cloud -p 8883 -u univr-studenti -P MQTT-esercitazione2026 -t temperatura/soggiorno -m "19"
+5.
+Protocollo di trasporto e porte:
+MQTT usa TCP. Porte standard: 1883 (in chiaro), 8883 (con TLS). Nella cattura locale il traffico è sulla porta 1883.
+
+Fasi trovate:
+CONNECT → CONNACK → SUBSCRIBE → SUBACK, poi PUBLISH per l'invio dati, PINGREQ/PINGRESP come keep-alive, DISCONNECT a chiusura.
+
+Connessioni TCP:
+
+Subscriber: apre 1 sola connessione, la tiene aperta per tutta la sessione (con keep-alive).
+Publisher: apre una connessione nuova per ogni pubblicazione (CONNECT → PUBLISH → DISCONNECT, poi chiude), quindi tante connessioni quante sono le PUBLISH fatte.
