@@ -1,0 +1,71 @@
+Es1:
+1. Non è necessario configurare il gateway perché tutti i PC appartengono alla stessa sottorete IP e
+ sono collegati tramite dispositivi di livello 2 (switch). La comunicazione avviene tramite ARP e forwarding
+ a livello di frame (MAC address), senza bisogno di instradamento IP. Il gateway sarebbe necessario solo per comunicare con host al di fuori della sottorete locale.
+2.L'indirizzo IP assegnato allo switch (tramite l'interfaccia VLAN1) non serve al funzionamento dello switching stesso, che avviene a livello 2 basandosi sui MAC address. 
+Serve invece per la gestione (management) dello switch: permette di raggiungerlo da remoto per configurarlo via Telnet/SSH o interfaccia web, senza dover accedere 
+fisicamente con un cavo console.
+Es2:
+1.Le VLAN disaccoppiano la segmentazione logica della rete dalla topologia fisica. 
+Questo permette di ottimizzare l'uso dell'infrastruttura hardware (meno switch necessari), 
+offre flessibilità quando gli utenti di gruppi diversi condividono lo stesso spazio fisico, e semplifica la scalabilità: 
+aggiungere un nuovo gruppo richiede solo configurazione, non nuovo cablaggio.
+2.Il traffico broadcast di livello 2 rimane confinato all'interno della VLAN di appartenenza.
+ Grazie al tagging 802.1Q sulle porte trunk, il broadcast raggiunge tutti i membri della stessa VLAN anche su switch diversi,
+ ma non attraversa mai il confine verso un'altra VLAN, poiché ogni VLAN costituisce un dominio di broadcast isolato.
+3.Analogamente al broadcast di livello 2, anche il broadcast DHCP (livello 3) resta confinato alla VLAN di origine,
+ poiché viene comunque incapsulato in un frame Ethernet broadcast a livello 2. Solo i dispositivi della stessa VLAN lo ricevono. 
+Questo è anche il motivo per cui, in questo esercizio, serviranno pool DHCP separati per VLAN — vedremo questo aspetto nell'Esercizio 4.
+4.Le porte trunk non appartengono a una singola VLAN, ma trasportano il traffico di tutte le VLAN configurate sullo switch. 
+Questo è possibile grazie al protocollo di tagging IEEE 802.1Q, che inserisce nell'header del frame Ethernet un campo VLAN ID
+Es3:
+1.Il router non altera il comportamento del broadcast di livello 2. Un router, per definizione, non inoltra traffico broadcast di livello 2 tra reti diverse 
+anzi, rappresenta il confine naturale del dominio di broadcast. Il traffico ARP resta quindi confinato alla VLAN 20, esattamente come prima dell'introduzione del router.
+2.Per definizione, un router non inoltra traffico broadcast tra le proprie interfacce (fa da confine per il dominio di broadcast). 
+La richiesta DHCP resta quindi confinata alla VLAN 20. Sarà però possibile configurare il router come server DHCP diretto per ciascuna VLAN, 
+dato che riceve comunque il broadcast sulla propria sottointerfaccia locale a quella VLAN
+3.Il pacchetto attraversa: PC sorgente
+ → switch locale (SW1, VLAN 20)
+ → trunk verso switch centrale (SW3) 
+→ trunk verso router 
+→ routing tra sottointerfacce (da .20 a .10)
+ → trunk di ritorno verso SW3 → trunk verso SW1 (VLAN 10)
+ → porta access verso il PC destinazione. 
+Il router è indispensabile perché è l'unico dispositivo che opera a livello 3 e può instradare pacchetti tra sottoreti/VLAN diverse.
+4.Con una terza VLAN servirebbe una terza sottointerfaccia (es. Fa0/0.30 con encapsulation dot1Q 30 e relativo IP di gateway),
+ sempre sullo stesso collegamento fisico trunked. Il numero di sottointerfacce necessarie corrisponde al numero di VLAN che devono 
+avere accesso al routing tramite quel router.
+5.Il limite teorico è dato dal campo VLAN ID dello standard 802.1Q, 
+che è a 12 bit e quindi supporta fino a 4094 VLAN (1–4094, esclusi gli ID riservati 0 e 4095).
+ Il limite pratico reale dipende però dalle risorse hardware del dispositivo (CPU, memoria).
+6.Un solo indirizzo MAC, quello dell'interfaccia fisica Fa0/0. Le sottointerfacce sono entità 
+puramente logiche usate per separare il trattamento del traffico per VLAN diverse, ma condividono lo 
+stesso hardware fisico e quindi lo stesso MAC address; a differenziare il traffico tra le VLAN è il tag 802.1Q nel frame, non un MAC diverso.
+Es 4:
+1.Il comando lease imposta la durata di validità di un indirizzo IP concesso dal server DHCP prima che debba essere rinnovato dal client.
+ Accetta come parametri giorni, ore e minuti (es. lease 7 0 0 per 7 giorni), oppure la parola chiave infinite per una concessione senza scadenza.
+ Un lease time limitato consente al pool DHCP di recuperare automaticamente indirizzi non più in uso da client disconnessi.
+2.Si genera un conflitto di indirizzi IP: due dispositivi con lo stesso IP sulla stessa sottorete causano instabilità nella comunicazione
+ (risposte ARP contrastanti, pacchetti recapitati in modo imprevedibile). I sistemi operativi generalmente rilevano e segnalano il conflitto. 
+Il server DHCP non ha visibilità sulle assegnazioni statiche fatte manualmente, quindi non previene né rileva questo tipo di conflitto autonomamente 
+ è responsabilità dell'amministratore evitarlo, tipicamente tramite ip dhcp excluded-address per gli IP riservati staticamente.
+3.Sì, è possibile, ma non impostando direttamente un range nel pool: si usa il comando ip dhcp excluded-address <inizio> <fine>
+ per escludere dal pool tutti gli indirizzi al di fuori del range desiderato (in questo caso, da .1 a .99 e da .111 a .254), 
+lasciando disponibili per la distribuzione automatica solo gli indirizzi da .100 a .110. Il comando va dato in modalità config
+ globale, prima o dopo la definizione del pool.
+Es 5 :
+1.Se una rete direttamente connessa non viene dichiarata con il comando network sotto router rip, quella rete non verrà 
+annunciata agli altri router e rimarrà "invisibile" al resto della rete: 
+sarà raggiungibile solo localmente dal router a cui è connessa, ma non dagli altri dipartimenti. Inoltre, RIP non
+ si attiverà su quell'interfaccia, impedendo anche la ricezione di eventuali update RIP da router vicini connessi sulla stessa subnet.
+2.: Il comando traceroute (tracert su Windows, traceroute su IOS) mostra il percorso hop-per-hop
+ seguito dai pacchetti fino alla destinazione, elencando ogni router intermedio attraversato. 
+Sfrutta il campo TTL dei pacchetti IP: invia pacchetti con TTL incrementale, e ogni router che decrementa
+ il TTL a zero risponde con un messaggio ICMP Time Exceeded, rivelando così il proprio indirizzo. 
+È utile per individuare dove si interrompe un percorso in caso di problemi di raggiungibilità,
+ o per verificare quale strada scelgono effettivamente i pacchetti tra più percorsi disponibili.
+3.Grazie alla topologia ridondante (triangolo tra i router), la caduta di un singolo link WAN non isola nessun dipartimento: 
+esiste un percorso alternativo attraverso il terzo router. RIP rileva l'interruzione e ricalcola le rotte, ma non istantaneamente — 
+deve attendere il timer di invalidazione (180 secondi di default) prima di considerare la vecchia rotta non più valida, causando una 
+finestra di convergenza durante la quale possono verificarsi perdite di pacchetti o instabilità temporanea del routing. 
+Questo è uno dei limiti noti di RIP rispetto a protocolli di routing più moderni (es. OSPF, EIGRP), che convergono più rapidamente.
