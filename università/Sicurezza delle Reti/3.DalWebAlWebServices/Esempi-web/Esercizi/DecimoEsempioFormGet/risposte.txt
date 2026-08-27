@@ -1,0 +1,40 @@
+1. noto html : il form
+ invece come output :
+ GET / HTTP/1.1
+Host: localhost:8000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:150.0) Gecko/20100101 Firefox/150.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: it-IT,it;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Priority: u=0, i
+Pragma: no-cache
+Cache-Control: no-cache
+[SERVER] sessione HTTP completata
+Il mio messaggio http
+2.Noto che nella rete passa proprio questo :
+GET / HTTP/1.1
+Host: localhost:8000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:150.0) Gecko/20100101 Firefox/150.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: it-IT,it;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br, zstd
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Priority: u=0, i
+Pragma: no-cache
+Cache-Control: no-cache
+
+
+HTTP/1.1 200 OK
+
+<html><head><title>An Example Page</title></head><body>Hello World, this is a very simple HTML document.</body></html>
+
+Cioe tutto quello che mi passa la rete
